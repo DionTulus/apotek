@@ -87,4 +87,5 @@ Tolak transisi tidak valid (throw). Setiap transisi dicatat (timeline untuk laca
 ## Konvensi UI
 - Store layout: navbar (logo, cari, kategori, wishlist, keranjang, akun), footer (link halaman info, kontak, sosial).
 - Admin layout: sidebar per modul (Dashboard, Katalog, Inventori, Penjualan, Keuangan, CRM, Konten, Pengaturan), tabel dengan search/filter/pagination, dialog konfirmasi hapus.
+- Warna tema: `#8CA9FF` (biru apotek) + putih sebagai warna utama UI.
 - Badge status berwarna konsisten (paid=hijau, pending=kuning, cancelled=merah).

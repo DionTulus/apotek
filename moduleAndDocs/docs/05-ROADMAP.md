@@ -4,12 +4,14 @@ Agent: kerjakan berurutan. Centang `[x]` saat selesai, lalu update `docs/PROGRES
 Setiap fase diakhiri: `php artisan migrate:fresh --seed`, `php artisan test`, `npm run build` harus sukses.
 
 ## Fase 0 — Setup (Minggu 1)
-- [ ] Proyek Laravel 12 + React starter kit berjalan di Herd (`apotek-erp.test`), git init + `.gitignore`
-- [ ] `.env` MySQL (`DB_DATABASE=apotek_erp`), buat DB, `php artisan migrate`
-- [ ] Install: `midtrans/midtrans-php`, `laravel/socialite`, `recharts`; `php artisan storage:link`
+- [ ] Konfigurasi `.env`: `APP_NAME=Apotek ERP`, `APP_URL=http://erp-apotek.test`, `DB_CONNECTION=mysql`, `DB_DATABASE=apotek_erp`, `APP_LOCALE=id`
+- [ ] Buat database MySQL `apotek_erp`; aktifkan site di Herd; jalankan `php artisan migrate`
+- [ ] Install package tambahan: `midtrans/midtrans-php`, `laravel/socialite`; jalankan `php artisan storage:link`
+- [ ] Install npm package tambahan: `recharts`
 - [ ] Buat folder `app/Services`, `app/Enums`; middleware `EnsureRole` (alias `role`)
-- [ ] `README.md` cara instalasi; salin folder `docs/` ke repo
-**DoD**: halaman welcome/login tampil, DB terhubung.
+- [ ] Update `APP_NAME` di `.env`, ubah tema warna ke `#8CA9FF` di CSS/Tailwind config
+- [ ] `README.md` cara instalasi; pastikan folder `moduleAndDocs/` sudah di repo  
+**DoD**: halaman welcome/login tampil di `http://erp-apotek.test`, DB MySQL terhubung.
 
 ## Fase 1 — Database, Model, Seeder (Minggu 1–2)
 - [ ] Semua migrasi di `docs/02-DATABASE.md` (+ `order_status_histories`) dengan FK/index/constraint

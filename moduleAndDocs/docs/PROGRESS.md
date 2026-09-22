@@ -4,7 +4,7 @@ Agent: tambahkan entri baru di bagian atas setiap selesai satu fase.
 ## Status Fase
 | Fase | Status | Catatan |
 |---|---|---|
-| 0 Setup | ⬜ | |
+| 0 Setup | ✅ | MySQL terhubung, package terinstall, middleware `role` siap |
 | 1 Database | ⬜ | |
 | 2 Auth & Role | ⬜ | |
 | 3 Storefront Konten | ⬜ | |
@@ -18,7 +18,23 @@ Agent: tambahkan entri baru di bagian atas setiap selesai satu fase.
 | 11 QA & Dokumentasi | ⬜ | |
 
 ## Log
-(kosong)
+
+### Fase 0 — Setup (selesai 2026-09-22)
+**Yang dibuat/dikonfigurasi:**
+- `.env` dikonfigurasi: MySQL (`apotek_erp`), `APP_URL=http://erp-apotek.test`, `APP_LOCALE=id`, placeholder Midtrans & Google Socialite
+- `php artisan migrate` dijalankan (tabel bawaan starter kit: users, cache, jobs, passkeys, dll)
+- `php artisan storage:link` — symlink `public/storage` dibuat
+- Package terinstall: `midtrans/midtrans-php` v2.6.2, `laravel/socialite` v5.31.0
+- npm: `recharts` terinstall
+- Folder `app/Services/`, `app/Enums/` dibuat
+- `app/Http/Middleware/EnsureRole.php` dibuat + didaftarkan alias `role` di `bootstrap/app.php`
+
+**File penting:**
+- `app/Http/Middleware/EnsureRole.php` — cek role user, support multi-role
+- `bootstrap/app.php` — alias `role` terdaftar
+- `.env` — konfigurasi lengkap
+
+**Keputusan teknis:** Tidak ada perubahan DB schema di Fase 0 (tabel bawaan starter kit dipakai apa adanya; kolom `role` akan ditambah di Fase 2).
 
 ## Keputusan Teknis
 (kosong)

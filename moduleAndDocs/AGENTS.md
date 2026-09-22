@@ -12,14 +12,14 @@ Dua sisi aplikasi:
 **Semua fitur di `docs/01-REQUIREMENTS.md` (checklist dari PDF dosen) WAJIB selesai.** Tidak ada yang boleh dilewati.
 
 ## 2. Tech Stack (sudah terpasang di mesin user)
-- Laravel Herd (PHP, Composer, Node) — app berjalan di `http://apotek-erp.test`
-- Laravel 12 + **React starter kit (Inertia.js + React + TypeScript + Tailwind + shadcn/ui)**
+- Laravel Herd (PHP, Composer, Node) — app berjalan di `http://erp-apotek.test`
+- Laravel 13 + **React starter kit (Inertia.js + React + TypeScript + Tailwind v4 + shadcn/ui)**
 - Database: **MySQL** (fallback: SQLite untuk dev cepat; migrasi harus kompatibel keduanya)
 - Payment gateway: **Midtrans Snap (Sandbox)** — paket `midtrans/midtrans-php`
 - Chart: `recharts`. Ikon: `lucide-react`. Peta: iframe Google Maps embed. Login sosial: Laravel Socialite (Google) — opsional dikonfigurasi lewat .env.
 - Testing: Pest / PHPUnit (feature test backend). Manual QA: `docs/06-TESTING-QA.md`.
 
-> Jika proyek belum dibuat: `laravel new apotek-erp` (pilih React starter kit, Laravel authentication bawaan, Pest), lalu `cd apotek-erp && npm install && npm run dev`.
+> Proyek sudah di-download dari Herd dan terinstall di `c:\Users\Asus\Herd\erp_apotek` dengan Laravel 13 + React starter kit. Hanya perlu konfigurasi `.env` (MySQL, domain Herd) dan jalankan migrasi.
 
 ## 3. Dokumen yang HARUS dibaca (urut)
 1. `docs/00-PROJECT-BRIEF.md` — konteks bisnis apotek & aturan domain
@@ -46,7 +46,7 @@ Dua sisi aplikasi:
 - Stok tidak boleh negatif: validasi aplikasi + constraint DB (`CHECK stock >= 0` bila didukung).
 - Role: `admin` dan `customer` (opsional `pharmacist` untuk verifikasi resep). Route admin di prefix `/admin` dengan middleware `role:admin`.
 - Keamanan: jangan simpan Server Key di frontend; verifikasi signature webhook Midtrans; rate-limit login; upload file divalidasi (mime, ukuran); jangan percayai harga dari client — hitung ulang di server.
-- Frontend: komponen shadcn/ui, responsif (HP & PC), konsisten warna (hijau apotek `#16a34a` + putih), loading/empty/error state, toast notifikasi sukses/error.
+- Frontend: komponen shadcn/ui, responsif (HP & PC), konsisten warna (biru apotek `#8CA9FF` + putih), loading/empty/error state, toast notifikasi sukses/error.
 - Commit kecil per fitur (Conventional Commits: `feat:`, `fix:`, `docs:`, `test:`).
 - Jangan menghapus fitur kerangka starter kit (auth, settings) — extend saja.
 
