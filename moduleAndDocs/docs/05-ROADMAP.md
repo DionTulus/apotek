@@ -21,10 +21,10 @@ Setiap fase diakhiri: `php artisan migrate:fresh --seed`, `php artisan test`, `n
 **DoD**: `migrate:fresh --seed` sukses, data konsisten (stok ≥0, total order = jumlah item).
 
 ## Fase 2 — Auth & Role (Minggu 2)
-- [ ] Kolom role & phone di register; redirect setelah login (admin → `/admin`, customer → `/`)
-- [ ] Middleware `role`; guard route admin; policy kepemilikan order/alamat
-- [ ] Login Google (Socialite) + tombol di halaman login/register (nonaktif elegan bila env kosong)
-- [ ] Rate limit login; halaman Pengaturan Akun (profil, ganti password, preferensi notifikasi) → **F11, F12**
+- [x] Kolom role & phone di register; redirect setelah login (admin → `/admin`, customer → `/`)
+- [x] Middleware `role`; guard route admin; policy kepemilikan order/alamat
+- [x] Login Google (Socialite) + tombol di halaman login/register (nonaktif elegan bila env kosong)
+- [x] Rate limit login; halaman Pengaturan Akun (profil, ganti password, preferensi notifikasi) → **F11, F12**
 **DoD**: test Auth + Role hijau; customer tidak bisa akses `/admin` (403).
 
 ## Fase 3 — Storefront Statis & Konten (Minggu 2–3)

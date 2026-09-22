@@ -6,7 +6,7 @@ Agent: tambahkan entri baru di bagian atas setiap selesai satu fase.
 |---|---|---|
 | 0 Setup | ✅ | MySQL terhubung, package terinstall, middleware `role` siap |
 | 1 Database | ✅ | Migrasi (27+ tabel), 13 Enums, 29 Models, Seeder (42 produk, 110 order) |
-| 2 Auth & Role | ⬜ | |
+| 2 Auth & Role | ✅ | Custom register (phone, role customer), Socialite Google, middleware `role`, Order/Address Policy |
 | 3 Storefront Konten | ⬜ | |
 | 4 Katalog & Cart | ⬜ | |
 | 5 Checkout & Midtrans | ⬜ | |
@@ -18,6 +18,18 @@ Agent: tambahkan entri baru di bagian atas setiap selesai satu fase.
 | 11 QA & Dokumentasi | ⬜ | |
 
 ## Log
+
+### Fase 2 — Auth & Role (selesai 2026-09-22)
+**Yang dibuat/dikonfigurasi:**
+- **Custom Registration**: `CreateNewUser` diperbarui untuk memvalidasi `phone` dan menetapkan role default `Role::CUSTOMER`.
+- **Socialite Google Login**: `SocialiteController` (`/auth/google/redirect` & `/auth/google/callback`) terintegrasi dengan penanganan gracefully jika kredensial `.env` kosong. `config/services.php` diperbarui.
+- **Role-based Redirection & Middleware**: `EnsureRole` middleware bekerja dengan Enum/string `role:admin`. Akses `/admin` dibatasi hanya untuk admin (403 jika customer).
+- **Policies**: `OrderPolicy` & `AddressPolicy` dibuat untuk otorisasi kepemilikan pesanan dan alamat.
+- **Admin Dashboard Page**: `resources/js/pages/admin/dashboard.tsx` komponen React awal dibuat.
+
+**Verifikasi:**
+- `php artisan test`: 44/44 passed (100%), termasuk test khusus `AuthAndRoleTest`.
+- `npm run build`: Sukses.
 
 ### Fase 1 — Database, Model, Seeder (selesai 2026-09-22)
 **Yang dibuat/dikonfigurasi:**
