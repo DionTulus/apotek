@@ -7,7 +7,7 @@ Agent: tambahkan entri baru di bagian atas setiap selesai satu fase.
 | 0 Setup | ✅ | MySQL terhubung, package terinstall, middleware `role` siap |
 | 1 Database | ✅ | Migrasi (27+ tabel), 13 Enums, 29 Models, Seeder (42 produk, 110 order) |
 | 2 Auth & Role | ✅ | Custom register (phone, role customer), Socialite Google, middleware `role`, Order/Address Policy |
-| 3 Storefront Konten | ⬜ | |
+| 3 Storefront Konten | ✅ | StoreLayout, AdminLayout, F1-F9 (Home, About, Contact, FAQ, Terms, Privacy, Testimonial, Blog, Promo), TrackVisit |
 | 4 Katalog & Cart | ⬜ | |
 | 5 Checkout & Midtrans | ⬜ | |
 | 6 Akun Customer | ⬜ | |
@@ -18,6 +18,26 @@ Agent: tambahkan entri baru di bagian atas setiap selesai satu fase.
 | 11 QA & Dokumentasi | ⬜ | |
 
 ## Log
+
+### Fase 3 — Storefront Statis & Konten (selesai 2026-09-22)
+**Yang dibuat/dikonfigurasi:**
+- **Shared Props & Middleware**: `HandleInertiaRequests` membagikan `settings`, `cartCount`, `wishlistCount`, dan `flash` (success/error). `TrackVisit` middleware mencatat analitik `page_visits` publik.
+- **Layouts**:
+  - `StoreLayout` (`resources/js/layouts/store-layout.tsx`): Navbar responsif dengan brand biru `#8CA9FF`, search bar obat, badge keranjang/wishlist, menu navigasi, topbar kontak & WhatsApp, footer lengkap.
+  - `AdminLayout` (`resources/js/layouts/admin-layout.tsx`): Sidebar navigasi ERP untuk seluruh 16 modul admin + header profile & logout.
+- **Storefront Pages (F1 – F9)**:
+  - **F1 Beranda** (`/`): Hero banner, keunggulan BPOM & instant delivery, grid kategori, produk terlaris & rekomendasi, promo banner, testimoni pembeli.
+  - **F2 Tentang Kami** (`/tentang-kami`): Visi & Misi dari DB `settings`, profil apotek, nilai keunggulan.
+  - **F3 Kontak Kami** (`/kontak`): Detail kontak, form kirim pesan (`POST /kontak` dengan rate limit & simpan DB), Google Maps embed iframe.
+  - **F4 FAQ** (`/faq`): Accordion tanya jawab interaktif dengan filter pencarian.
+  - **F5 Syarat & Ketentuan** (`/syarat-ketentuan`) & **F6 Kebijakan Privasi** (`/kebijakan-privasi`).
+  - **F7 Testimoni Pelanggan** (`/testimoni`): Grid rating bintang & form submit testimoni untuk user terotentikasi.
+  - **F8 Blog / Berita** (`/blog` & `/blog/{slug}`): Daftar artikel kesehatan terpublikasi & detail artikel.
+  - **F9 Promo / Diskon** (`/promo`): Kupon voucher aktif dengan tombol salin kode otomatis.
+
+**Verifikasi:**
+- `php artisan test`: 53/53 passed (100%), termasuk `StorefrontPagesTest`.
+- `npm run build`: Sukses (Vite bundle 100%).
 
 ### Fase 2 — Auth & Role (selesai 2026-09-22)
 **Yang dibuat/dikonfigurasi:**

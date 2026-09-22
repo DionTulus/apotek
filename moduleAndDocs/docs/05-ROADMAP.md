@@ -28,9 +28,9 @@ Setiap fase diakhiri: `php artisan migrate:fresh --seed`, `php artisan test`, `n
 **DoD**: test Auth + Role hijau; customer tidak bisa akses `/admin` (403).
 
 ## Fase 3 — Storefront Statis & Konten (Minggu 2–3)
-- [ ] StoreLayout (navbar, footer, responsif), AdminLayout kerangka
-- [ ] F1 Beranda, F2 Tentang Kami (visi-misi dari settings), F3 Kontak (form + peta + info), F4 FAQ, F5 S&K, F6 Privasi, F7 Testimoni (+form), F8 Blog (+detail), F9 Promo
-- [ ] Middleware `TrackVisit` (page_visits)
+- [x] StoreLayout (navbar, footer, responsif), AdminLayout kerangka
+- [x] F1 Beranda, F2 Tentang Kami (visi-misi dari settings), F3 Kontak (form + peta + info), F4 FAQ, F5 S&K, F6 Privasi, F7 Testimoni (+form), F8 Blog (+detail), F9 Promo
+- [x] Middleware `TrackVisit` (page_visits)
 **DoD**: semua halaman terbuka, data dari DB, mobile OK.
 
 ## Fase 4 — Katalog, Wishlist, Keranjang (Minggu 3–4)
