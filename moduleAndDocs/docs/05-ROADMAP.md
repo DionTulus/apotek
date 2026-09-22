@@ -14,10 +14,10 @@ Setiap fase diakhiri: `php artisan migrate:fresh --seed`, `php artisan test`, `n
 **DoD**: halaman welcome/login tampil di `http://erp-apotek.test`, DB MySQL terhubung.
 
 ## Fase 1 — Database, Model, Seeder (Minggu 1–2)
-- [ ] Semua migrasi di `docs/02-DATABASE.md` (+ `order_status_histories`) dengan FK/index/constraint
-- [ ] Enum & Model + relasi + casts + scope (`active`, `lowStock`, `expiringSoon`)
-- [ ] Factory + Seeder: admin & customer, 10 kategori, ≥40 obat realistis (golongan campur, sebagian `requires_prescription`), batch, supplier, shipping methods, promo, FAQ, testimoni, blog, settings, ≥100 order historis 60 hari (+ items, payments, financial_transactions, page_visits)
-- [ ] Gambar produk placeholder (SVG/generated) agar UI tidak kosong
+- [x] Semua migrasi di `docs/02-DATABASE.md` (+ `order_status_histories`) dengan FK/index/constraint
+- [x] Enum & Model + relasi + casts + scope (`active`, `lowStock`, `expiringSoon`)
+- [x] Factory + Seeder: admin & customer, 10 kategori, ≥40 obat realistis (golongan campur, sebagian `requires_prescription`), batch, supplier, shipping methods, promo, FAQ, testimoni, blog, settings, ≥100 order historis 60 hari (+ items, payments, financial_transactions, page_visits)
+- [x] Gambar produk placeholder (SVG/generated) agar UI tidak kosong
 **DoD**: `migrate:fresh --seed` sukses, data konsisten (stok ≥0, total order = jumlah item).
 
 ## Fase 2 — Auth & Role (Minggu 2)
