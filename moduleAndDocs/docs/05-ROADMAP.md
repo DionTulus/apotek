@@ -34,9 +34,9 @@ Setiap fase diakhiri: `php artisan migrate:fresh --seed`, `php artisan test`, `n
 **DoD**: semua halaman terbuka, data dari DB, mobile OK.
 
 ## Fase 4 — Katalog, Wishlist, Keranjang (Minggu 3–4)
-- [ ] F16 Katalog: filter kategori/golongan/harga, search, sort, pagination, halaman detail (deskripsi, komposisi, dosis, badge "Resep Dokter", disclaimer, stok)
-- [ ] F10 Wishlist (toggle AJAX/Inertia)
-- [ ] F17 Keranjang: add/update/remove, validasi stok, total, tombol checkout; badge jumlah di navbar
+- [x] F16 Katalog: filter kategori/golongan/harga, search, sort, pagination, halaman detail (deskripsi, komposisi, dosis, badge "Resep Dokter", disclaimer, stok)
+- [x] F10 Wishlist (toggle AJAX/Inertia)
+- [x] F17 Keranjang: add/update/remove, validasi stok, total, tombol checkout; badge jumlah di navbar
 **DoD**: test Cart (stok tidak boleh melebihi), UI responsif.
 
 ## Fase 5 — Checkout, Pengiriman, Pembayaran (Minggu 4–5)

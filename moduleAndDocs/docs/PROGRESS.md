@@ -8,7 +8,7 @@ Agent: tambahkan entri baru di bagian atas setiap selesai satu fase.
 | 1 Database | ✅ | Migrasi (27+ tabel), 13 Enums, 29 Models, Seeder (42 produk, 110 order) |
 | 2 Auth & Role | ✅ | Custom register (phone, role customer), Socialite Google, middleware `role`, Order/Address Policy |
 | 3 Storefront Konten | ✅ | StoreLayout, AdminLayout, F1-F9 (Home, About, Contact, FAQ, Terms, Privacy, Testimonial, Blog, Promo), TrackVisit |
-| 4 Katalog & Cart | ⬜ | |
+| 4 Katalog & Cart | ✅ | Katalog, detail produk, wishlist, & keranjang belanja dengan validasi stok |
 | 5 Checkout & Midtrans | ⬜ | |
 | 6 Akun Customer | ⬜ | |
 | 7 Admin Inventori | ⬜ | |
@@ -18,6 +18,22 @@ Agent: tambahkan entri baru di bagian atas setiap selesai satu fase.
 | 11 QA & Dokumentasi | ⬜ | |
 
 ## Log
+
+### Fase 4 — Katalog, Wishlist, Keranjang (selesai 2026-09-22)
+**Yang dibuat/dikonfigurasi:**
+- **Controllers & Routes**:
+  - `ProductController` (`app/Http/Controllers/Store/ProductController.php`): Mengelola halaman `/produk` (katalog) dengan filter kategori, golongan obat (enum `DrugClass`), resep dokter, rentang harga, search keyword, dan pencarian/pengurutan (latest, popular, price, name), serta detail produk `/produk/{slug}`.
+  - `WishlistController` (`app/Http/Controllers/Store/WishlistController.php`): Mengelola halaman `/wishlist` & aksi toggle wishlist (simpan/hapus) berbasis Inertia.
+  - `CartController` (`app/Http/Controllers/Store/CartController.php`): Mengelola halaman `/keranjang` & aksi tambah item, update qty, hapus item dengan validasi stok ketersediaan (`stock >= qty`).
+- **Pages (React & Inertia)**:
+  - `resources/js/pages/store/catalog.tsx`: Katalog produk dengan sidebar filter responsif (desktop & mobile drawer), sorting, badge obat keras (resep dokter), wishlist heart toggle, & pagination.
+  - `resources/js/pages/store/product-detail.tsx`: Halaman detail produk dengan breadcrumbs, stok status, pemilih kuantitas, badge resep dokter, spesifikasi (komposisi, dosis, deskripsi), & produk serupa.
+  - `resources/js/pages/store/wishlist.tsx`: Halaman kelola produk yang disimpan pengguna dengan opsi pindahkan ke keranjang.
+  - `resources/js/pages/store/cart.tsx`: Halaman keranjang belanja dengan penyesuaian qty live, peringatan barang resep dokter, dan ringkasan estimasi total bayar.
+
+**Verifikasi:**
+- `php artisan test`: 53/53 passed (100%).
+- `npm run build`: Sukses (Vite bundle 100%).
 
 ### Fase 3 — Storefront Statis & Konten (selesai 2026-09-22)
 **Yang dibuat/dikonfigurasi:**
