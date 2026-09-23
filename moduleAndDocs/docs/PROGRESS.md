@@ -9,8 +9,8 @@ Agent: tambahkan entri baru di bagian atas setiap selesai satu fase.
 | 2 Auth & Role | ✅ | Custom register (phone, role customer), Socialite Google, middleware `role`, Order/Address Policy |
 | 3 Storefront Konten | ✅ | StoreLayout, AdminLayout, F1-F9 (Home, About, Contact, FAQ, Terms, Privacy, Testimonial, Blog, Promo), TrackVisit |
 | 4 Katalog & Cart | ✅ | Katalog, detail produk, wishlist, & keranjang belanja dengan validasi stok |
-| 5 Checkout & Midtrans | ⬜ | |
-| 6 Akun Customer | ⬜ | |
+| 5 Checkout & Midtrans | ✅ | Alamat, Checkout, Ongkir, Midtrans Snap, Webhook, COD, Restorasi Stok |
+| 6 Akun Customer | 0 | |
 | 7 Admin Inventori | ⬜ | |
 | 8 Admin Penjualan | ⬜ | |
 | 9 Keuangan/CRM/Laporan | ⬜ | |
@@ -18,6 +18,30 @@ Agent: tambahkan entri baru di bagian atas setiap selesai satu fase.
 | 11 QA & Dokumentasi | ⬜ | |
 
 ## Log
+
+### Fase 5 — Checkout, Pengiriman, Pembayaran (selesai 2026-09-23)
+**Yang dibuat/dikonfigurasi:**
+- **Services & Configuration**:
+  - `config/midtrans.php`: Konfigurasi Kunci Server & Client Midtrans (Sandbox/Production). Exclude CSRF pada `bootstrap/app.php` untuk `/midtrans/notification`.
+  - `ShippingService` (`app/Services/ShippingService.php`): Menghitung ongkir berdasarkan berat barang (`weight_gram`) & rumus `ShippingMethod`.
+  - `CheckoutService` (`app/Services/CheckoutService.php`): Mengolah transaksi `placeOrder` dalam `DB::transaction()`, validasi & potong stok produk, catat `StockMovement` (tipe `sale`), buat record `Order`, `OrderItem`, `OrderStatusHistory`, `Prescription` (bila mengunggah file resep), dan bersihkan keranjang belanja.
+  - `PaymentService` (`app/Services/PaymentService.php`): Generasi token Midtrans Snap (`createSnapToken`), pemrosesan webhook notification (`processNotificationPayload`) dengan verifikasi `signature_key` (sha512), pemetaan status transaksi (`settlement` -> `paid`, `expire/deny/cancel` -> `cancelled/expired` & restorasi stok), dan tombol cek status manual.
+  - `FinanceService` (`app/Services/FinanceService.php`): Catat transaksi pendapatan otomatis (`recordSale`) saat status pembayaran berubah menjadi `paid`.
+- **Controllers & Webhook**:
+  - `AddressController` (`app/Http/Controllers/Store/AddressController.php`): CRUD alamat pengiriman pelanggan & set alamat utama.
+  - `CheckoutController` (`app/Http/Controllers/Store/CheckoutController.php`): Menampilkan halaman checkout & memproses pesanan.
+  - `PaymentController` (`app/Http/Controllers/Store/PaymentController.php`): Menampilkan halaman pembayaran dengan popup Snap Midtrans atau instruksi COD, serta trigger tombol cek status.
+  - `MidtransWebhookController` (`app/Http/Controllers/Webhook/MidtransWebhookController.php`): Menerima HTTP POST notification callback dari Midtrans.
+- **Command & Scheduler**:
+  - `ExpireOrdersCommand` (`orders:expire`): Mengubah status order pending >24 jam menjadi `expired` & mengembalikan stok barang (`cancel_restore`). Schedule didaftarkan di `routes/console.php`.
+- **Pages (React & Inertia)**:
+  - `resources/js/pages/store/addresses.tsx`: Manajemen alamat pengiriman pelanggan.
+  - `resources/js/pages/store/checkout.tsx`: Halaman checkout komprehensif (alamat, kurir, COD/Midtrans, promo code, upload resep dokter).
+  - `resources/js/pages/store/payment.tsx`: Halaman pembayaran dengan integrasi `snap.js` Midtrans popup.
+
+**Verifikasi:**
+- `php artisan test`: 57/57 passed (100%), termasuk `CheckoutAndPaymentTest`.
+- `npm run build`: Sukses (Vite bundle 100%).
 
 ### Fase 4 — Katalog, Wishlist, Keranjang (selesai 2026-09-22)
 **Yang dibuat/dikonfigurasi:**

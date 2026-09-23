@@ -40,34 +40,34 @@ Setiap fase diakhiri: `php artisan migrate:fresh --seed`, `php artisan test`, `n
 **DoD**: test Cart (stok tidak boleh melebihi), UI responsif.
 
 ## Fase 5 — Checkout, Pengiriman, Pembayaran (Minggu 4–5)
-- [ ] F15 CRUD alamat (default), `ShippingService` hitung ongkir
-- [ ] F20 Checkout + F19 Delivery/COD + F18 Payment: pilih alamat, pengiriman, metode bayar (Midtrans/COD), kode promo, unggah resep (bila perlu)
-- [ ] `CheckoutService::placeOrder` (transaksi, kurangi stok, movement, order_status_histories)
-- [ ] `PaymentService` + Snap token + F14 halaman pembayaran (snap.js) sesuai `docs/04-MIDTRANS.md`
-- [ ] Webhook `/midtrans/notification` + mapper status + fallback cek status
-- [ ] Command `orders:expire` + scheduler (restore stok)
-- [ ] `FinanceService::recordSale` otomatis
+- [x] F15 CRUD alamat (default), `ShippingService` hitung ongkir
+- [x] F20 Checkout + F19 Delivery/COD + F18 Payment: pilih alamat, pengiriman, metode bayar (Midtrans/COD), kode promo, unggah resep (bila perlu)
+- [x] `CheckoutService::placeOrder` (transaksi, kurangi stok, movement, order_status_histories)
+- [x] `PaymentService` + Snap token + F14 halaman pembayaran (snap.js) sesuai `docs/04-MIDTRANS.md`
+- [x] Webhook `/midtrans/notification` + mapper status + fallback cek status
+- [x] Command `orders:expire` + scheduler (restore stok)
+- [x] `FinanceService::recordSale` otomatis
 **DoD**: alur beli sandbox sukses end-to-end; test Checkout & Midtrans (settlement, expire, deny, signature salah, duplikat) hijau.
 
 ## Fase 6 — Akun Customer (Minggu 5)
-- [ ] F13 Riwayat pesanan + detail (timeline status, tombol bayar ulang/batal, ajukan retur), F21 Lacak Pesanan (publik: no. pesanan + email/telp)
-- [ ] Ajukan retur/penukaran (form + bukti foto), halaman resep saya
+- [x] F13 Riwayat pesanan + detail (timeline status, tombol bayar ulang/batal, ajukan retur), F21 Lacak Pesanan (publik: no. pesanan + email/telp)
+- [x] Ajukan retur/penukaran (form + bukti foto), halaman resep saya
 **DoD**: user hanya melihat pesanan sendiri; lacak pesanan menampilkan timeline.
 
 ## Fase 7 — Admin: Katalog & Inventori (Minggu 5–6)
-- [ ] B7 Kategori (gambar), B2 Produk (gambar, golongan, harga beli/jual, validasi), B6 Stok (daftar, penyesuaian, batch/expiry, peringatan menipis/habis/kedaluwarsa, riwayat movement), B16 Supplier & Pembelian (received → stok naik + expense)
-- [ ] Tabel reusable: search, filter, sort, pagination, konfirmasi hapus, toast
+- [x] B7 Kategori (gambar), B2 Produk (gambar, golongan, harga beli/jual, validasi), B6 Stok (daftar, penyesuaian, batch/expiry, peringatan menipis/habis/kedaluwarsa, riwayat movement), B16 Supplier & Pembelian (received → stok naik + expense)
+- [x] Tabel reusable: search, filter, sort, pagination, konfirmasi hapus, toast
 **DoD**: pembelian menaikkan stok & mencatat pengeluaran; stok tak bisa negatif.
 
 ## Fase 8 — Admin: Penjualan & Operasional (Minggu 6)
-- [ ] B8 Pesanan (filter status, detail, ubah status via `OrderService`), B18 Verifikasi Resep (approve/reject → lanjutkan/ batalkan order)
-- [ ] B5 Pembayaran (daftar, metode, cek status Midtrans, konfirmasi COD/manual), B4 Pengiriman (resi, status, master metode & biaya), B9 Retur & Penukaran (approve → stok kembali + refund tercatat), B3 Pelanggan (CRUD + riwayat pesanan)
+- [x] B8 Pesanan (filter status, detail, ubah status via `OrderService`), B18 Verifikasi Resep (approve/reject → lanjutkan/ batalkan order)
+- [x] B5 Pembayaran (daftar, metode, cek status Midtrans, konfirmasi COD/manual), B4 Pengiriman (resi, status, master metode & biaya), B9 Retur & Penukaran (approve → stok kembali + refund tercatat), B3 Pelanggan (CRUD + riwayat pesanan)
 **DoD**: order dapat diproses dari paid → completed; COD delivered mencatat income.
 
 ## Fase 9 — Keuangan, CRM, Analitik, Laporan (Minggu 6–7)
-- [ ] B12 Keuangan (transaksi, laporan pendapatan & pengeluaran, laba-rugi, input pengeluaran, export CSV)
-- [ ] B15 Laporan penjualan harian/bulanan (filter, tabel, grafik recharts, export)
-- [ ] B14 Analitik (pengunjung, penjualan, produk terlaris), B13 CRM (leads, interaksi, segmentasi/analisis pelanggan), B1 Dashboard KPI
+- [x] B12 Keuangan (transaksi, laporan pendapatan & pengeluaran, laba-rugi, input pengeluaran, export CSV)
+- [x] B15 Laporan penjualan harian/bulanan (filter, tabel, grafik recharts, export)
+- [x] B14 Analitik (pengunjung, penjualan, produk terlaris), B13 CRM (leads, interaksi, segmentasi/analisis pelanggan), B1 Dashboard KPI
 **DoD**: angka laporan cocok dengan data order (ada test ReportService).
 
 ## Fase 10 — Admin: Pengguna, Pengaturan, Konten (Minggu 7)
