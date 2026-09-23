@@ -50,9 +50,7 @@ class AdminDashboardController extends Controller
 
         // 3. KPI Inventori & Resep
         $lowStockCount = Product::whereColumn('stock', '<=', 'min_stock')->count();
-        $expiringBatchesCount = ProductBatch::where('stock', '>', 0)
-            ->whereDate('expiry_date', '<=', Carbon::now()->addDays(90))
-            ->count();
+        $expiringBatchesCount = ProductBatch::expiringSoon(90)->count();
 
         $pendingPrescriptionsCount = Prescription::where('status', PrescriptionStatus::PENDING)->count();
 
