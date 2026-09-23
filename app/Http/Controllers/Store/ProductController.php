@@ -85,7 +85,7 @@ class ProductController extends Controller
             'categories' => $categories,
             'drugClasses' => $drugClasses,
             'userWishlistProductIds' => $userWishlistProductIds,
-            'filters' => $request->only([
+            'filters' => (object) $request->only([
                 'q',
                 'category',
                 'drug_class',

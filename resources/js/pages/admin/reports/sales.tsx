@@ -46,7 +46,7 @@ interface OrderItem {
     id: number;
     order_number: string;
     grand_total: number;
-    discount_amount: number;
+    discount_total: number;
     payment_method: string;
     status: string;
     created_at: string;

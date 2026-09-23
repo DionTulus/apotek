@@ -27,7 +27,7 @@ class AdminShipmentController extends Controller
 
         return Inertia::render('admin/shipments/index', [
             'orders'  => $orders,
-            'filters' => $request->only('search', 'status'),
+            'filters' => (object) $request->only('search', 'status'),
         ]);
     }
 

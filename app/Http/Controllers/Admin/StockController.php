@@ -33,7 +33,7 @@ class StockController extends Controller
 
         return Inertia::render('admin/stock/index', [
             'products' => $products,
-            'filters'  => $request->only('search', 'alert'),
+            'filters'  => (object) $request->only('search', 'alert'),
         ]);
     }
 

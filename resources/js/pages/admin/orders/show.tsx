@@ -94,7 +94,7 @@ interface Order {
     payment_method: string;
     payment_status: string;
     subtotal: number;
-    discount_amount: number;
+    discount_total: number;
     shipping_cost: number;
     grand_total: number;
     customer_notes?: string;
@@ -316,10 +316,10 @@ export default function OrderShow({ order, statusList }: Props) {
                                     <span>Subtotal Produk</span>
                                     <span>Rp {Number(order.subtotal).toLocaleString('id-ID')}</span>
                                 </div>
-                                {order.discount_amount > 0 && (
+                                {order.discount_total > 0 && (
                                     <div className="flex justify-between text-emerald-600">
                                         <span>Diskon Promo {order.promo?.code ? `(${order.promo.code})` : ''}</span>
-                                        <span>-Rp {Number(order.discount_amount).toLocaleString('id-ID')}</span>
+                                        <span>-Rp {Number(order.discount_total).toLocaleString('id-ID')}</span>
                                     </div>
                                 )}
                                 <div className="flex justify-between text-slate-600">

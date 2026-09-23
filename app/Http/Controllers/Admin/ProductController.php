@@ -45,7 +45,7 @@ class ProductController extends Controller
             'products'   => $products,
             'categories' => $categories,
             'drugClasses' => $drugClasses,
-            'filters'    => $request->only('search', 'category', 'drug_class', 'stock_alert', 'sort', 'dir'),
+            'filters'    => (object) $request->only('search', 'category', 'drug_class', 'stock_alert', 'sort', 'dir'),
         ]);
     }
 

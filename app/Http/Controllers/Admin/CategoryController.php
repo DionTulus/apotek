@@ -30,7 +30,7 @@ class CategoryController extends Controller
 
         return Inertia::render('admin/categories/index', [
             'categories' => $categories,
-            'filters'    => $request->only('search', 'sort', 'dir'),
+            'filters'    => (object) $request->only('search', 'sort', 'dir'),
         ]);
     }
 
