@@ -71,8 +71,8 @@ Setiap fase diakhiri: `php artisan migrate:fresh --seed`, `php artisan test`, `n
 **DoD**: angka laporan cocok dengan data order (ada test ReportService).
 
 ## Fase 10 — Admin: Pengguna, Pengaturan, Konten (Minggu 7)
-- [ ] B10 Pengguna & hak akses (role), B11 Pengaturan website (logo, favicon, kontak, visi-misi, S&K, privasi), B17 CRUD FAQ/blog/promo/testimoni/pesan kontak
-- [ ] Command `app:backup-db` + scheduler
+- [x] B10 Pengguna & hak akses (role), B11 Pengaturan website (logo, favicon, kontak, visi-misi, S&K, privasi), B17 CRUD FAQ/blog/promo/testimoni/pesan kontak
+- [x] Command `app:backup-db` + scheduler
 **DoD**: perubahan pengaturan langsung tercermin di storefront.
 
 ## Fase 11 — QA, Polishing, Dokumentasi (Minggu 7–8)

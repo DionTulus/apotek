@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminAnalyticsController;
+use App\Http\Controllers\Admin\AdminContentController;
 use App\Http\Controllers\Admin\AdminCrmController;
 use App\Http\Controllers\Admin\AdminCustomerController;
 use App\Http\Controllers\Admin\AdminDashboardController;
@@ -9,7 +10,9 @@ use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\AdminPaymentController;
 use App\Http\Controllers\Admin\AdminReportController;
 use App\Http\Controllers\Admin\AdminReturnController;
+use App\Http\Controllers\Admin\AdminSettingController;
 use App\Http\Controllers\Admin\AdminShipmentController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\PrescriptionVerificationController;
@@ -177,6 +180,38 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/crm/{lead}', [AdminCrmController::class, 'show'])->name('crm.show');
     Route::put('/crm/{lead}/status', [AdminCrmController::class, 'updateLeadStatus'])->name('crm.update-status');
     Route::post('/crm/{lead}/interaksi', [AdminCrmController::class, 'storeInteraction'])->name('crm.store-interaction');
+
+    // Fase 10: Pengguna, Pengaturan & Konten Storefront
+    Route::get('/pengguna', [AdminUserController::class, 'index'])->name('users.index');
+    Route::post('/pengguna', [AdminUserController::class, 'store'])->name('users.store');
+    Route::put('/pengguna/{user}', [AdminUserController::class, 'update'])->name('users.update');
+    Route::delete('/pengguna/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
+
+    Route::get('/pengaturan', [AdminSettingController::class, 'index'])->name('settings.index');
+    Route::post('/pengaturan', [AdminSettingController::class, 'update'])->name('settings.update');
+
+    Route::get('/konten/faq', [AdminContentController::class, 'faqs'])->name('content.faqs');
+    Route::post('/konten/faq', [AdminContentController::class, 'storeFaq'])->name('content.faqs.store');
+    Route::put('/konten/faq/{faq}', [AdminContentController::class, 'updateFaq'])->name('content.faqs.update');
+    Route::delete('/konten/faq/{faq}', [AdminContentController::class, 'destroyFaq'])->name('content.faqs.destroy');
+
+    Route::get('/konten/promo', [AdminContentController::class, 'promos'])->name('content.promos');
+    Route::post('/konten/promo', [AdminContentController::class, 'storePromo'])->name('content.promos.store');
+    Route::put('/konten/promo/{promo}', [AdminContentController::class, 'updatePromo'])->name('content.promos.update');
+    Route::delete('/konten/promo/{promo}', [AdminContentController::class, 'destroyPromo'])->name('content.promos.destroy');
+
+    Route::get('/konten/blog', [AdminContentController::class, 'blogs'])->name('content.blogs');
+    Route::post('/konten/blog', [AdminContentController::class, 'storeBlog'])->name('content.blogs.store');
+    Route::put('/konten/blog/{post}', [AdminContentController::class, 'updateBlog'])->name('content.blogs.update');
+    Route::delete('/konten/blog/{post}', [AdminContentController::class, 'destroyBlog'])->name('content.blogs.destroy');
+
+    Route::get('/konten/testimoni', [AdminContentController::class, 'testimonials'])->name('content.testimonials');
+    Route::post('/konten/testimoni/{testimonial}/toggle', [AdminContentController::class, 'toggleTestimonial'])->name('content.testimonials.toggle');
+    Route::delete('/konten/testimoni/{testimonial}', [AdminContentController::class, 'destroyTestimonial'])->name('content.testimonials.destroy');
+
+    Route::get('/konten/pesan', [AdminContentController::class, 'messages'])->name('content.messages');
+    Route::post('/konten/pesan/{message}/read', [AdminContentController::class, 'markMessageRead'])->name('content.messages.read');
+    Route::delete('/konten/pesan/{message}', [AdminContentController::class, 'destroyMessage'])->name('content.messages.destroy');
 });
 
 require __DIR__.'/settings.php';

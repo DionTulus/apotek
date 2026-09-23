@@ -62,6 +62,11 @@ export default function AdminLayout({ children, title }: { children: React.React
         { label: 'Laporan Keuangan', href: '/admin/keuangan', icon: FileText },
         { label: 'CRM & Leads', href: '/admin/crm', icon: MessageSquare },
         { label: 'Analitik & Statistik', href: '/admin/analitik', icon: BarChart3 },
+        { label: 'FAQ Apotek', href: '/admin/konten/faq', icon: HelpCircle },
+        { label: 'Promo & Voucher', href: '/admin/konten/promo', icon: DollarSign },
+        { label: 'Blog & Artikel', href: '/admin/konten/blog', icon: FileText },
+        { label: 'Moderasi Testimoni', href: '/admin/konten/testimoni', icon: MessageSquare },
+        { label: 'Pesan Kontak Masuk', href: '/admin/konten/pesan', icon: MessageSquare },
         { label: 'Pengguna & Akses', href: '/admin/pengguna', icon: Shield },
         { label: 'Pengaturan Website', href: '/admin/pengaturan', icon: Settings },
     ];
