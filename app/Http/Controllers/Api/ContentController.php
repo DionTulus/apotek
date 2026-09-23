@@ -92,11 +92,8 @@ class ContentController extends Controller
             ], 422);
         }
 
-        if ($promo->type === 'percentage') {
-            $discount = (int) round(($data['subtotal'] * $promo->value) / 100);
-            if ($promo->max_discount) {
-                $discount = min($discount, $promo->max_discount);
-            }
+        if ($promo->isPercentage()) {
+            $discount = $promo->discountFor($data['subtotal']);
         } else {
             $discount = (int) $promo->value;
         }

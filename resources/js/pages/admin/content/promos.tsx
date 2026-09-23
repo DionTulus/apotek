@@ -18,7 +18,7 @@ interface PromoItem {
     code: string;
     name: string;
     description?: string;
-    type: 'percentage' | 'fixed';
+    type: 'percentage' | 'percent' | 'fixed';
     value: number;
     min_purchase: number;
     max_discount?: number;
@@ -199,7 +199,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                                 )}
                                             </td>
                                             <td className="px-4 py-3.5 font-extrabold text-emerald-600">
-                                                {p.type === 'percentage' ? `${p.value}%` : formatRp(p.value)}
+                                                {(p.type === 'percentage' || p.type === 'percent') ? `${p.value}%` : formatRp(p.value)}
                                             </td>
                                             <td className="px-4 py-3.5 text-slate-600">
                                                 {p.min_purchase > 0 ? formatRp(p.min_purchase) : 'Tanpa Min.'}

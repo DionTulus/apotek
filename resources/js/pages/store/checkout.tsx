@@ -119,7 +119,7 @@ export default function Checkout({
 
     let discountTotal = 0;
     if (activePromo && subtotal >= activePromo.min_purchase) {
-        if (activePromo.type === 'percentage') {
+        if (activePromo.type === 'percentage' || activePromo.type === 'percent') {
             discountTotal = Math.round((subtotal * activePromo.value) / 100);
         } else {
             discountTotal = activePromo.value;

@@ -58,7 +58,7 @@ export default function PromoPage({ promos = [] }: PromoProps) {
                                 <div className="flex items-center justify-between">
                                     <span className="px-3 py-1 rounded-full bg-blue-50 text-[#8CA9FF] text-xs font-extrabold border border-blue-100 flex items-center gap-1">
                                         <Percent className="w-3.5 h-3.5" />
-                                        {promo.type === 'percent' ? `Diskon ${promo.value}%` : `Potongan ${formatRp(promo.value)}`}
+                                        {(promo.type === 'percent' || promo.type === 'percentage') ? `Diskon ${promo.value}%` : `Potongan ${formatRp(promo.value)}`}
                                     </span>
                                     <span className="text-[10px] font-bold text-slate-400">Aktif</span>
                                 </div>
