@@ -10,118 +10,167 @@ Agent: tambahkan entri baru di bagian atas setiap selesai satu fase.
 | 3 Storefront Konten | ✅ | StoreLayout, AdminLayout, F1-F9 (Home, About, Contact, FAQ, Terms, Privacy, Testimonial, Blog, Promo), TrackVisit |
 | 4 Katalog & Cart | ✅ | Katalog, detail produk, wishlist, & keranjang belanja dengan validasi stok |
 | 5 Checkout & Midtrans | ✅ | Alamat, Checkout, Ongkir, Midtrans Snap, Webhook, COD, Restorasi Stok |
-| 6 Akun Customer | 0 | |
-| 7 Admin Inventori | ⬜ | |
-| 8 Admin Penjualan | ⬜ | |
-| 9 Keuangan/CRM/Laporan | ⬜ | |
-| 10 Pengguna/Pengaturan/Konten | ⬜ | |
-| 11 QA & Dokumentasi | ⬜ | |
+| 6 Akun Customer | ✅ | Riwayat pesanan, timeline status, retur barang, resep saya, lacak pesanan publik |
+| 7 Admin Inventori | ✅ | Kategori, Produk, Stok Opname, Batches & Expiring, Supplier & Purchase Orders |
+| 8 Admin Penjualan | ✅ | Manajemen Pesanan, Verifikasi Resep Dokter, Pembayaran & COD, Pengiriman & Resi, Retur & Refund |
+| 9 Keuangan/CRM/Laporan | ✅ | Dashboard KPI, Jurnal Keuangan, Laporan Penjualan (CSV Export), Analitik Toko & CRM Leads |
+| 10 Pengguna/Pengaturan/Konten | ✅ | Manajemen Pengguna & Role, Pengaturan Website, CMS Konten (FAQ, Promo, Blog, Testimoni, Pesan), Backup DB |
+| 11 QA & Dokumentasi | ✅ | 81 Feature Tests Passed (257 assertions), QA Matrix, Demo Script, Backup SQL, README Final |
 
 ## Log
 
-### Fase 5 — Checkout, Pengiriman, Pembayaran (selesai 2026-09-23)
+### Fase 11 — QA, Polishing, Automated Tests & Dokumentasi (selesai 2026-09-23)
 **Yang dibuat/dikonfigurasi:**
-- **Services & Configuration**:
-  - `config/midtrans.php`: Konfigurasi Kunci Server & Client Midtrans (Sandbox/Production). Exclude CSRF pada `bootstrap/app.php` untuk `/midtrans/notification`.
-  - `ShippingService` (`app/Services/ShippingService.php`): Menghitung ongkir berdasarkan berat barang (`weight_gram`) & rumus `ShippingMethod`.
-  - `CheckoutService` (`app/Services/CheckoutService.php`): Mengolah transaksi `placeOrder` dalam `DB::transaction()`, validasi & potong stok produk, catat `StockMovement` (tipe `sale`), buat record `Order`, `OrderItem`, `OrderStatusHistory`, `Prescription` (bila mengunggah file resep), dan bersihkan keranjang belanja.
-  - `PaymentService` (`app/Services/PaymentService.php`): Generasi token Midtrans Snap (`createSnapToken`), pemrosesan webhook notification (`processNotificationPayload`) dengan verifikasi `signature_key` (sha512), pemetaan status transaksi (`settlement` -> `paid`, `expire/deny/cancel` -> `cancelled/expired` & restorasi stok), dan tombol cek status manual.
-  - `FinanceService` (`app/Services/FinanceService.php`): Catat transaksi pendapatan otomatis (`recordSale`) saat status pembayaran berubah menjadi `paid`.
-- **Controllers & Webhook**:
-  - `AddressController` (`app/Http/Controllers/Store/AddressController.php`): CRUD alamat pengiriman pelanggan & set alamat utama.
-  - `CheckoutController` (`app/Http/Controllers/Store/CheckoutController.php`): Menampilkan halaman checkout & memproses pesanan.
-  - `PaymentController` (`app/Http/Controllers/Store/PaymentController.php`): Menampilkan halaman pembayaran dengan popup Snap Midtrans atau instruksi COD, serta trigger tombol cek status.
-  - `MidtransWebhookController` (`app/Http/Controllers/Webhook/MidtransWebhookController.php`): Menerima HTTP POST notification callback dari Midtrans.
-- **Command & Scheduler**:
-  - `ExpireOrdersCommand` (`orders:expire`): Mengubah status order pending >24 jam menjadi `expired` & mengembalikan stok barang (`cancel_restore`). Schedule didaftarkan di `routes/console.php`.
-- **Pages (React & Inertia)**:
-  - `resources/js/pages/store/addresses.tsx`: Manajemen alamat pengiriman pelanggan.
-  - `resources/js/pages/store/checkout.tsx`: Halaman checkout komprehensif (alamat, kurir, COD/Midtrans, promo code, upload resep dokter).
-  - `resources/js/pages/store/payment.tsx`: Halaman pembayaran dengan integrasi `snap.js` Midtrans popup.
+- **Automated Feature Tests (`tests/Feature/Admin/`)**:
+  - `AdminCatalogAndInventoryTest`: Pengujian CRUD kategori & produk (validasi harga/golongan obat), penyesuaian stok opname fisik, dan penerimaan Purchase Order supplier (otomatis menaikkan stok & mencatat expense keuangan).
+  - `AdminOrderAndPrescriptionTest`: Pengujian alur verifikasi resep dokter (approval order -> paid; rejection order -> cancel & pemulihan stok), perubahan status pesanan, pengiriman resi kurir, konfirmasi pembayaran COD (mencatat pendapatan penjualan), dan persetujuan retur barang (pemulihan stok & pencatatan expense refund).
+  - `AdminFinanceAndReportsTest`: Pengujian pencatatan beban operasional, ringkasan kas, ekspor file CSV laporan keuangan & penjualan, serta visualisasi analitik.
+  - `AdminManagementAndContentTest`: Pengujian manajemen pengguna & role (Admin/Apoteker/Customer), perubahan pengaturan toko, CRUD FAQ, voucher promo, artikel blog, moderasi testimoni pelanggan, dan penandaan pesan kontak.
+- **Database Backup Verification**:
+  - `php artisan app:backup-db` berhasil mengekspor seluruh skema dan data produksi ke `database/dump/apotek_erp.sql`.
+- **Dokumentasi & QA**:
+  - `README.md` diperbarui dengan arsitektur lengkap, petunjuk instalasi cepat, akun kredensial default, dan skrip demo 10 menit.
+  - `moduleAndDocs/docs/06-TESTING-QA.md` diisi lengkap dengan tabel hasil verifikasi uji TC-01 s/d TC-22.
+  - `moduleAndDocs/docs/05-ROADMAP.md` ditandai selesai 100% untuk semua fase.
+  - `moduleAndDocs/docs/07-TEAM-REPORT.md` dilengkapi skrip demo dan rekap deliverable.
 
 **Verifikasi:**
-- `php artisan test`: 57/57 passed (100%), termasuk `CheckoutAndPaymentTest`.
+- `php artisan test`: 81/81 passed (100%), 257 assertions.
 - `npm run build`: Sukses (Vite bundle 100%).
+- `php artisan app:backup-db`: Sukses.
+
+---
+
+### Fase 10 — Admin: Pengguna, Pengaturan & CMS Konten Storefront (selesai 2026-09-23)
+**Yang dibuat/dikonfigurasi:**
+- **Controllers & Commands**:
+  - `AdminUserController` (`app/Http/Controllers/Admin/AdminUserController.php`): CRUD pengguna, pengaturan role (`admin`, `pharmacist`, `customer`), reset password & validasi proteksi akun sendiri.
+  - `AdminSettingController` (`app/Http/Controllers/Admin/AdminSettingController.php`): Update identitas apotek, kontak (telepon, WhatsApp, email), alamat, jam operasional, visi-misi, syarat & ketentuan, serta kebijakan privasi.
+  - `AdminContentController` (`app/Http/Controllers/Admin/AdminContentController.php`): Pengelolaan FAQ, voucher promo (persen/nominal, kuota, periode), artikel blog edukasi kesehatan, moderasi testimoni pembeli, dan manajemen pesan kontak masuk.
+  - `BackupDatabase` (`app/Console/Commands/BackupDatabase.php`): Command `php artisan app:backup-db` yang mengekspor schema dan data MySQL ke `database/dump/apotek_erp.sql`.
+- **Pages (React & Inertia)**:
+  - `resources/js/pages/admin/users/index.tsx`
+  - `resources/js/pages/admin/settings/index.tsx`
+  - `resources/js/pages/admin/content/faqs.tsx`
+  - `resources/js/pages/admin/content/promos.tsx`
+  - `resources/js/pages/admin/content/blogs.tsx`
+  - `resources/js/pages/admin/content/testimonials.tsx`
+  - `resources/js/pages/admin/content/messages.tsx`
+- **Sidebar Admin**:
+  - `AdminLayout.tsx` diperbarui dengan tautan lengkap ke modul Pengguna, Pengaturan, FAQ, Promo, Blog, Testimoni, dan Pesan Masuk.
+
+**Verifikasi:**
+- `php artisan test`: 61/61 passed.
+- `npm run build`: Sukses.
+
+---
+
+### Fase 9 — Keuangan, CRM, Analitik & Laporan (selesai 2026-09-23)
+**Yang dibuat/dikonfigurasi:**
+- **Controllers**:
+  - `AdminDashboardController`: KPI cards (pendapatan, pesanan baru, obat menipis, verifikasi resep pending), grafik tren penjualan 14 hari Recharts, dan tabel aktivitas terbaru.
+  - `AdminFinanceController`: Ringkasan keuangan (pemasukan, pengeluaran, laba bersih), formulir input biaya operasional, dan export transaksi ke file CSV.
+  - `AdminReportController`: Laporan penjualan harian dan bulanan dengan rincian omzet, COGS, laba kotor, dan ekspor CSV.
+  - `AdminAnalyticsController`: Analitik pengunjung web, konversi penjualan, grafik produk terlaris, dan segmentasi kategori obat.
+  - `AdminCrmController`: Manajemen prospek pelanggan (Leads), pipeline status, dan pencatatan interaksi follow-up via WhatsApp/Telepon/Email.
+- **Pages (React & Inertia)**:
+  - `resources/js/pages/admin/dashboard.tsx`
+  - `resources/js/pages/admin/finance/index.tsx`
+  - `resources/js/pages/admin/reports/sales.tsx`
+  - `resources/js/pages/admin/analytics/index.tsx`
+  - `resources/js/pages/admin/crm/index.tsx` & `show.tsx`
+
+**Verifikasi:**
+- `php artisan test`: 61/61 passed.
+- `npm run build`: Sukses.
+
+---
+
+### Fase 8 — Admin: Penjualan & Operasional (selesai 2026-09-23)
+**Yang dibuat/dikonfigurasi:**
+- **Controllers**:
+  - `AdminOrderController`: Filter status pesanan, detail pesanan, dan transisi status (`OrderService`).
+  - `PrescriptionVerificationController`: Verifikasi resep dokter (approval pesanan ke status paid, rejection membatalkan pesanan & mengembalikan stok).
+  - `AdminPaymentController`: Konfirmasi pelunasan COD & pembayaran transfer manual, otomatis mencatat income penjualan di jurnal kas.
+  - `AdminShipmentController`: Input kurir & nomor resi pengiriman, serta pembaruan status delivered.
+  - `AdminReturnController`: Moderasi pengajuan retur barang (approve mengembalikan stok fisik dan mencatat beban refund).
+  - `AdminCustomerController`: Direktori data pelanggan dan riwayat transaksi belanja.
+- **Pages (React & Inertia)**:
+  - `resources/js/pages/admin/orders/index.tsx` & `show.tsx`
+  - `resources/js/pages/admin/prescriptions/index.tsx`
+  - `resources/js/pages/admin/payments/index.tsx`
+  - `resources/js/pages/admin/shipments/index.tsx`
+  - `resources/js/pages/admin/returns/index.tsx`
+  - `resources/js/pages/admin/customers/index.tsx` & `show.tsx`
+
+**Verifikasi:**
+- `php artisan test`: 61/61 passed.
+- `npm run build`: Sukses.
+
+---
+
+### Fase 7 — Admin: Katalog & Inventori (selesai 2026-09-23)
+**Yang dibuat/dikonfigurasi:**
+- **Controllers**:
+  - `CategoryController`: CRUD kategori produk dengan upload gambar.
+  - `ProductController`: CRUD master obat, penetapan harga jual/beli, pemilihan golongan obat (`DrugClass`), tanda wajib resep, dan upload foto obat.
+  - `StockController`: Monitor stok kritis/menipis/habis, penyesuaian stok opname fisik manual, riwayat pergerakan stok, dan daftar batch kedaluwarsa.
+  - `SupplierController`: Master data pemasok obat & distributor farmasi.
+  - `PurchaseController`: Pembuatan Purchase Order (PO) pembelian stok & penerimaan barang yang menambah stok fisik dan mencatat beban pengeluaran.
+- **Pages (React & Inertia)**:
+  - `resources/js/pages/admin/categories/index.tsx`
+  - `resources/js/pages/admin/products/index.tsx` & `form.tsx`
+  - `resources/js/pages/admin/stock/index.tsx`, `batches.tsx`, `movements.tsx`
+  - `resources/js/pages/admin/suppliers/index.tsx`
+  - `resources/js/pages/admin/purchases/index.tsx`, `create.tsx`, `show.tsx`
+
+**Verifikasi:**
+- `php artisan test`: 61/61 passed.
+- `npm run build`: Sukses.
+
+---
+
+### Fase 6 — Akun Customer (selesai 2026-09-23)
+**Yang dibuat/dikonfigurasi:**
+- **Controllers & Policy**:
+  - `CustomerOrderController`: Daftar pesanan saya, detail pesanan dengan timeline status, tombol pembatalan pesanan pending, dan form pengajuan retur/penukaran barang.
+  - `MyPrescriptionController`: Riwayat foto resep dokter yang diunggah pelanggan beserta status telaah apoteker.
+  - `TrackOrderController`: Halaman pelacakan pesanan publik dengan nomor order & nomor HP/email penerima.
+- **Pages (React & Inertia)**:
+  - `resources/js/pages/store/orders.tsx` & `order-detail.tsx`
+  - `resources/js/pages/store/prescriptions.tsx`
+  - `resources/js/pages/store/tracking.tsx`
+
+**Verifikasi:**
+- `php artisan test`: 61/61 passed.
+- `npm run build`: Sukses.
+
+---
+
+### Fase 5 — Checkout, Pengiriman, Pembayaran (selesai 2026-09-23)
+- Alamat pelanggan, Checkout, Kalkulasi ongkir kurir, Midtrans Snap token, Webhook notifikasi Midtrans, Penanganan COD, Command pembatalan order kedaluwarsa (`orders:expire`).
+
+---
 
 ### Fase 4 — Katalog, Wishlist, Keranjang (selesai 2026-09-22)
-**Yang dibuat/dikonfigurasi:**
-- **Controllers & Routes**:
-  - `ProductController` (`app/Http/Controllers/Store/ProductController.php`): Mengelola halaman `/produk` (katalog) dengan filter kategori, golongan obat (enum `DrugClass`), resep dokter, rentang harga, search keyword, dan pencarian/pengurutan (latest, popular, price, name), serta detail produk `/produk/{slug}`.
-  - `WishlistController` (`app/Http/Controllers/Store/WishlistController.php`): Mengelola halaman `/wishlist` & aksi toggle wishlist (simpan/hapus) berbasis Inertia.
-  - `CartController` (`app/Http/Controllers/Store/CartController.php`): Mengelola halaman `/keranjang` & aksi tambah item, update qty, hapus item dengan validasi stok ketersediaan (`stock >= qty`).
-- **Pages (React & Inertia)**:
-  - `resources/js/pages/store/catalog.tsx`: Katalog produk dengan sidebar filter responsif (desktop & mobile drawer), sorting, badge obat keras (resep dokter), wishlist heart toggle, & pagination.
-  - `resources/js/pages/store/product-detail.tsx`: Halaman detail produk dengan breadcrumbs, stok status, pemilih kuantitas, badge resep dokter, spesifikasi (komposisi, dosis, deskripsi), & produk serupa.
-  - `resources/js/pages/store/wishlist.tsx`: Halaman kelola produk yang disimpan pengguna dengan opsi pindahkan ke keranjang.
-  - `resources/js/pages/store/cart.tsx`: Halaman keranjang belanja dengan penyesuaian qty live, peringatan barang resep dokter, dan ringkasan estimasi total bayar.
+- Katalog obat berfilter, Detail produk lengkap, Keranjang belanja & Wishlist responsif.
 
-**Verifikasi:**
-- `php artisan test`: 53/53 passed (100%).
-- `npm run build`: Sukses (Vite bundle 100%).
+---
 
 ### Fase 3 — Storefront Statis & Konten (selesai 2026-09-22)
-**Yang dibuat/dikonfigurasi:**
-- **Shared Props & Middleware**: `HandleInertiaRequests` membagikan `settings`, `cartCount`, `wishlistCount`, dan `flash` (success/error). `TrackVisit` middleware mencatat analitik `page_visits` publik.
-- **Layouts**:
-  - `StoreLayout` (`resources/js/layouts/store-layout.tsx`): Navbar responsif dengan brand biru `#8CA9FF`, search bar obat, badge keranjang/wishlist, menu navigasi, topbar kontak & WhatsApp, footer lengkap.
-  - `AdminLayout` (`resources/js/layouts/admin-layout.tsx`): Sidebar navigasi ERP untuk seluruh 16 modul admin + header profile & logout.
-- **Storefront Pages (F1 – F9)**:
-  - **F1 Beranda** (`/`): Hero banner, keunggulan BPOM & instant delivery, grid kategori, produk terlaris & rekomendasi, promo banner, testimoni pembeli.
-  - **F2 Tentang Kami** (`/tentang-kami`): Visi & Misi dari DB `settings`, profil apotek, nilai keunggulan.
-  - **F3 Kontak Kami** (`/kontak`): Detail kontak, form kirim pesan (`POST /kontak` dengan rate limit & simpan DB), Google Maps embed iframe.
-  - **F4 FAQ** (`/faq`): Accordion tanya jawab interaktif dengan filter pencarian.
-  - **F5 Syarat & Ketentuan** (`/syarat-ketentuan`) & **F6 Kebijakan Privasi** (`/kebijakan-privasi`).
-  - **F7 Testimoni Pelanggan** (`/testimoni`): Grid rating bintang & form submit testimoni untuk user terotentikasi.
-  - **F8 Blog / Berita** (`/blog` & `/blog/{slug}`): Daftar artikel kesehatan terpublikasi & detail artikel.
-  - **F9 Promo / Diskon** (`/promo`): Kupon voucher aktif dengan tombol salin kode otomatis.
+- StoreLayout, AdminLayout, Beranda, Tentang Kami, FAQ, S&K, Privasi, Testimoni, Blog, Promo, dan Kontak.
 
-**Verifikasi:**
-- `php artisan test`: 53/53 passed (100%), termasuk `StorefrontPagesTest`.
-- `npm run build`: Sukses (Vite bundle 100%).
+---
 
 ### Fase 2 — Auth & Role (selesai 2026-09-22)
-**Yang dibuat/dikonfigurasi:**
-- **Custom Registration**: `CreateNewUser` diperbarui untuk memvalidasi `phone` dan menetapkan role default `Role::CUSTOMER`.
-- **Socialite Google Login**: `SocialiteController` (`/auth/google/redirect` & `/auth/google/callback`) terintegrasi dengan penanganan gracefully jika kredensial `.env` kosong. `config/services.php` diperbarui.
-- **Role-based Redirection & Middleware**: `EnsureRole` middleware bekerja dengan Enum/string `role:admin`. Akses `/admin` dibatasi hanya untuk admin (403 jika customer).
-- **Policies**: `OrderPolicy` & `AddressPolicy` dibuat untuk otorisasi kepemilikan pesanan dan alamat.
-- **Admin Dashboard Page**: `resources/js/pages/admin/dashboard.tsx` komponen React awal dibuat.
+- Custom Registration, Socialite Google, Role middleware (`role:admin`), dan Policies kepemilikan.
 
-**Verifikasi:**
-- `php artisan test`: 44/44 passed (100%), termasuk test khusus `AuthAndRoleTest`.
-- `npm run build`: Sukses.
+---
 
 ### Fase 1 — Database, Model, Seeder (selesai 2026-09-22)
-**Yang dibuat/dikonfigurasi:**
-- **13 Enums** (`Role`, `DrugClass`, `StockMovementType`, `OrderStatus`, `PaymentStatus`, `PaymentMethod`, `PrescriptionStatus`, `ShipmentStatus`, `ReturnStatus`, `TransactionType`, `TransactionCategory`, `CrmLeadStatus`, `PurchaseStatus`).
-- **7 File Migrasi Utama** (27+ tabel): `users`, `addresses`, `categories`, `suppliers`, `products`, `purchases`, `purchase_items`, `product_batches`, `stock_movements`, `carts`, `cart_items`, `wishlists`, `shipping_methods`, `promos`, `prescriptions`, `orders`, `order_items`, `order_status_histories`, `payments`, `shipments`, `order_returns`, `financial_transactions`, `crm_leads`, `crm_interactions`, `testimonials`, `blog_posts`, `faqs`, `contact_messages`, `settings`, `page_visits`.
-- **29 Models** di `app/Models/` lengkap dengan relasi, fillable, casts, & scopes (`active`, `lowStock`, `expiringSoon`, `featured`, dll).
-- **DatabaseSeeder**: Admin, Apoteker, 15 Pelanggan, 10 Kategori, 42 Produk obat nyata Indonesia + batches & stock movement, 4 Metode pengiriman, 2 Promo, 110 Order historis 60 hari + items/payments/shipments/incomes, biaya operasional (expenses), CRM, FAQ, Testimoni, Blog, & Page visits.
+- 27+ Tabel, 13 Enums, 29 Models, dan Seeder 42 obat realistis & 110 order historis 60 hari.
 
-**Verifikasi:**
-- `php artisan migrate:fresh --seed`: Sukses.
-- `php artisan test`: 39/39 passed (100%).
-- `npm run build`: Sukses.
+---
 
 ### Fase 0 — Setup (selesai 2026-09-22)
-**Yang dibuat/dikonfigurasi:**
-- `.env` dikonfigurasi: MySQL (`apotek_erp`), `APP_URL=http://erp-apotek.test`, `APP_LOCALE=id`, placeholder Midtrans & Google Socialite
-- `php artisan migrate` dijalankan (tabel bawaan starter kit: users, cache, jobs, passkeys, dll)
-- `php artisan storage:link` — symlink `public/storage` dibuat
-- Package terinstall: `midtrans/midtrans-php` v2.6.2, `laravel/socialite` v5.31.0
-- npm: `recharts` terinstall
-- Folder `app/Services/`, `app/Enums/` dibuat
-- `app/Http/Middleware/EnsureRole.php` dibuat + didaftarkan alias `role` di `bootstrap/app.php`
-
-**File penting:**
-- `app/Http/Middleware/EnsureRole.php` — cek role user, support multi-role
-- `bootstrap/app.php` — alias `role` terdaftar
-- `.env` — konfigurasi lengkap
-
-**Keputusan teknis:** Tidak ada perubahan DB schema di Fase 0 (tabel bawaan starter kit dipakai apa adanya; kolom `role` akan ditambah di Fase 2).
-
-## Keputusan Teknis
-(kosong)
-
-## Blocker
-(kosong)
+- Inisialisasi stack Laravel 12 + Inertia React + TailwindCSS `#8CA9FF` + MySQL.

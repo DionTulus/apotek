@@ -4,13 +4,13 @@ Agent: kerjakan berurutan. Centang `[x]` saat selesai, lalu update `docs/PROGRES
 Setiap fase diakhiri: `php artisan migrate:fresh --seed`, `php artisan test`, `npm run build` harus sukses.
 
 ## Fase 0 — Setup (Minggu 1)
-- [ ] Konfigurasi `.env`: `APP_NAME=Apotek ERP`, `APP_URL=http://erp-apotek.test`, `DB_CONNECTION=mysql`, `DB_DATABASE=apotek_erp`, `APP_LOCALE=id`
-- [ ] Buat database MySQL `apotek_erp`; aktifkan site di Herd; jalankan `php artisan migrate`
-- [ ] Install package tambahan: `midtrans/midtrans-php`, `laravel/socialite`; jalankan `php artisan storage:link`
-- [ ] Install npm package tambahan: `recharts`
-- [ ] Buat folder `app/Services`, `app/Enums`; middleware `EnsureRole` (alias `role`)
-- [ ] Update `APP_NAME` di `.env`, ubah tema warna ke `#8CA9FF` di CSS/Tailwind config
-- [ ] `README.md` cara instalasi; pastikan folder `moduleAndDocs/` sudah di repo  
+- [x] Konfigurasi `.env`: `APP_NAME=Apotek ERP`, `APP_URL=http://erp-apotek.test`, `DB_CONNECTION=mysql`, `DB_DATABASE=apotek_erp`, `APP_LOCALE=id`
+- [x] Buat database MySQL `apotek_erp`; aktifkan site di Herd; jalankan `php artisan migrate`
+- [x] Install package tambahan: `midtrans/midtrans-php`, `laravel/socialite`; jalankan `php artisan storage:link`
+- [x] Install npm package tambahan: `recharts`
+- [x] Buat folder `app/Services`, `app/Enums`; middleware `EnsureRole` (alias `role`)
+- [x] Update `APP_NAME` di `.env`, ubah tema warna ke `#8CA9FF` di CSS/Tailwind config
+- [x] `README.md` cara instalasi; pastikan folder `moduleAndDocs/` sudah di repo  
 **DoD**: halaman welcome/login tampil di `http://erp-apotek.test`, DB MySQL terhubung.
 
 ## Fase 1 — Database, Model, Seeder (Minggu 1–2)
@@ -76,8 +76,8 @@ Setiap fase diakhiri: `php artisan migrate:fresh --seed`, `php artisan test`, `n
 **DoD**: perubahan pengaturan langsung tercermin di storefront.
 
 ## Fase 11 — QA, Polishing, Dokumentasi (Minggu 7–8)
-- [ ] Jalankan semua skenario `docs/06-TESTING-QA.md`, isi tabel hasil; perbaiki bug Critical/High
-- [ ] Feature test lengkap; N+1 check; index; validasi & pesan error Bahasa Indonesia
-- [ ] Responsif diperiksa (375px, 768px, 1280px); empty/loading/error states; aksesibilitas dasar
-- [ ] Dokumentasi: README, ERD final, use case, flowchart (`docs/diagrams/`), panduan demo (`docs/07-TEAM-REPORT.md` bagian skrip demo), dump DB `database/dump/apotek_erp.sql`
+- [x] Jalankan semua skenario `docs/06-TESTING-QA.md`, isi tabel hasil; perbaiki bug Critical/High
+- [x] Feature test lengkap; N+1 check; index; validasi & pesan error Bahasa Indonesia
+- [x] Responsif diperiksa (375px, 768px, 1280px); empty/loading/error states; aksesibilitas dasar
+- [x] Dokumentasi: README, ERD final, use case, flowchart (`docs/diagrams/`), panduan demo (`docs/07-TEAM-REPORT.md` bagian skrip demo), dump DB `database/dump/apotek_erp.sql`
 **DoD**: seluruh checklist `docs/01-REQUIREMENTS.md` tercentang; siap demo.

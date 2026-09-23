@@ -2,13 +2,15 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Enums\MedicineType;
+use App\Enums\DrugClass;
+use App\Enums\PurchaseStatus;
 use App\Enums\Role;
 use App\Enums\StockMovementType;
-use App\Models\Batch;
+use App\Enums\TransactionCategory;
+use App\Enums\TransactionType;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\PurchaseOrder;
+use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -56,7 +58,7 @@ class AdminCatalogAndInventoryTest extends TestCase
             'category_id' => $this->category->id,
             'name' => 'Paracetamol 500mg Strip',
             'sku' => 'PCT-500-STP',
-            'medicine_type' => MedicineType::OBAT_BEBAS->value,
+            'drug_class' => DrugClass::BEBAS->value,
             'price' => 8500,
             'cost_price' => 5000,
             'unit' => 'Strip',
@@ -78,7 +80,7 @@ class AdminCatalogAndInventoryTest extends TestCase
             'category_id' => $this->category->id,
             'name' => 'Paracetamol 500mg Forte',
             'sku' => 'PCT-500-STP',
-            'medicine_type' => MedicineType::OBAT_BEBAS->value,
+            'drug_class' => DrugClass::BEBAS->value,
             'price' => 9500,
             'cost_price' => 5500,
             'unit' => 'Strip',
@@ -101,7 +103,7 @@ class AdminCatalogAndInventoryTest extends TestCase
             'name' => 'Amoxicillin 500mg',
             'slug' => 'amoxicillin-500mg',
             'sku' => 'AMX-500',
-            'medicine_type' => MedicineType::OBAT_KERAS->value,
+            'drug_class' => DrugClass::KERAS->value,
             'price' => 15000,
             'cost_price' => 9000,
             'unit' => 'Strip',
@@ -112,31 +114,21 @@ class AdminCatalogAndInventoryTest extends TestCase
             'is_active' => true,
         ]);
 
-        $batch = Batch::create([
-            'product_id' => $product->id,
-            'batch_number' => 'BATCH-AMX-001',
-            'expired_at' => now()->addMonths(12)->toDateString(),
-            'stock' => 20,
-        ]);
-
-        $response = $this->actingAs($this->admin)->post(route('admin.stocks.adjust'), [
-            'product_id' => $product->id,
-            'batch_id' => $batch->id,
-            'type' => StockMovementType::ADJUSTMENT_IN->value,
+        $response = $this->actingAs($this->admin)->post(route('admin.stock.adjust', $product->id), [
+            'type' => 'in',
             'qty' => 15,
-            'notes' => 'Stock opname penambahan',
+            'note' => 'Stock opname penambahan barang masuk',
         ]);
         $response->assertRedirect();
 
         $product->refresh();
-        $batch->refresh();
         $this->assertEquals(35, $product->stock);
-        $this->assertEquals(35, $batch->stock);
 
         $this->assertDatabaseHas('stock_movements', [
             'product_id' => $product->id,
-            'type' => StockMovementType::ADJUSTMENT_IN->value,
+            'type' => StockMovementType::ADJUSTMENT->value,
             'qty' => 15,
+            'stock_after' => 35,
         ]);
     }
 
@@ -156,7 +148,7 @@ class AdminCatalogAndInventoryTest extends TestCase
             'name' => 'Antasida Doen Tablet',
             'slug' => 'antasida-doen-tablet',
             'sku' => 'ATD-001',
-            'medicine_type' => MedicineType::OBAT_BEBAS->value,
+            'drug_class' => DrugClass::BEBAS->value,
             'price' => 6000,
             'cost_price' => 3000,
             'unit' => 'Strip',
@@ -167,37 +159,36 @@ class AdminCatalogAndInventoryTest extends TestCase
             'is_active' => true,
         ]);
 
-        $po = PurchaseOrder::create([
-            'po_number' => 'PO-' . date('Ymd') . '-001',
+        $purchase = Purchase::create([
+            'purchase_number' => 'PO-' . date('Ymd') . '-001',
             'supplier_id' => $supplier->id,
-            'status' => 'ordered',
-            'order_date' => now()->toDateString(),
-            'total_amount' => 150000,
-            'notes' => 'Pembelian rutin Antasida',
+            'status' => PurchaseStatus::DRAFT,
+            'purchase_date' => now()->toDateString(),
+            'total' => 150000,
+            'created_by' => $this->admin->id,
         ]);
 
-        $po->items()->create([
+        $purchase->items()->create([
             'product_id' => $product->id,
             'qty' => 50,
             'unit_cost' => 3000,
             'subtotal' => 150000,
+            'batch_no' => 'BATCH-ATD-NEW',
+            'expiry_date' => now()->addMonths(24)->toDateString(),
         ]);
 
-        $response = $this->actingAs($this->admin)->post(route('admin.purchases.receive', $po->id), [
-            'batch_number' => 'BATCH-ATD-NEW',
-            'expired_at' => now()->addMonths(24)->toDateString(),
-        ]);
+        $response = $this->actingAs($this->admin)->post(route('admin.purchases.receive', $purchase->id));
         $response->assertRedirect();
 
-        $po->refresh();
+        $purchase->refresh();
         $product->refresh();
-        $this->assertEquals('received', $po->status);
+        $this->assertEquals(PurchaseStatus::RECEIVED, $purchase->status);
         $this->assertEquals(60, $product->stock); // 10 + 50
 
         // Financial expense recorded
         $this->assertDatabaseHas('financial_transactions', [
-            'type' => 'expense',
-            'category' => 'pembelian_stok',
+            'type' => TransactionType::EXPENSE->value,
+            'category' => TransactionCategory::PURCHASE->value,
             'amount' => 150000,
         ]);
     }
