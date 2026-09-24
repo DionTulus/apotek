@@ -217,7 +217,62 @@ class ContentController extends Controller
                 'content' => $t->content,
                 'photo' => $t->photo ? $this->fileUrl($t->photo) : null,
             ])->values()->all(),
+            // FAQ dan janji layanan ikut dikirim bersama beranda supaya
+            // pengunjung bisa membaca semuanya tanpa berpindah halaman.
+            'faqs' => Faq::active()->take(6)->get()->map(fn ($f) => [
+                'id' => $f->id,
+                'question' => $f->question,
+                'answer' => $f->answer,
+            ])->values()->all(),
+            'promises' => $this->janjiLayanan(),
+            'settings' => [
+                'site_name' => Setting::get('site_name'),
+                'site_tagline' => Setting::get('site_tagline'),
+                'phone' => Setting::get('phone'),
+                'whatsapp' => Setting::get('whatsapp'),
+                'email' => Setting::get('email'),
+                'address' => Setting::get('address'),
+                'opening_hours' => Setting::get('opening_hours'),
+                'logo' => Setting::get('logo'),
+            ],
         ]);
+    }
+
+    /**
+     * "Yang Kami Janjikan" - komitmen layanan yang tampil di beranda.
+     *
+     * Disimpan di kode (bukan tabel) karena isinya adalah kebijakan
+     * layanan klinik yang jarang berubah dan harus ikut terversi di
+     * repositori. Ubah di sini bila kebijakan layanan berubah.
+     */
+    protected function janjiLayanan(): array
+    {
+        return [
+            [
+                'judul' => 'Obat Asli & Terdaftar BPOM',
+                'isi' => 'Semua obat dibeli dari distributor resmi dan dicek masa simpannya sebelum dikirim.',
+                'ikon' => 'perisai',
+                'warna' => 'permukaan-mint',
+            ],
+            [
+                'judul' => 'Dikemas Apoteker',
+                'isi' => 'Setiap pesanan disiapkan dan diperiksa langsung oleh apoteker kami, bukan mesin.',
+                'ikon' => 'buku',
+                'warna' => 'permukaan-sky',
+            ],
+            [
+                'judul' => 'Konsultasi Gratis',
+                'isi' => 'Tanya dosis atau aturan pakai lewat WhatsApp tanpa biaya tambahan.',
+                'ikon' => 'chat',
+                'warna' => 'permukaan-peach',
+            ],
+            [
+                'judul' => 'Antar Cepat Sampai Rumah',
+                'isi' => 'Pesan sebelum sore, pesanan dikirim di hari yang sama untuk area terdekat.',
+                'ikon' => 'kirim',
+                'warna' => 'permukaan-honey',
+            ],
+        ];
     }
 
     public function promos(): JsonResponse
