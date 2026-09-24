@@ -70,7 +70,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         if (request()->user()?->isAdmin()) {
             return redirect()->route('admin.dashboard');
         }
-        return inertia('dashboard');
+
+        return redirect()->route('home');
     })->name('dashboard');
 
     // Wishlist Routes
