@@ -10,7 +10,7 @@ import {
     Search,
     ShieldAlert,
     ShoppingCart,
-    Slidertrack,
+    SlidersHorizontal,
     X,
 } from 'lucide-react';
 import React, { useState } from 'react';
@@ -337,11 +337,10 @@ export default function Catalog({
                                             {/* Wishlist Button */}
                                             <button
                                                 onClick={(e) => handleWishlistToggle(p.id, e)}
-                                                className={`absolute top-3 right-3 z-10 p-2 rounded-full backdrop-blur-md transition ${
-                                                    isWishlisted
+                                                className={`absolute top-3 right-3 z-10 p-2 rounded-full backdrop-blur-md transition ${isWishlisted
                                                         ? 'bg-rose-50 text-rose-500 shadow-sm'
                                                         : 'bg-white/80 text-slate-400 hover:text-rose-500'
-                                                }`}
+                                                    }`}
                                                 title={isWishlisted ? 'Hapus dari Wishlist' : 'Tambah ke Wishlist'}
                                             >
                                                 <Heart className={`w-4 h-4 ${isWishlisted ? 'fill-rose-500' : ''}`} />
@@ -394,11 +393,10 @@ export default function Catalog({
                                                 <button
                                                     onClick={(e) => handleAddToCart(p.id, e)}
                                                     disabled={p.stock <= 0}
-                                                    className={`p-2.5 rounded-full text-white shadow-sm transition flex items-center justify-center ${
-                                                        p.stock > 0
+                                                    className={`p-2.5 rounded-full text-white shadow-sm transition flex items-center justify-center ${p.stock > 0
                                                             ? 'bg-[#8CA9FF] hover:bg-blue-500'
                                                             : 'bg-slate-300 cursor-not-allowed'
-                                                    }`}
+                                                        }`}
                                                     title="Tambah ke Keranjang"
                                                 >
                                                     <ShoppingCart className="w-4 h-4" />
@@ -428,11 +426,10 @@ export default function Catalog({
                                             key={idx}
                                             href={link.url}
                                             preserveScroll
-                                            className={`px-3 py-2 rounded-xl text-xs font-bold transition border ${
-                                                link.active
+                                            className={`px-3 py-2 rounded-xl text-xs font-bold transition border ${link.active
                                                     ? 'bg-[#8CA9FF] text-white border-[#8CA9FF]'
                                                     : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
-                                            }`}
+                                                }`}
                                             dangerouslySetInnerHTML={{ __html: link.label }}
                                         />
                                     );
