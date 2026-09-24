@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Api\Concerns\PresentsResources;
 use App\Http\Controllers\Controller;
 use App\Models\BlogPost;
+use App\Models\ContactMessage;
 use App\Models\Faq;
 use App\Models\Product;
 use App\Models\Promo;
@@ -26,7 +27,8 @@ class ContentController extends Controller
         $keys = [
             'site_name', 'site_tagline', 'phone', 'whatsapp', 'email',
             'address', 'opening_hours', 'vision', 'mission',
-            'terms', 'privacy', 'logo',
+            'terms', 'privacy', 'logo', 'about', 'maps_embed_url',
+            'free_shipping_min',
         ];
 
         $out = [];
@@ -35,6 +37,159 @@ class ContentController extends Controller
         }
 
         return response()->json(['data' => $out]);
+    }
+
+    /**
+     * Halaman statis storefront (Tentang Kami, Syarat, Privasi).
+     *
+     * `terms` dan `privacy` disimpan sebagai teks biasa di tabel
+     * settings. Agar aplikasi pasien bisa menampilkannya rapi tanpa
+     * parser markdown di klien, teks dipecah di sini menjadi daftar
+     * paragraf/poin dan dikirim sebagai array `blocks`.
+     */
+    public function pages(): JsonResponse
+    {
+        return response()->json([
+            'data' => [
+                'about' => [
+                    'site_name' => Setting::get('site_name'),
+                    'site_tagline' => Setting::get('site_tagline'),
+                    'about' => Setting::get('about'),
+                    'vision' => Setting::get('vision'),
+                    'mission' => $this->pecahPoin(Setting::get('mission')),
+                ],
+                'terms' => [
+                    'title' => 'Syarat dan Ketentuan',
+                    'updated_at' => optional(Setting::where('key', 'terms')->first())->updated_at?->toIso8601String(),
+                    'blocks' => $this->pecahParagraf(Setting::get('terms')),
+                ],
+                'privacy' => [
+                    'title' => 'Kebijakan Privasi',
+                    'updated_at' => optional(Setting::where('key', 'privacy')->first())->updated_at?->toIso8601String(),
+                    'blocks' => $this->pecahParagraf(Setting::get('privacy')),
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * Informasi kontak apotek untuk halaman Kontak Kami.
+     */
+    public function contact(): JsonResponse
+    {
+        return response()->json([
+            'data' => [
+                'site_name' => Setting::get('site_name'),
+                'phone' => Setting::get('phone'),
+                'whatsapp' => Setting::get('whatsapp'),
+                'email' => Setting::get('email'),
+                'address' => Setting::get('address'),
+                'opening_hours' => Setting::get('opening_hours'),
+                'maps_embed_url' => Setting::get('maps_embed_url'),
+            ],
+        ]);
+    }
+
+    /**
+     * Form Kontak Kami. Pesan masuk ke kotak masuk CRM apotek
+     * (tabel contact_messages) dan bisa dibaca petugas di dashboard.
+     */
+    public function storeContact(Request $request): JsonResponse
+    {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:100'],
+            'email' => ['required', 'string', 'email', 'max:150'],
+            'phone' => ['nullable', 'string', 'max:20'],
+            'subject' => ['nullable', 'string', 'max:150'],
+            'message' => ['required', 'string', 'min:10', 'max:2000'],
+        ]);
+
+        ContactMessage::create($data);
+
+        return response()->json([
+            'message' => 'Pesan Anda sudah kami terima. Petugas apotek akan menghubungi Anda.',
+        ], 201);
+    }
+
+    /**
+     * Testimoni pelanggan yang sudah disetujui apotek.
+     */
+    public function testimonials(): JsonResponse
+    {
+        $items = Testimonial::approved()
+            ->latest()
+            ->get()
+            ->map(fn ($t) => [
+                'id' => $t->id,
+                'name' => $t->name,
+                'rating' => (int) $t->rating,
+                'content' => $t->content,
+                'photo' => $t->photo ? $this->fileUrl($t->photo) : null,
+                'created_at' => optional($t->created_at)->toIso8601String(),
+            ])
+            ->values()
+            ->all();
+
+        $rata = $items ? round(collect($items)->avg('rating'), 1) : 0;
+
+        return response()->json([
+            'data' => $items,
+            'meta' => [
+                'total' => count($items),
+                'average_rating' => $rata,
+                'rating_counts' => collect(range(5, 1))->mapWithKeys(fn ($r) => [
+                    $r => collect($items)->where('rating', $r)->count(),
+                ])->all(),
+            ],
+        ]);
+    }
+
+    /**
+     * Pecah teks setting menjadi paragraf. Baris yang berupa nomor
+     * ("1. ...") atau diawali "- " dianggap poin daftar.
+     */
+    protected function pecahParagraf(?string $teks): array
+    {
+        if (! $teks) {
+            return [];
+        }
+
+        $baris = preg_split('/\r\n|\r|\n/', trim($teks));
+        $blok = [];
+        $paragraf = [];
+
+        foreach ($baris as $b) {
+            $b = trim($b);
+            if ($b === '') {
+                if ($paragraf) {
+                    $blok[] = ['type' => 'p', 'text' => implode(' ', $paragraf)];
+                    $paragraf = [];
+                }
+                continue;
+            }
+            $paragraf[] = $b;
+        }
+        if ($paragraf) {
+            $blok[] = ['type' => 'p', 'text' => implode(' ', $paragraf)];
+        }
+
+        return $blok;
+    }
+
+    /**
+     * Pecah teks misi menjadi daftar poin bernomor.
+     */
+    protected function pecahPoin(?string $teks): array
+    {
+        if (! $teks) {
+            return [];
+        }
+
+        return collect(preg_split('/\r\n|\r|\n/', trim($teks)))
+            ->map(fn ($b) => preg_replace('/^\s*\d+[\.\)]\s*/', '', trim($b)))
+            ->filter()
+            ->values()
+            ->all();
     }
 
     public function home(): JsonResponse

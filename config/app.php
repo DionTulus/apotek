@@ -56,6 +56,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | URL Aplikasi Pasien
+    |--------------------------------------------------------------------------
+    |
+    | Dipakai saat mengembalikan pengguna dari OAuth (login Google) ke
+    | aplikasi pasien (SPA) yang berjalan terpisah dari server ini.
+    |
+    */
+
+    'frontend_url' => env('FRONTEND_URL', 'http://localhost:5174'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |

@@ -87,7 +87,7 @@ class AddressController extends Controller
     {
         $rule = $required ? 'required' : 'sometimes';
 
-        return $request->validate([
+        $data = $request->validate([
             'label' => ['nullable', 'string', 'max:50'],
             'recipient_name' => [$rule, 'string', 'max:100'],
             'phone' => [$rule, 'string', 'max:20'],
@@ -98,5 +98,15 @@ class AddressController extends Controller
             'address_line' => [$rule, 'string', 'max:500'],
             'is_default' => ['nullable', 'boolean'],
         ]);
+
+        // Kolom teks di tabel addresses NOT NULL tanpa nilai bawaan, jadi
+        // nilai yang dikosongkan klien harus menjadi '' bukan null.
+        foreach (['label', 'province', 'city', 'district', 'postal_code'] as $kolom) {
+            if (array_key_exists($kolom, $data) && $data[$kolom] === null) {
+                $data[$kolom] = '';
+            }
+        }
+
+        return $data;
     }
 }

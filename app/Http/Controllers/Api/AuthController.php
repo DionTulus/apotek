@@ -7,9 +7,12 @@ use App\Http\Controllers\Api\Concerns\PresentsResources;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Laravel\Socialite\Facades\Socialite;
 
 /**
  * Autentikasi API berbasis token (Laravel Sanctum).
@@ -52,21 +55,35 @@ class AuthController extends Controller
     public function login(Request $request): JsonResponse
     {
         $data = $request->validate([
-            'email' => ['required', 'string', 'email'],
+            // `identifier` menerima email ATAU nomor HP supaya aplikasi
+            // pasien bisa memakai satu kolom sederhana. `email` tetap
+            // didukung agar klien lama tidak rusak.
+            'identifier' => ['nullable', 'string'],
+            'email' => ['nullable', 'string'],
             'password' => ['required', 'string'],
         ]);
 
-        $user = User::where('email', $data['email'])->first();
+        $identifier = $data['identifier'] ?? $data['email'] ?? null;
+
+        if (! $identifier) {
+            throw ValidationException::withMessages([
+                'identifier' => ['Email atau nomor HP wajib diisi.'],
+            ]);
+        }
+
+        $user = User::where('email', $identifier)
+            ->orWhere('phone', $identifier)
+            ->first();
 
         if (! $user || ! Hash::check($data['password'], $user->password)) {
             throw ValidationException::withMessages([
-                'email' => ['Email atau kata sandi tidak cocok.'],
+                'identifier' => ['Email/nomor HP atau kata sandi tidak cocok.'],
             ]);
         }
 
         if (! $user->isCustomer()) {
             throw ValidationException::withMessages([
-                'email' => ['Akun ini bukan akun pelanggan. Gunakan dashboard admin.'],
+                'identifier' => ['Akun ini bukan akun pelanggan. Gunakan dashboard admin.'],
             ]);
         }
 
@@ -133,5 +150,100 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
 
         return response()->json(['message' => 'Berhasil keluar.']);
+    }
+
+    // ==========================================================
+    // Login dengan Google (OAuth) untuk aplikasi pasien (SPA).
+    //
+    // Alur: aplikasi pasien membuka /auth/google/redirect, menerima
+    // URL Google, lalu mengarahkan pengguna ke sana. Setelah pengguna
+    // menyetujui, Google memanggil /auth/google/callback; di sini
+    // token Sanctum dibuat dan pengguna dikirim kembali ke aplikasi
+    // pasien lewat query string. Dengan begitu aplikasi pasien tidak
+    // perlu menyimpan client secret apa pun.
+    //
+    // Bila kredensial Google belum diisi di .env, endpoint tetap
+    // membalas rapi (configured=false) supaya tombol di aplikasi bisa
+    // menampilkan pesan yang jelas, bukan gagal diam-diam.
+    // ==========================================================
+    public function googleRedirect(Request $request): JsonResponse
+    {
+        if (empty(config('services.google.client_id'))) {
+            return response()->json([
+                'configured' => false,
+                'message' => 'Login dengan Google belum diaktifkan oleh apotek.',
+            ], 503);
+        }
+
+        $tujuan = $request->query('redirect', '/');
+        $url = Socialite::driver('google')
+            ->stateless()
+            ->with(['state' => $tujuan])
+            ->redirect()
+            ->getTargetUrl();
+
+        return response()->json(['configured' => true, 'url' => $url]);
+    }
+
+    public function googleCallback(Request $request): RedirectResponse
+    {
+        if (empty(config('services.google.client_id'))) {
+            return $this->kembaliKeAplikasi('/', null, 'Login dengan Google belum diaktifkan oleh apotek.');
+        }
+
+        try {
+            $googleUser = Socialite::driver('google')->stateless()->user();
+        } catch (\Throwable $e) {
+            return $this->kembaliKeAplikasi($request->query('state', '/'), null, 'Gagal masuk dengan Google. Silakan coba lagi.');
+        }
+
+        $user = User::where('google_id', $googleUser->getId())
+            ->orWhere('email', $googleUser->getEmail())
+            ->first();
+
+        if (! $user) {
+            $user = User::create([
+                'name' => $googleUser->getName() ?? $googleUser->getNickname() ?? 'Pengguna Google',
+                'email' => $googleUser->getEmail(),
+                'password' => Hash::make(Str::random(40)),
+                'google_id' => $googleUser->getId(),
+                'avatar' => $googleUser->getAvatar(),
+                'role' => Role::CUSTOMER,
+                'email_verified_at' => now(),
+            ]);
+        } elseif (! $user->google_id) {
+            $user->update(['google_id' => $googleUser->getId()]);
+        }
+
+        if (! $user->isCustomer()) {
+            return $this->kembaliKeAplikasi('/', null, 'Akun ini bukan akun pelanggan.');
+        }
+
+        $user->forceFill(['last_login_at' => now()])->save();
+
+        return $this->kembaliKeAplikasi(
+            $request->query('state', '/'),
+            $user->createToken('pasien-app')->plainTextToken,
+        );
+    }
+
+    /**
+     * Kembalikan pengguna ke aplikasi pasien setelah OAuth selesai.
+     *
+     * Halaman tujuan menerima `google_token` di query string lalu
+     * menyimpannya sendiri. Token TIDAK ditaruh di path supaya tidak
+     * ikut tercatat di log akses server.
+     */
+    protected function kembaliKeAplikasi(string $tujuan, ?string $token, ?string $galat = null): RedirectResponse
+    {
+        $dasar = rtrim(config('app.frontend_url', config('app.url')), '/');
+        $tujuan = '/'.ltrim($tujuan ?: '/', '/');
+
+        $query = array_filter([
+            'google_token' => $token,
+            'google_error' => $galat,
+        ]);
+
+        return redirect()->away($dasar.$tujuan.'?'.http_build_query($query));
     }
 }

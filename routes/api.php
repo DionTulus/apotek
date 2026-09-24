@@ -25,6 +25,10 @@ use Illuminate\Support\Facades\Route;
 // --- Publik: katalog & konten ---
 Route::get('/home', [ContentController::class, 'home']);
 Route::get('/settings', [ContentController::class, 'settings']);
+Route::get('/pages', [ContentController::class, 'pages']);
+Route::get('/contact', [ContentController::class, 'contact']);
+Route::post('/contact', [ContentController::class, 'storeContact']);
+Route::get('/testimonials', [ContentController::class, 'testimonials']);
 Route::get('/promos', [ContentController::class, 'promos']);
 Route::post('/promos/validate', [ContentController::class, 'validatePromo']);
 Route::get('/faqs', [ContentController::class, 'faqs']);
@@ -42,6 +46,8 @@ Route::post('/shipping/calculate', [ShippingController::class, 'calculate']);
 // --- Auth ---
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
+Route::get('/auth/google/redirect', [AuthController::class, 'googleRedirect']);
+Route::get('/auth/google/callback', [AuthController::class, 'googleCallback']);
 
 // --- Butuh login (Sanctum token) ---
 Route::middleware('auth:sanctum')->group(function () {
