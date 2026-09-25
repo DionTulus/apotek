@@ -13,7 +13,7 @@ import {
     SlidersHorizontal,
     X,
 } from 'lucide-react';
-import React, { useState } from 'react';
+import { useState, type MouseEvent } from 'react';
 
 interface ProductItem {
     id: number;
@@ -70,21 +70,37 @@ export default function Catalog({
     categories = [],
     drugClasses = [],
     userWishlistProductIds = [],
-    filters = {},
+    filters,
 }: CatalogProps) {
+    const safeProducts = products ?? {
+        data: [],
+        current_page: 1,
+        last_page: 1,
+        total: 0,
+        per_page: 12,
+        links: [],
+    };
+    const safeCategories = categories ?? [];
+    const safeDrugClasses = drugClasses ?? [];
+    const safeWishlistProductIds = userWishlistProductIds ?? [];
+    const safeFilters = filters ?? {};
+
     const { auth } = usePage<{ auth?: { user?: unknown } }>().props;
     const user = auth?.user;
 
-    const [q, setQ] = useState(filters.q || '');
-    const [selectedCategory, setSelectedCategory] = useState(filters.category || '');
-    const [selectedDrugClass, setSelectedDrugClass] = useState(filters.drug_class || '');
+    const [q, setQ] = useState(safeFilters.q || '');
+    const [selectedCategory, setSelectedCategory] = useState(safeFilters.category || '');
+    const [selectedDrugClass, setSelectedDrugClass] = useState(safeFilters.drug_class || '');
     const [requiresPrescription, setRequiresPrescription] = useState(
-        filters.requires_prescription === true || filters.requires_prescription === 'true'
+        safeFilters.requires_prescription === true || safeFilters.requires_prescription === 'true'
     );
-    const [minPrice, setMinPrice] = useState(filters.min_price || '');
-    const [maxPrice, setMaxPrice] = useState(filters.max_price || '');
-    const [sort, setSort] = useState(filters.sort || 'latest');
+    const [minPrice, setMinPrice] = useState(safeFilters.min_price || '');
+    const [maxPrice, setMaxPrice] = useState(safeFilters.max_price || '');
+    const [sortBy, setSortBy] = useState(safeFilters.sort || 'latest');
     const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+
+    const productList = Array.isArray(safeProducts.data) ? safeProducts.data : [];
+    const paginationLinks = Array.isArray(safeProducts.links) ? safeProducts.links : [];
 
     const formatRp = (num: number) => `Rp ${num.toLocaleString('id-ID')}`;
 
@@ -96,7 +112,7 @@ export default function Catalog({
             requires_prescription: requiresPrescription ? 'true' : undefined,
             min_price: minPrice || undefined,
             max_price: maxPrice || undefined,
-            sort: sort || 'latest',
+            sort: sortBy || 'latest',
             ...newParams,
         };
 
@@ -110,11 +126,11 @@ export default function Catalog({
         setRequiresPrescription(false);
         setMinPrice('');
         setMaxPrice('');
-        setSort('latest');
+        setSortBy('latest');
         router.get('/produk', {}, { preserveState: true });
     };
 
-    const handleWishlistToggle = (productId: number, e: React.MouseEvent) => {
+    const handleWishlistToggle = (productId: number, e: MouseEvent) => {
         e.preventDefault();
         if (!user) {
             router.get('/login');
@@ -123,7 +139,7 @@ export default function Catalog({
         router.post(`/wishlist/${productId}`, {}, { preserveScroll: true });
     };
 
-    const handleAddToCart = (productId: number, e: React.MouseEvent) => {
+    const handleAddToCart = (productId: number, e: MouseEvent) => {
         e.preventDefault();
         if (!user) {
             router.get('/login');
@@ -196,7 +212,7 @@ export default function Catalog({
                                     className="w-full p-2 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#8CA9FF]"
                                 >
                                     <option value="">Semua Kategori</option>
-                                    {categories.map((c) => (
+                                    {safeCategories.map((c) => (
                                         <option key={c.id} value={c.slug}>
                                             {c.name}
                                         </option>
@@ -216,7 +232,7 @@ export default function Catalog({
                                     className="w-full p-2 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#8CA9FF]"
                                 >
                                     <option value="">Semua Golongan</option>
-                                    {drugClasses.map((dc) => (
+                                    {safeDrugClasses.map((dc) => (
                                         <option key={dc.value} value={dc.value}>
                                             {dc.label}
                                         </option>
@@ -283,7 +299,7 @@ export default function Catalog({
                                     <Filter className="w-4 h-4 text-[#8CA9FF]" /> Filter
                                 </button>
                                 <span className="text-xs text-slate-500">
-                                    Menampilkan <strong className="text-slate-900">{products.total}</strong> produk
+                                    Menampilkan <strong className="text-slate-900">{safeProducts.total ?? 0}</strong> produk
                                 </span>
                             </div>
 
@@ -291,9 +307,9 @@ export default function Catalog({
                             <div className="flex items-center gap-2">
                                 <label className="text-xs font-semibold text-slate-500 hidden sm:inline">Urutkan:</label>
                                 <select
-                                    value={sort}
+                                    value={sortBy}
                                     onChange={(e) => {
-                                        setSort(e.target.value);
+                                        setSortBy(e.target.value);
                                         applyFilters({ sort: e.target.value });
                                     }}
                                     className="p-2 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white font-medium focus:outline-none focus:ring-2 focus:ring-[#8CA9FF]"
@@ -308,7 +324,7 @@ export default function Catalog({
                         </div>
 
                         {/* Product Grid */}
-                        {products.data.length === 0 ? (
+                        {productList.length === 0 ? (
                             <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center space-y-4">
                                 <div className="w-16 h-16 rounded-full bg-blue-50 text-[#8CA9FF] flex items-center justify-center mx-auto">
                                     <Pill className="w-8 h-8" />
@@ -326,8 +342,8 @@ export default function Catalog({
                             </div>
                         ) : (
                             <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-5">
-                                {products.data.map((p) => {
-                                    const isWishlisted = userWishlistProductIds.includes(p.id);
+                                {productList.map((p) => {
+                                    const isWishlisted = safeWishlistProductIds.includes(p.id);
 
                                     return (
                                         <div
@@ -409,9 +425,9 @@ export default function Catalog({
                         )}
 
                         {/* Pagination Links */}
-                        {products.links.length > 3 && (
+                        {paginationLinks.length > 3 && (
                             <div className="pt-6 flex justify-center items-center gap-1">
-                                {products.links.map((link, idx) => {
+                                {paginationLinks.map((link, idx) => {
                                     if (!link.url) {
                                         return (
                                             <span
@@ -472,7 +488,7 @@ export default function Catalog({
                                 className="w-full p-2 text-xs rounded-xl border border-slate-200 bg-slate-50"
                             >
                                 <option value="">Semua Kategori</option>
-                                {categories.map((c) => (
+                                {safeCategories.map((c) => (
                                     <option key={c.id} value={c.slug}>
                                         {c.name}
                                     </option>
@@ -489,7 +505,7 @@ export default function Catalog({
                                 className="w-full p-2 text-xs rounded-xl border border-slate-200 bg-slate-50"
                             >
                                 <option value="">Semua Golongan</option>
-                                {drugClasses.map((dc) => (
+                                {safeDrugClasses.map((dc) => (
                                     <option key={dc.value} value={dc.value}>
                                         {dc.label}
                                     </option>
