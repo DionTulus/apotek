@@ -99,7 +99,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
                         </div>
                         <div>
                             <span className="text-xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-blue-900 to-[#8CA9FF]">
-                                {settings.site_name || 'Apotek ERP'}
+                                {settings.site_name || 'Klinik Premisys Medika'}
                             </span>
                             <span className="block text-[10px] text-slate-500 font-medium -mt-1">
                                 Solusi Kesehatan Terpercaya

@@ -11,11 +11,11 @@ interface AboutProps {
 export default function About({ vision, mission, about }: AboutProps) {
     return (
         <StoreLayout>
-            <Head title="Tentang Kami - Apotek Sehat Sentosa" />
+            <Head title="Tentang Kami - Klinik Premisys Medika" />
 
             {/* Header Banner */}
             <div className="bg-gradient-to-r from-slate-900 to-blue-950 text-white py-12 px-4 sm:px-6 lg:px-8 text-center">
-                <h1 className="text-3xl font-black">Tentang Apotek Sehat Sentosa</h1>
+                <h1 className="text-3xl font-black">Tentang Klinik Premisys Medika</h1>
                 <p className="text-xs sm:text-sm text-slate-300 mt-2 max-w-xl mx-auto">
                     Melayani kebutuhan kesehatan keluarga Indonesia dengan obat legal, berkualitas, dan profesional sejak 2020.
                 </p>
@@ -25,11 +25,11 @@ export default function About({ vision, mission, about }: AboutProps) {
                 {/* Profile Overview */}
                 <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm space-y-4">
                     <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                        <Award className="w-6 h-6 text-[#8CA9FF]" /> Profil Apotek
+                        <Award className="w-6 h-6 text-[#8CA9FF]" /> Profil Klinik
                     </h2>
                     <p className="text-xs sm:text-sm text-slate-700 leading-relaxed whitespace-pre-line">
                         {about ||
-                            'Apotek Sehat Sentosa berdiri sejak tahun 2020 di Kota Bandung. Kami berkomitmen menyediakan layanan kefarmasian modern terintegrasi yang memudahkan masyarakat membeli obat-obatan legal, suplemen kesehatan, dan alat medis secara online maupun langsung.'}
+                            'Klinik Premisys Medika berdiri sejak tahun 2020 di Kota Bandung. Kami berkomitmen menyediakan layanan kesehatan modern terintegrasi yang memudahkan masyarakat mendapatkan obat-obatan legal, suplemen kesehatan, dan alat medis secara online maupun langsung.'}
                     </p>
                 </div>
 

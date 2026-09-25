@@ -219,13 +219,11 @@ class PaymentService
                 $payload
             );
         } catch (Exception $e) {
-            // Mock settlement for sandbox testing fallback if API fails
-            return $this->updatePaymentState(
-                $payment->midtrans_order_id,
-                'settlement',
-                'accept',
-                ['mock' => true]
-            );
+            // Do not auto-mark payment as settled when Midtrans status check fails.
+            // Keep current state unchanged so unpaid orders remain unpaid until a real callback or successful status response comes in.
+            report($e);
+
+            return false;
         }
     }
 

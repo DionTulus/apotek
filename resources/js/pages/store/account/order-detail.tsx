@@ -72,10 +72,20 @@ interface OrderDetailProps {
 }
 
 export default function OrderDetail({ order }: OrderDetailProps) {
+    const safeOrder = {
+        ...order,
+        items: Array.isArray(order.items) ? order.items : [],
+        statusHistories: Array.isArray(order.statusHistories) ? order.statusHistories : [],
+        returns: Array.isArray(order.returns) ? order.returns : [],
+        shippingMethod: order.shippingMethod ?? undefined,
+        shipment: order.shipment ?? undefined,
+        prescription: order.prescription ?? undefined,
+    };
+
     const formatRp = (num: number) => `Rp ${num.toLocaleString('id-ID')}`;
 
     const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
-    const [selectedItemId, setSelectedItemId] = useState<number>(order.items[0]?.id || 0);
+    const [selectedItemId, setSelectedItemId] = useState<number>(safeOrder.items[0]?.id ?? 0);
 
     const { data, setData, post, processing, errors, reset } = useForm({
         order_item_id: selectedItemId,
@@ -87,13 +97,13 @@ export default function OrderDetail({ order }: OrderDetailProps) {
 
     const handleCancelOrder = () => {
         if (confirm('Apakah Anda yakin ingin membatalkan pesanan ini?')) {
-            router.post(`/akun/pesanan/${order.order_number}/batal`);
+            router.post(`/akun/pesanan/${safeOrder.order_number}/batal`);
         }
     };
 
     const handleReturnSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post(`/akun/pesanan/${order.order_number}/retur`, {
+        post(`/akun/pesanan/${safeOrder.order_number}/retur`, {
             onSuccess: () => {
                 setIsReturnModalOpen(false);
                 reset();
@@ -101,12 +111,12 @@ export default function OrderDetail({ order }: OrderDetailProps) {
         });
     };
 
-    const canCancel = order.status === 'pending_payment';
-    const canReturn = ['shipped', 'delivered', 'completed'].includes(order.status);
+    const canCancel = safeOrder.status === 'pending_payment';
+    const canReturn = ['shipped', 'delivered', 'completed'].includes(safeOrder.status);
 
     return (
         <StoreLayout>
-            <Head title={`Detail Order #${order.order_number}`} />
+            <Head title={`Detail Order #${safeOrder.order_number}`} />
 
             {/* Header */}
             <div className="bg-slate-900 text-white py-10 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
@@ -119,7 +129,7 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                             <ArrowLeft className="w-3.5 h-3.5" /> Kembali ke Riwayat Pesanan
                         </Link>
                         <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
-                            Detail Order <span className="font-mono text-[#8CA9FF]">#{order.order_number}</span>
+                            Detail Order <span className="font-mono text-[#8CA9FF]">#{safeOrder.order_number}</span>
                         </h1>
                     </div>
 
@@ -134,7 +144,7 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                         )}
                         {canCancel && (
                             <Link
-                                href={`/pembayaran/${order.order_number}`}
+                                href={`/pembayaran/${safeOrder.order_number}`}
                                 className="px-4 py-2 rounded-xl bg-[#8CA9FF] hover:bg-blue-500 text-white text-xs font-extrabold shadow transition"
                             >
                                 Bayar Sekarang
@@ -163,7 +173,7 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                             </h3>
 
                             <div className="relative pl-6 border-l-2 border-slate-200 space-y-6 my-4">
-                                {order.statusHistories.map((sh, idx) => (
+                                {safeOrder.statusHistories.map((sh) => (
                                     <div key={sh.id} className="relative">
                                         <div className="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-[#8CA9FF] border-2 border-white shadow" />
                                         <div>
@@ -185,13 +195,13 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                         </div>
 
                         {/* Order Returns List if exists */}
-                        {order.returns.length > 0 && (
+                        {safeOrder.returns.length > 0 && (
                             <div className="bg-amber-50 rounded-3xl border border-amber-200 p-6 space-y-4">
                                 <h3 className="font-extrabold text-sm text-amber-900 flex items-center gap-2">
                                     <RotateCcw className="w-4 h-4 text-amber-600" /> Riwayat Pengajuan Retur
                                 </h3>
                                 <div className="space-y-3">
-                                    {order.returns.map((ret) => (
+                                    {safeOrder.returns.map((ret) => (
                                         <div
                                             key={ret.id}
                                             className="p-3.5 bg-white rounded-2xl border border-amber-100 text-xs flex items-center justify-between"
@@ -218,7 +228,7 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                             </h3>
 
                             <div className="divide-y divide-slate-100">
-                                {order.items.map((item) => (
+                                {safeOrder.items.map((item) => (
                                     <div key={item.id} className="py-3 flex justify-between items-center text-xs">
                                         <div className="flex items-center gap-3">
                                             <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
@@ -246,18 +256,18 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                             </h3>
 
                             <div className="text-xs space-y-2 text-slate-600">
-                                <p className="font-bold text-slate-900">{order.recipient_name}</p>
-                                <p className="font-semibold">{order.recipient_phone}</p>
-                                <p className="leading-relaxed text-slate-500">{order.shipping_address}</p>
-                                {order.shippingMethod && (
+                                <p className="font-bold text-slate-900">{safeOrder.recipient_name}</p>
+                                <p className="font-semibold">{safeOrder.recipient_phone}</p>
+                                <p className="leading-relaxed text-slate-500">{safeOrder.shipping_address}</p>
+                                {safeOrder.shippingMethod && (
                                     <p className="pt-2 text-[11px] text-[#8CA9FF] font-bold">
-                                        Kurir: {order.shippingMethod.name} ({order.shippingMethod.est_days})
+                                        Kurir: {safeOrder.shippingMethod.name} ({safeOrder.shippingMethod.est_days})
                                     </p>
                                 )}
-                                {order.shipment?.tracking_number && (
+                                {safeOrder.shipment?.tracking_number && (
                                     <div className="p-3 rounded-xl bg-blue-50 border border-blue-100 text-blue-900 mt-2">
                                         <span className="text-[10px] text-slate-400 block">No. Resi Pengiriman</span>
-                                        <span className="font-mono font-bold text-sm">{order.shipment.tracking_number}</span>
+                                        <span className="font-mono font-bold text-sm">{safeOrder.shipment.tracking_number}</span>
                                     </div>
                                 )}
                             </div>
@@ -265,21 +275,21 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                             <div className="pt-4 border-t border-slate-100 space-y-2.5 text-xs">
                                 <div className="flex justify-between text-slate-600">
                                     <span>Subtotal Produk:</span>
-                                    <span className="font-bold text-slate-900">{formatRp(order.subtotal)}</span>
+                                    <span className="font-bold text-slate-900">{formatRp(safeOrder.subtotal)}</span>
                                 </div>
                                 <div className="flex justify-between text-slate-600">
                                     <span>Ongkos Kirim:</span>
-                                    <span className="font-bold text-slate-900">{formatRp(order.shipping_cost)}</span>
+                                    <span className="font-bold text-slate-900">{formatRp(safeOrder.shipping_cost)}</span>
                                 </div>
-                                {order.discount_total > 0 && (
+                                {safeOrder.discount_total > 0 && (
                                     <div className="flex justify-between text-emerald-600 font-bold">
                                         <span>Diskon Promo:</span>
-                                        <span>-{formatRp(order.discount_total)}</span>
+                                        <span>-{formatRp(safeOrder.discount_total)}</span>
                                     </div>
                                 )}
                                 <div className="pt-3 border-t border-slate-100 flex justify-between items-center text-sm font-black text-slate-900">
                                     <span>Total Bayar:</span>
-                                    <span className="text-xl text-[#8CA9FF]">{formatRp(order.grand_total)}</span>
+                                    <span className="text-xl text-[#8CA9FF]">{formatRp(safeOrder.grand_total)}</span>
                                 </div>
                             </div>
                         </div>
@@ -312,7 +322,7 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                                     }}
                                     className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50"
                                 >
-                                    {order.items.map((it) => (
+                                    {safeOrder.items.map((it) => (
                                         <option key={it.id} value={it.id}>
                                             {it.product_name} ({it.qty} item)
                                         </option>
