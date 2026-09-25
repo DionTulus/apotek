@@ -36,12 +36,12 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
 
     return (
         <StoreLayout>
-            <Head title="Testimoni Pelanggan - Apotek Sehat Sentosa" />
+            <Head title="Testimoni Pelanggan - Klinik Premisys Medika" />
 
-            <div className="bg-gradient-to-r from-slate-900 to-blue-950 text-white py-12 px-4 text-center">
-                <h1 className="text-3xl font-black">Testimoni & Ulasan Pelanggan</h1>
+            <div className="bg-gradient-to-r from-slate-900 to-blue-950 text-white py-12 px-4 sm:px-6 lg:px-8 text-center">
+                <h1 className="text-3xl font-black">Testimoni Pelanggan</h1>
                 <p className="text-xs sm:text-sm text-slate-300 mt-2">
-                    Pengalaman nyata pelanggan dalam berbelanja obat & suplemen di Apotek ERP
+                    Pengalaman nyata pelanggan dalam berbelanja obat & suplemen di Klinik Premisys Medika
                 </p>
             </div>
 

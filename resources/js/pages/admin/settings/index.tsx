@@ -244,7 +244,7 @@ export default function SettingsIndex({ settings }: Props) {
                                     type="text"
                                     value={form.data.bank_bca}
                                     onChange={(e) => form.setData('bank_bca', e.target.value)}
-                                    placeholder="Contoh: 123-456-7890 a/n PT Apotek ERP Sehat"
+                                    placeholder="Contoh: 123-456-7890 a/n PT Klinik Premisys Medika"
                                     className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF] font-mono"
                                 />
                             </div>
@@ -255,7 +255,7 @@ export default function SettingsIndex({ settings }: Props) {
                                     type="text"
                                     value={form.data.bank_mandiri}
                                     onChange={(e) => form.setData('bank_mandiri', e.target.value)}
-                                    placeholder="Contoh: 987-654-3210 a/n PT Apotek ERP Sehat"
+                                    placeholder="Contoh: 987-654-3210 a/n PT Klinik Premisys Medika"
                                     className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF] font-mono"
                                 />
                             </div>

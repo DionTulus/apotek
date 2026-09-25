@@ -19,7 +19,7 @@ interface BlogShowProps {
 export default function BlogShow({ post, relatedPosts = [] }: BlogShowProps) {
     return (
         <StoreLayout>
-            <Head title={`${post.title} - Apotek Sehat Sentosa`} />
+            <Head title={`${post.title} - Klinik Premisys Medika`} />
 
             <div className="bg-slate-900 text-white py-12 px-4">
                 <div className="max-w-4xl mx-auto space-y-4">

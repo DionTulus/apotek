@@ -28,10 +28,10 @@ export default function Contact({ phone, whatsapp, email, address, mapsEmbedUrl 
 
     return (
         <StoreLayout>
-            <Head title="Kontak Kami - Apotek Sehat Sentosa" />
+            <Head title="Kontak Kami - Klinik Premisys Medika" />
 
             <div className="bg-gradient-to-r from-slate-900 to-blue-950 text-white py-12 px-4 text-center">
-                <h1 className="text-3xl font-black">Hubungi Apotek Kami</h1>
+                <h1 className="text-3xl font-black">Hubungi Klinik Premisys Medika</h1>
                 <p className="text-xs sm:text-sm text-slate-300 mt-2">
                     Punya pertanyaan seputar stok obat, resep, atau pengiriman? Tim kami siap membantu.
                 </p>
@@ -74,7 +74,7 @@ export default function Contact({ phone, whatsapp, email, address, mapsEmbedUrl 
                             <div>
                                 <h3 className="text-xs font-bold text-slate-400 uppercase">Email Layanan</h3>
                                 <p className="text-xs font-bold text-slate-800 mt-0.5">
-                                    {email || 'info@apoteksehatsentosa.test'}
+                                    {email || 'info@klinikpremisysmedika.test'}
                                 </p>
                             </div>
                         </div>
@@ -94,10 +94,10 @@ export default function Contact({ phone, whatsapp, email, address, mapsEmbedUrl 
 
                     {/* Google Maps Embed */}
                     <div className="bg-white rounded-3xl p-4 border border-slate-200 overflow-hidden shadow-sm">
-                        <h3 className="text-xs font-bold text-slate-700 mb-3 px-2">Peta Lokasi Apotek</h3>
+                        <h3 className="text-xs font-bold text-slate-700 mb-3 px-2">Peta Lokasi Klinik Premisys Medika</h3>
                         <div className="w-full h-64 rounded-2xl overflow-hidden bg-slate-100">
                             <iframe
-                                title="Peta Lokasi Apotek Sehat Sentosa"
+                                title="Peta Lokasi Klinik Premisys Medika"
                                 src={
                                     mapsEmbedUrl ||
                                     'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.835848243!2d107.60981!3d-6.914744!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNTQnNTMuMSJTIDEwN8KwMzYnMzUuMyJF!5e0!3m2!1sid!2sid!4v1600000000000'

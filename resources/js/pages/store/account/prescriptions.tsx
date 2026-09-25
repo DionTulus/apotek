@@ -40,7 +40,7 @@ export default function MyPrescriptions({ prescriptions }: PrescriptionsProps) {
 
     return (
         <StoreLayout>
-            <Head title="Resep Saya - Apotek ERP" />
+            <Head title="Resep Saya - Klinik Premisys Medika" />
 
             <div className="bg-slate-900 text-white py-10 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
                 <div className="max-w-7xl mx-auto flex items-center gap-3">

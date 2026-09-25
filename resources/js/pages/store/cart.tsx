@@ -50,7 +50,7 @@ export default function Cart({ cartItems = [], subtotal = 0 }: CartProps) {
 
     return (
         <StoreLayout>
-            <Head title="Keranjang Belanja - Apotek ERP" />
+            <Head title="Keranjang Belanja - Klinik Premisys Medika" />
 
             {/* Header */}
             <div className="bg-slate-900 text-white py-10 px-4 sm:px-6 lg:px-8 border-b border-slate-800">

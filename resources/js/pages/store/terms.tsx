@@ -9,11 +9,11 @@ interface TermsProps {
 export default function Terms({ terms }: TermsProps) {
     return (
         <StoreLayout>
-            <Head title="Syarat & Ketentuan - Apotek Sehat Sentosa" />
+            <Head title="Syarat & Ketentuan - Klinik Premisys Medika" />
 
-            <div className="bg-gradient-to-r from-slate-900 to-blue-950 text-white py-12 px-4 text-center">
-                <h1 className="text-3xl font-black">Syarat & Ketentuan</h1>
-                <p className="text-xs sm:text-sm text-slate-300 mt-2">Ketentuan penggunaan layanan dan transaksi di Apotek ERP</p>
+            <div className="bg-gradient-to-r from-slate-900 to-blue-950 text-white py-12 px-4 sm:px-6 lg:px-8 text-center">
+                <h1 className="text-3xl font-black">Syarat & Ketentuan Layanan</h1>
+                <p className="text-xs sm:text-sm text-slate-300 mt-2">Ketentuan penggunaan layanan dan transaksi di Klinik Premisys Medika</p>
             </div>
 
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

@@ -25,7 +25,7 @@ export default function FaqPage({ faqs = [] }: FaqProps) {
 
     return (
         <StoreLayout>
-            <Head title="Pertanyaan Sering Diajukan (FAQ) - Apotek Sehat Sentosa" />
+            <Head title="Pertanyaan Sering Diajukan (FAQ) - Klinik Premisys Medika" />
 
             <div className="bg-gradient-to-r from-slate-900 to-blue-950 text-white py-12 px-4 text-center">
                 <h1 className="text-3xl font-black">Pertanyaan Sering Diajukan (FAQ)</h1>

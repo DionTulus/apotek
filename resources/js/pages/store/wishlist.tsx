@@ -44,7 +44,7 @@ export default function Wishlist({ wishlistItems }: WishlistProps) {
 
     return (
         <StoreLayout>
-            <Head title="Wishlist Saya - Apotek ERP" />
+            <Head title="Wishlist Saya - Klinik Premisys Medika" />
 
             <div className="bg-slate-900 text-white py-10 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
                 <div className="max-w-7xl mx-auto flex items-center gap-3">

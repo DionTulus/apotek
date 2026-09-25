@@ -68,7 +68,7 @@ export default function Tracking({
 
     return (
         <StoreLayout>
-            <Head title="Lacak Pesanan Kamu - Apotek ERP" />
+            <Head title="Lacak Pesanan Kamu - Klinik Premisys Medika" />
 
             {/* Header Banner */}
             <div className="bg-slate-900 text-white py-12 px-4 sm:px-6 lg:px-8 border-b border-slate-800">

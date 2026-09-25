@@ -73,7 +73,7 @@ export default function Home({
 
     return (
         <StoreLayout>
-            <Head title="Beranda - Apotek ERP Sehat Sentosa" />
+            <Head title="Beranda - Klinik Premisys Medika" />
 
             {/* Hero Section */}
             <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white py-16 lg:py-24">
@@ -131,7 +131,7 @@ export default function Home({
                                     <Pill className="w-7 h-7" />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-white text-base">Apotek Sehat Sentosa</h3>
+                                    <h3 className="font-bold text-white text-base">Klinik Premisys Medika</h3>
                                     <p className="text-xs text-slate-300">Siap Melayani 24/7</p>
                                 </div>
                             </div>
@@ -314,7 +314,7 @@ export default function Home({
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="text-center max-w-xl mx-auto mb-10">
                             <h2 className="text-2xl font-black text-slate-900">Apa Kata Pelanggan Kami?</h2>
-                            <p className="text-xs text-slate-500 mt-1">Ulasan jujur dari pembeli yang mempercayakan kebutuhan obatnya di Apotek ERP</p>
+                            <p className="text-xs text-slate-500 mt-1">Ulasan jujur dari pembeli yang mempercayakan kebutuhan obatnya di Klinik Premisys Medika</p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

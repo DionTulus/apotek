@@ -75,7 +75,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
                         </span>
                         <span className="flex items-center gap-1 hidden sm:inline-flex">
                             <Mail className="w-3.5 h-3.5 text-[#8CA9FF]" />
-                            {settings.email || 'info@apoteksehatsentosa.test'}
+                            {settings.email || 'info@klinikpremisysmedika.test'}
                         </span>
                     </div>
                     <div className="flex items-center gap-4">
@@ -283,7 +283,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
                             <div className="w-8 h-8 rounded-lg bg-[#8CA9FF] flex items-center justify-center text-white">
                                 <Pill className="w-5 h-5" />
                             </div>
-                            <span className="text-lg font-bold text-white">{settings.site_name || 'Apotek ERP'}</span>
+                            <span className="text-lg font-bold text-white">{settings.site_name || 'Klinik Premisys Medika'}</span>
                         </div>
                         <p className="text-xs text-slate-400 leading-relaxed mb-4">
                             {settings.site_tagline || 'Solusi Obat Lengkap, Cepat & Terpercaya'}
@@ -328,7 +328,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
                 </div>
 
                 <div className="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
-                    © {new Date().getFullYear()} {settings.site_name || 'Apotek ERP'}. All rights reserved. Tugas Sistem Informasi ERP Apotek.
+                    © {new Date().getFullYear()} {settings.site_name || 'Klinik Premisys Medika'}. All rights reserved. Klinik Premisys Medika.
                 </div>
             </footer>
         </div>

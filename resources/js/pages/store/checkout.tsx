@@ -148,7 +148,7 @@ export default function Checkout({
 
     return (
         <StoreLayout>
-            <Head title="Checkout Pesanan - Apotek ERP" />
+            <Head title="Checkout Pesanan - Klinik Premisys Medika" />
 
             {/* Header */}
             <div className="bg-slate-900 text-white py-10 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
