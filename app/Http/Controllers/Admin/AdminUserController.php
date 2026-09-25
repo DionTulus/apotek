@@ -39,7 +39,7 @@ class AdminUserController extends Controller
             'users'   => $users,
             'roles'   => $roles,
             'stats'   => $stats,
-            'filters' => $request->only('role', 'search'),
+            'filters' => (object) $request->only('role', 'search'),
         ]);
     }
 

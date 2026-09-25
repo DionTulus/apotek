@@ -34,7 +34,7 @@ class AdminPaymentController extends Controller
 
         return Inertia::render('admin/payments/index', [
             'orders'  => $orders,
-            'filters' => $request->only('method', 'payment_status', 'search'),
+            'filters' => (object) $request->only('method', 'payment_status', 'search'),
         ]);
     }
 

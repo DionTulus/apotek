@@ -34,7 +34,7 @@ class AdminOrderController extends Controller
         return Inertia::render('admin/orders/index', [
             'orders'     => $orders,
             'statusList' => $statusList,
-            'filters'    => $request->only('search', 'status', 'method'),
+            'filters'    => (object) $request->only('search', 'status', 'method'),
         ]);
     }
 

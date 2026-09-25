@@ -41,7 +41,7 @@ class AdminCrmController extends Controller
             'leads'    => $leads,
             'statuses' => $statuses,
             'stats'    => $stats,
-            'filters'  => $request->only('status', 'source', 'search'),
+            'filters'  => (object) $request->only('status', 'source', 'search'),
         ]);
     }
 

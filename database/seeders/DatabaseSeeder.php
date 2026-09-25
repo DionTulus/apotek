@@ -114,18 +114,19 @@ class DatabaseSeeder extends Seeder
 
         // 2. Settings
         $settingsData = [
-            'site_name' => 'Apotek Sehat Sentosa',
+            'site_name' => 'Klinik Premysis Medika',
             'site_tagline' => 'Solusi Obat Lengkap, Cepat & Terpercaya',
-            'phone' => '022-7654321',
-            'whatsapp' => '081234567890',
-            'email' => 'info@apoteksehatsentosa.test',
-            'address' => 'Jl. Merdeka No. 45, Bandung, Jawa Barat 40111',
-            'maps_embed_url' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.835848243!2d107.60981!3d-6.914744!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNTQnNTMuMSJTIDEwN8KwMzYnMzUuMyJF!5e0!3m2!1sid!2sid!4v1600000000000',
+            'phone' => '081317739371',
+            'whatsapp' => '081317739371',
+            'email' => 'info@klinikpremysis.test',
+            'address' => 'Kp. Cibitung Bedeng RT 05/04, Kel. Telaga Asih, Kec. Cikarang Barat, Kab. Bekasi, Jawa Barat 17530',
+            'maps_embed_url' => 'https://www.google.com/maps?q=Telaga%20Asih%2C%20Cikarang%20Barat%2C%20Bekasi&output=embed',
             'vision' => 'Menjadi jaringan apotek e-commerce terdepan di Indonesia yang memberikan pelayanan kefarmasian profesional dan produk berkualitas.',
             'mission' => "1. Menyediakan obat-obatan legal dan terdaftar BPOM.\n2. Memberikan layanan konsultasi obat yang ramah & terpercaya.\n3. Mengirimkan produk dengan cepat dan aman sampai ke tangan pelanggan.",
-            'about' => 'Apotek Sehat Sentosa berdiri sejak tahun 2020. Kami berdedikasi melayani kebutuhan kesehatan masyarakat dengan menyediakan obat-obatan asli, vitamin, suplemen, dan alat kesehatan berkualitas tinggi.',
-            'terms' => 'Pembelian obat keras memerlukan resep dokter sah. Apotek berhak menolak transaksi yang tidak memenuhi ketentuan medis.',
-            'privacy' => 'Kami menjaga kerahasiaan data pribadi dan resep medis Anda sesuai dengan hukum perlindungan data yang berlaku di Indonesia.',
+            'about' => 'Klinik Premysis Medika berdiri sejak tahun 2020. Kami berdedikasi melayani kebutuhan kesehatan masyarakat dengan menyediakan obat-obatan asli, vitamin, suplemen, dan alat kesehatan berkualitas tinggi.',
+            'opening_hours' => 'Senin - Sabtu: 08.00 - 21.00 WIB\nMinggu: 09.00 - 17.00 WIB\nLayanan pesan antar online: 24 jam',
+            'terms' => "Dengan menggunakan layanan Klinik Premysis Medika, Anda dianggap telah membaca, memahami, dan menyetujui syarat dan ketentuan berikut.\n\nPembelian obat keras (bertanda lingkaran merah huruf K) memerlukan resep dokter yang sah. Resep yang diunggah akan diverifikasi oleh apoteker kami sebelum pesanan diproses. Apotek berhak menolak transaksi yang tidak memenuhi ketentuan medis atau yang dianggap mencurigakan.\n\nHarga, stok, dan ketersediaan produk dapat berubah sewaktu-waktu tanpa pemberitahuan sebelumnya. Pesanan baru dianggap sah setelah pembayaran dikonfirmasi, kecuali untuk metode bayar di tempat (COD) yang telah disetujui apotek.\n\nPembatalan pesanan dapat dilakukan sendiri selama status pesanan masih menunggu pembayaran. Setelah pembayaran terkonfirmasi, pembatalan hanya dapat dilakukan oleh apotek dengan alasan yang dapat dipertanggungjawabkan.\n\nSegala perselisihan yang timbul akan diselesaikan secara musyawarah dengan mengacu pada hukum yang berlaku di Republik Indonesia.",
+            'privacy' => "Kami menghargai kepercayaan Anda. Kebijakan ini menjelaskan data apa yang kami kumpulkan dan bagaimana data tersebut kami lindungi.\n\nData yang kami kumpulkan meliputi nama, nomor telepon, alamat email, alamat pengiriman, serta riwayat pesanan Anda. Untuk pembelian obat keras, kami juga menyimpan berkas resep dokter yang Anda unggah. Seluruh data ini digunakan semata-mata untuk memproses pesanan dan memenuhi kewajiban kefarmasian.\n\nData resep medis diperlakukan sebagai data sensitif. Hanya apoteker yang berwenang yang dapat mengaksesnya, dan berkas tersebut tidak pernah dibagikan kepada pihak ketiga tanpa persetujuan Anda, kecuali diwajibkan oleh hukum.\n\nKami tidak menjual atau menyewakan data pribadi Anda kepada pihak lain. Data pembayaran diproses oleh penyedia pembayaran resmi yang tersertifikasi, sehingga nomor kartu dan kode rahasia tidak pernah kami simpan.\n\nAnda berhak meminta salinan, perbaikan, atau penghapusan data pribadi Anda. Ajukan permintaan tersebut melalui menu Kontak Kami atau hubungi petugas apotek secara langsung.",
             'free_shipping_min' => '150000',
         ];
 
@@ -368,7 +369,7 @@ class DatabaseSeeder extends Seeder
         $testimonials = [
             ['name' => 'Budi Santoso', 'rating' => 5, 'content' => 'Pengiriman obat cepat sekali! Pagi pesan lewat Kurir Instant, siang sudah sampai. Obatnya asli dan terawat.'],
             ['name' => 'Siti Aminah', 'rating' => 5, 'content' => 'Sangat membantu untuk pesan obat resep. Tinggal foto resepnya, ditinjau apoteker ramah, langsung dikirim. Terima kasih!'],
-            ['name' => 'Dr. Hendra', 'rating' => 5, 'content' => 'Sebagai dokter, saya rekomendasikan Apotek Sehat Sentosa karena penyimpanan obatnya terstandar dan masa simpan selalu terpantau.'],
+            ['name' => 'Dr. Hendra', 'rating' => 5, 'content' => 'Sebagai dokter, saya rekomendasikan Klinik Premysis Medika karena penyimpanan obatnya terstandar dan masa simpan selalu terpantau.'],
             ['name' => 'Rina Wijaya', 'rating' => 4, 'content' => 'Harga suplemen dan vitaminnya bersaing, sering ada voucher promo diskon juga.'],
             ['name' => 'Agus Pratama', 'rating' => 5, 'content' => 'Pelayanan ramah, obat diare dan maag langsung sampai pas emergency.'],
         ];
@@ -425,7 +426,7 @@ class DatabaseSeeder extends Seeder
             ['question' => 'Bagaimana cara memesan obat yang memerlukan resep dokter?', 'answer' => 'Saat proses Checkout, Anda akan diminta mengunggah foto/file resep dokter yang jelas. Tim apoteker kami akan melakukan verifikasi sebelum pesanan diproses.', 'sort' => 1],
             ['question' => 'Berapa lama proses pengiriman obat?', 'answer' => 'Untuk area Bandung dan sekitarnya menggunakan Kurir Instant Apotek, pesanan dikirim dalam 1-3 jam setelah pembayaran terkonfirmasi. Untuk luar kota menggunakan JNE (1-3 hari kerja).', 'sort' => 2],
             ['question' => 'Apakah pembayaran COD (Bayar di Tempat) tersedia?', 'answer' => 'Ya, metode COD tersedia untuk pilihan Kurir Instant Apotek dan metode Ambil di Toko.', 'sort' => 3],
-            ['question' => 'Apakah obat-obatan di Apotek Sehat Sentosa terjamin keasliannya?', 'answer' => '100% Terjamin Asli. Seluruh obat dan alat kesehatan dibeli langsung dari Distributor Resmi (PBF) terdaftar BPOM dan Kementerian Kesehatan RI.', 'sort' => 4],
+            ['question' => 'Apakah obat-obatan di Klinik Premysis Medika terjamin keasliannya?', 'answer' => '100% Terjamin Asli. Seluruh obat dan alat kesehatan dibeli langsung dari Distributor Resmi (PBF) terdaftar BPOM dan Kementerian Kesehatan RI.', 'sort' => 4],
             ['question' => 'Bagaimana jika pesanan obat saya kedaluwarsa atau rusak saat diterima?', 'answer' => 'Kami menggaransi penggantian 100% atau refund jika obat yang diterima dalam keadaan rusak/mendekati expiry date. Anda dapat mengajukan retur melalui menu Riwayat Pesanan di Akun Anda.', 'sort' => 5],
         ];
 

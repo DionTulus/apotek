@@ -98,15 +98,7 @@ class CheckoutService
 
                 if ($promo && $subtotal >= $promo->min_purchase) {
                     $promoId = $promo->id;
-                    if ($promo->type === 'percentage') {
-                        $discountTotal = (int) round(($subtotal * $promo->value) / 100);
-                        if ($promo->max_discount) {
-                            $discountTotal = min($discountTotal, $promo->max_discount);
-                        }
-                    } else {
-                        $discountTotal = (int) $promo->value;
-                    }
-                    $discountTotal = min($discountTotal, $subtotal);
+                    $discountTotal = $promo->discountFor($subtotal);
                 }
             }
 

@@ -29,7 +29,7 @@ class PrescriptionVerificationController extends Controller
 
         return Inertia::render('admin/prescriptions/index', [
             'prescriptions' => $prescriptions,
-            'filters'       => $request->only('status'),
+            'filters'       => (object) $request->only('status'),
         ]);
     }
 

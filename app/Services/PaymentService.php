@@ -120,6 +120,13 @@ class PaymentService
             return false;
         }
 
+        // Notifikasi tanpa status transaksi tidak dapat diproses. Ditolak
+        // sebagai payload tidak lengkap, bukan dibiarkan lolos ke lapisan
+        // bawah yang mengharapkan string.
+        if (! is_string($transactionStatus) || $transactionStatus === '') {
+            throw new Exception('Payload notifikasi Midtrans tidak lengkap: transaction_status kosong.');
+        }
+
         $serverKey = config('midtrans.server_key');
         $expectedSignature = hash('sha512', $orderId.$statusCode.$grossAmount.$serverKey);
 

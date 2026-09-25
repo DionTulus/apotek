@@ -36,7 +36,7 @@ class PurchaseController extends Controller
         return Inertia::render('admin/purchases/index', [
             'purchases'  => $purchases,
             'statusList' => $statusList,
-            'filters'    => $request->only('status', 'search'),
+            'filters'    => (object) $request->only('status', 'search'),
         ]);
     }
 

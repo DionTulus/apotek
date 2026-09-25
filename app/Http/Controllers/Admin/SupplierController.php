@@ -21,7 +21,7 @@ class SupplierController extends Controller
 
         return Inertia::render('admin/suppliers/index', [
             'suppliers' => $suppliers,
-            'filters'   => $request->only('search'),
+            'filters'   => (object) $request->only('search'),
         ]);
     }
 

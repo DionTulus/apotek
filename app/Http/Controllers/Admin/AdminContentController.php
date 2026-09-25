@@ -28,7 +28,7 @@ class AdminContentController extends Controller
 
         return Inertia::render('admin/content/faqs', [
             'faqs'    => $faqs,
-            'filters' => $request->only('search'),
+            'filters' => (object) $request->only('search'),
         ]);
     }
 
@@ -89,7 +89,7 @@ class AdminContentController extends Controller
 
         return Inertia::render('admin/content/promos', [
             'promos'  => $promos,
-            'filters' => $request->only('search'),
+            'filters' => (object) $request->only('search'),
         ]);
     }
 
@@ -178,7 +178,7 @@ class AdminContentController extends Controller
 
         return Inertia::render('admin/content/blogs', [
             'posts'   => $posts,
-            'filters' => $request->only('search'),
+            'filters' => (object) $request->only('search'),
         ]);
     }
 
@@ -280,7 +280,7 @@ class AdminContentController extends Controller
         return Inertia::render('admin/content/messages', [
             'messages'    => $messages,
             'unreadCount' => $unreadCount,
-            'filters'     => $request->only('unread'),
+            'filters'     => (object) $request->only('unread'),
         ]);
     }
 

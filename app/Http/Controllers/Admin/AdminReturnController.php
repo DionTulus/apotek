@@ -39,7 +39,7 @@ class AdminReturnController extends Controller
         return Inertia::render('admin/returns/index', [
             'returns'    => $returns,
             'statusList' => $statusList,
-            'filters'    => $request->only('status'),
+            'filters'    => (object) $request->only('status'),
         ]);
     }
 
