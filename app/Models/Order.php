@@ -36,6 +36,12 @@ class Order extends Model
         'paid_at',
         'completed_at',
         'cancelled_at',
+        // Kolom alur klinik (dashboard admin Premysis Medika)
+        'status_clinic',
+        'bukti_bayar',
+        'catatan_bayar',
+        'alasan_tolak',
+        'nominal_bayar',
     ];
 
     protected $casts = [

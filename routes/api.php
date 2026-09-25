@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AddressController;
+use App\Http\Controllers\Api\AdminClinicController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CatalogController;
@@ -83,4 +84,38 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/orders/{orderNumber}/payment', [PaymentController::class, 'show']);
     Route::post('/orders/{orderNumber}/payment/check', [PaymentController::class, 'checkStatus']);
+});
+
+/*
+|--------------------------------------------------------------------------
+| REST API — dashboard admin klinik (Premysis Medika)
+|--------------------------------------------------------------------------
+|
+| Kontrak JSON untuk dashboard admin (React, port 5173). Menyajikan
+| basis data apotek dalam bentuk yang dipakai dashboard klinik, supaya
+| satu basis data melayani aplikasi pasien DAN dashboard admin.
+|
+| Autentikasi dashboard masih memakai email+password terhadap tabel
+| `users` (lihat loginAdmin); token Sanctum akan ditambahkan menyusul
+| tanpa mengubah kontrak di bawah.
+|
+*/
+Route::prefix('admin')->group(function () {
+    // Login petugas (bidan = admin, asisten = pharmacist).
+    Route::post('/auth/login-admin', [AdminClinicController::class, 'loginAdmin']);
+
+    // Snapshot seluruh data: dipanggil sekali saat dashboard dimuat.
+    Route::get('/state', [AdminClinicController::class, 'state']);
+
+    // Aksi beraturan bisnis (BR-02, BR-03, BR-07, BR-08).
+    Route::patch('/pesanan/{id}/status', [AdminClinicController::class, 'ubahStatusPesanan']);
+    Route::post('/pesanan/{id}/pembayaran', [AdminClinicController::class, 'pembayaran']);
+    Route::patch('/appointment/{id}/status', [AdminClinicController::class, 'ubahStatusAppointment']);
+    Route::post('/bayi/{id}/generate-jadwal', [AdminClinicController::class, 'generateJadwalVaksin']);
+
+    // CRUD generik untuk seluruh koleksi dashboard.
+    Route::get('/{koleksi}', [AdminClinicController::class, 'list']);
+    Route::post('/{koleksi}', [AdminClinicController::class, 'create']);
+    Route::patch('/{koleksi}/{id}', [AdminClinicController::class, 'update']);
+    Route::delete('/{koleksi}/{id}', [AdminClinicController::class, 'remove']);
 });

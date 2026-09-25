@@ -30,6 +30,13 @@ class User extends Authenticatable implements PasskeyUser
         'notify_email',
         'notify_promo',
         'last_login_at',
+        // Kolom klinis (dipakai dashboard admin Premysis Medika)
+        'nik',
+        'tanggal_lahir',
+        'jenis_kelamin',
+        'no_wa',
+        'alamat',
+        'status_aktif',
     ];
 
     protected $hidden = [
@@ -49,6 +56,8 @@ class User extends Authenticatable implements PasskeyUser
             'notify_promo' => 'boolean',
             'last_login_at' => 'datetime',
             'two_factor_confirmed_at' => 'datetime',
+            'tanggal_lahir' => 'date',
+            'status_aktif' => 'boolean',
         ];
     }
 

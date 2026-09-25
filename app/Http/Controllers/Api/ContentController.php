@@ -331,7 +331,7 @@ class ContentController extends Controller
     public function blogs(Request $request): JsonResponse
     {
         $perPage = min(max((int) $request->input('per_page', 9), 1), 30);
-        $posts = BlogPost::published()->latest('published_at')->paginate($perPage);
+        $posts = BlogPost::published()->with('author:id,name')->latest('published_at')->paginate($perPage);
 
         return response()->json([
             'data' => collect($posts->items())->map(fn ($p) => $this->presentBlog($p, false))->values()->all(),
@@ -345,13 +345,18 @@ class ContentController extends Controller
 
     public function blogShow(string $slug): JsonResponse
     {
-        $post = BlogPost::published()->where('slug', $slug)->firstOrFail();
+        $post = BlogPost::published()->with('author:id,name')->where('slug', $slug)->firstOrFail();
 
         return response()->json(['data' => $this->presentBlog($post, true)]);
     }
 
     protected function presentBlog(BlogPost $post, bool $withContent): array
     {
+        // Estimasi waktu baca dari jumlah kata isi artikel (200 kata/menit),
+        // dipakai kartu artikel untuk menampilkan "X menit baca".
+        $kata = str_word_count(strip_tags((string) $post->content));
+        $menitBaca = max(1, (int) ceil($kata / 200));
+
         $data = [
             'id' => $post->id,
             'title' => $post->title,
@@ -359,6 +364,10 @@ class ContentController extends Controller
             'excerpt' => $post->excerpt,
             'cover_image' => $post->cover_image ? $this->fileUrl($post->cover_image) : null,
             'published_at' => optional($post->published_at)->toIso8601String(),
+            // Penulis ditampilkan di kartu artikel. Bila belum ada
+            // penulis tercatat, dipakai sebutan netral "Apoteker Kami".
+            'author' => $post->author?->name ?: 'Apoteker Kami',
+            'read_minutes' => $menitBaca,
         ];
 
         if ($withContent) {
