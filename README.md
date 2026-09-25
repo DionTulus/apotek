@@ -59,6 +59,25 @@
 
 ---
 
+## 🔗 Integrasi Dashboard Admin Klinik (Premysis Medika)
+
+Backend ini juga melayani **dashboard admin klinik Premysis Medika** dan **aplikasi
+pasien** sekaligus, sehingga keduanya berbagi satu basis data (PRD N-05). Permukaan
+API khusus dashboard ada di prefiks **`/api/admin`**.
+
+| Dokumen | Isi |
+|---|---|
+| [`docs/INTEGRASI_BACKEND.md`](docs/INTEGRASI_BACKEND.md) | Latar belakang, pemetaan domain apotek ➜ kontrak dashboard, skema klinis, aturan bisnis, cara menjalankan |
+| [`docs/API_ADMIN.md`](docs/API_ADMIN.md) | Referensi lengkap endpoint `/api/admin`: autentikasi, snapshot, CRUD, aksi khusus, kode status |
+
+```bash
+# Siapkan skema klinis + akun petugas & data klinis
+php artisan migrate --force
+php artisan db:seed --class=ClinicSeeder --force
+```
+
+---
+
 ## 🚀 Panduan Instalasi Cepat
 
 ### 1. Kebutuhan Sistem
