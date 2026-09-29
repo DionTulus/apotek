@@ -1754,7 +1754,7 @@ CREATE TABLE `settings` (
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for `settings`
-INSERT INTO `settings` (`id`, `key`, `value`, `group`, `created_at`, `updated_at`) VALUES ('1', 'site_name', 'Apotek Sehat Sentosa', 'general', '2026-09-22 03:37:07', '2026-09-22 03:37:07');
+INSERT INTO `settings` (`id`, `key`, `value`, `group`, `created_at`, `updated_at`) VALUES ('1', 'site_name', 'Premysys Medika', 'general', '2026-09-22 03:37:07', '2026-09-22 03:37:07');
 INSERT INTO `settings` (`id`, `key`, `value`, `group`, `created_at`, `updated_at`) VALUES ('2', 'site_tagline', 'Solusi Obat Lengkap, Cepat & Terpercaya', 'general', '2026-09-22 03:37:07', '2026-09-22 03:37:07');
 INSERT INTO `settings` (`id`, `key`, `value`, `group`, `created_at`, `updated_at`) VALUES ('3', 'phone', '022-7654321', 'general', '2026-09-22 03:37:07', '2026-09-22 03:37:07');
 INSERT INTO `settings` (`id`, `key`, `value`, `group`, `created_at`, `updated_at`) VALUES ('4', 'whatsapp', '081234567890', 'general', '2026-09-22 03:37:07', '2026-09-22 03:37:07');
