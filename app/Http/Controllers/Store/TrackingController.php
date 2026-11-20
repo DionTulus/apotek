@@ -40,7 +40,36 @@ class TrackingController extends Controller
                 ->first();
 
             if ($order) {
-                $orderResult = $order;
+                $orderResult = [
+                    'id' => $order->id,
+                    'order_number' => $order->order_number,
+                    'status' => $order->status->value,
+                    'recipient_name' => $order->recipient_name,
+                    'recipient_phone' => $order->recipient_phone,
+                    'shipping_address' => $order->shipping_address,
+                    'grand_total' => $order->grand_total,
+                    'created_at' => $order->created_at->toISOString(),
+                    'items' => $order->items->map(fn ($item) => [
+                        'id' => $item->id,
+                        'product_name' => $item->product_name,
+                        'qty' => $item->qty,
+                        'price' => $item->price,
+                    ])->values(),
+                    'shippingMethod' => $order->shippingMethod ? [
+                        'name' => $order->shippingMethod->name,
+                        'est_days' => $order->shippingMethod->est_days,
+                    ] : null,
+                    'shipment' => $order->shipment ? [
+                        'tracking_number' => $order->shipment->tracking_number,
+                        'status' => $order->shipment->status->value,
+                    ] : null,
+                    'statusHistories' => $order->statusHistories->map(fn ($history) => [
+                        'id' => $history->id,
+                        'status' => $history->status->value,
+                        'note' => $history->note,
+                        'created_at' => $history->created_at->toISOString(),
+                    ])->values(),
+                ];
             } else {
                 $error = 'Pesanan tidak ditemukan. Pastikan Nomor Pesanan dan Nomor Telepon / Email cocok.';
             }

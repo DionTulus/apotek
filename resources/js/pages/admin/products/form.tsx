@@ -31,6 +31,30 @@ interface Props {
     drugClasses: { value: string; label: string }[];
 }
 
+function Field({
+    label,
+    required,
+    error,
+    children,
+    className = '',
+}: {
+    label: string;
+    required?: boolean;
+    error?: string;
+    children: React.ReactNode;
+    className?: string;
+}) {
+    return (
+        <div className={className}>
+            <label className="text-xs font-semibold text-slate-600 mb-1 block">
+                {label} {required && <span className="text-red-500">*</span>}
+            </label>
+            {children}
+            {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
+        </div>
+    );
+}
+
 export default function ProductForm({ product, categories, drugClasses }: Props) {
     const isEdit = !!product;
     const fileRef = useRef<HTMLInputElement>(null);
@@ -91,28 +115,6 @@ export default function ProductForm({ product, categories, drugClasses }: Props)
         const url = isEdit ? `/admin/produk/${product!.id}` : '/admin/produk';
         form.post(url, { forceFormData: true });
     };
-
-    const Field = ({
-        label,
-        required,
-        error,
-        children,
-        className = '',
-    }: {
-        label: string;
-        required?: boolean;
-        error?: string;
-        children: React.ReactNode;
-        className?: string;
-    }) => (
-        <div className={className}>
-            <label className="text-xs font-semibold text-slate-600 mb-1 block">
-                {label} {required && <span className="text-red-500">*</span>}
-            </label>
-            {children}
-            {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
-        </div>
-    );
 
     const inputCls = 'w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300';
 

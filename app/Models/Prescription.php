@@ -6,10 +6,16 @@ use App\Enums\PrescriptionStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Prescription extends Model
 {
     use HasFactory;
+
+    protected $appends = [
+        'prescription_number',
+        'image_url',
+    ];
 
     protected $fillable = [
         'user_id',
@@ -34,5 +40,20 @@ class Prescription extends Model
     public function reviewer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'reviewed_by');
+    }
+
+    public function order(): HasOne
+    {
+        return $this->hasOne(Order::class);
+    }
+
+    public function getPrescriptionNumberAttribute(): string
+    {
+        return 'RX-'.str_pad((string) $this->getKey(), 6, '0', STR_PAD_LEFT);
+    }
+
+    public function getImageUrlAttribute(): string
+    {
+        return route('prescriptions.file', $this->getKey());
     }
 }

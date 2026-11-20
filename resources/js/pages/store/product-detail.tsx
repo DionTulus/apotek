@@ -31,6 +31,7 @@ interface ProductDetailProps {
         price: number;
         stock: number;
         weight_gram: number;
+        image?: string | null;
         category?: { id: number; name: string; slug: string };
     };
     relatedProducts: {
@@ -40,6 +41,7 @@ interface ProductDetailProps {
         price: number;
         unit: string;
         requires_prescription: boolean;
+        image?: string | null;
         category?: { name: string };
     }[];
     isWishlisted: boolean;
@@ -111,7 +113,11 @@ export default function ProductDetail({
                                         <ShieldAlert className="w-4 h-4" /> Wajib Resep Dokter
                                     </span>
                                 )}
-                                <Pill className="w-32 h-32 text-[#8CA9FF]/40" />
+                                {product.image ? (
+                                    <img src={`/storage/${product.image}`} className="max-h-full max-w-full object-contain" alt={product.name} />
+                                ) : (
+                                    <Pill className="w-32 h-32 text-[#8CA9FF]/40" />
+                                )}
                             </div>
 
                             {/* Trust badges */}
@@ -267,7 +273,11 @@ export default function ProductDetail({
                                 >
                                     <div>
                                         <div className="w-full h-28 bg-slate-50 rounded-xl flex items-center justify-center mb-3">
-                                            <Pill className="w-10 h-10 text-[#8CA9FF]/40" />
+                                            {p.image ? (
+                                                <img src={`/storage/${p.image}`} className="h-full w-full object-contain p-2" alt={p.name} />
+                                            ) : (
+                                                <Pill className="w-10 h-10 text-[#8CA9FF]/40" />
+                                            )}
                                         </div>
                                         <h4 className="font-bold text-slate-900 text-xs line-clamp-2 hover:text-blue-600">
                                             {p.name}

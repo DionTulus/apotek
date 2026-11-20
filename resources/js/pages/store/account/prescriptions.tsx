@@ -102,7 +102,7 @@ export default function MyPrescriptions({ prescriptions }: PrescriptionsProps) {
 
                                     <div className="flex items-start gap-4">
                                         <a
-                                            href={`/storage/${p.file_path}`}
+                                            href={`/resep/${p.id}/file`}
                                             target="_blank"
                                             rel="noreferrer"
                                             className="w-20 h-20 bg-slate-100 rounded-xl border border-slate-200 flex items-center justify-center text-slate-400 hover:text-[#8CA9FF] shrink-0 overflow-hidden"

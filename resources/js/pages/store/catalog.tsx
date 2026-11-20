@@ -10,6 +10,7 @@ interface ProductItem {
     price: number;
     unit: string;
     stock: number;
+    image?: string | null;
     requires_prescription?: boolean;
     category?: { id: number; name: string; slug: string };
 }
@@ -219,8 +220,12 @@ export default function Catalog({
                                         </button>
 
                                         <Link href={`/produk/${product.slug}`}>
-                                            <div className="mb-4 flex h-36 items-center justify-center rounded-xl bg-slate-50 text-slate-300 transition group-hover:scale-[1.02]">
-                                                <Pill className="h-16 w-16 text-[#8CA9FF]/35" />
+                                            <div className="mb-4 flex h-36 items-center justify-center overflow-hidden rounded-xl bg-slate-50 text-slate-300 transition group-hover:scale-[1.02]">
+                                                {product.image ? (
+                                                    <img src={`/storage/${product.image}`} className="h-full w-full object-contain p-2" alt={product.name} />
+                                                ) : (
+                                                    <Pill className="h-16 w-16 text-[#8CA9FF]/35" />
+                                                )}
                                             </div>
                                         </Link>
 

@@ -248,8 +248,12 @@ export default function Home({
                                             Wajib Resep
                                         </span>
                                     )}
-                                    <div className="w-full h-36 bg-slate-50 rounded-xl flex items-center justify-center my-2 text-slate-400">
-                                        <Pill className="w-16 h-16 text-[#8CA9FF]/40" />
+                                    <div className="w-full h-36 bg-slate-50 rounded-xl flex items-center justify-center my-2 text-slate-400 overflow-hidden">
+                                        {p.image ? (
+                                            <img src={`/storage/${p.image}`} className="w-full h-full object-contain p-2" alt={p.name} />
+                                        ) : (
+                                            <Pill className="w-16 h-16 text-[#8CA9FF]/40" />
+                                        )}
                                     </div>
                                     <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
                                         {p.category?.name || 'Obat'}

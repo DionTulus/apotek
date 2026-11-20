@@ -18,6 +18,7 @@ import {
     ShoppingBag,
     Store,
     Truck,
+    UserRound,
     Users,
 } from 'lucide-react';
 import React from 'react';
@@ -41,13 +42,14 @@ interface SharedProps {
 export default function AdminLayout({ children, title }: { children: React.ReactNode; title?: string }) {
     const { auth, flash } = usePage<SharedProps>().props;
     const user = auth?.user;
+    const isPharmacist = user?.role === 'pharmacist';
 
     React.useEffect(() => {
         if (flash?.success) toast.success(flash.success);
         if (flash?.error) toast.error(flash.error);
     }, [flash]);
 
-    const navItems = [
+    const allNavItems = [
         { label: 'Dashboard KPI', href: '/admin', icon: LayoutDashboard },
         { label: 'Manajemen Produk', href: '/admin/produk', icon: Package },
         { label: 'Kategori Obat', href: '/admin/kategori', icon: Layers },
@@ -69,7 +71,17 @@ export default function AdminLayout({ children, title }: { children: React.React
         { label: 'Pesan Kontak Masuk', href: '/admin/konten/pesan', icon: MessageSquare },
         { label: 'Pengguna & Akses', href: '/admin/pengguna', icon: Shield },
         { label: 'Pengaturan Website', href: '/admin/pengaturan', icon: Settings },
+        { label: 'Profil Saya', href: '/settings/profile', icon: UserRound },
     ];
+    const pharmacistRoutes = new Set([
+        '/admin/resep',
+        '/admin/pesanan',
+        '/admin/pembayaran',
+        '/admin/pengiriman',
+        '/admin/retur',
+        '/settings/profile',
+    ]);
+    const navItems = allNavItems.filter((item) => !isPharmacist || pharmacistRoutes.has(item.href));
 
     return (
         <div className="min-h-screen bg-slate-100 flex text-slate-800 font-sans">
@@ -78,11 +90,13 @@ export default function AdminLayout({ children, title }: { children: React.React
             {/* Sidebar */}
             <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col flex-shrink-0 border-r border-slate-800">
                 <div className="p-4 border-b border-slate-800 flex items-center justify-between">
-                    <Link href="/admin" className="flex items-center gap-2">
+                    <Link href={isPharmacist ? '/admin/pesanan' : '/admin'} className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded-lg bg-[#8CA9FF] text-white flex items-center justify-center font-bold">
                             ERP
                         </div>
-                        <span className="font-extrabold text-white text-base tracking-tight">Admin Apotek</span>
+                        <span className="font-extrabold text-white text-base tracking-tight">
+                            {isPharmacist ? 'Panel Apoteker' : 'Admin Apotek'}
+                        </span>
                     </Link>
                 </div>
 

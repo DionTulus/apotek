@@ -115,7 +115,7 @@ class CheckoutService
             // Handle Prescription
             $prescriptionId = null;
             if ($prescriptionFile) {
-                $filePath = $prescriptionFile->store('prescriptions', 'public');
+                $filePath = $prescriptionFile->store('prescriptions', 'local');
                 $prescription = Prescription::create([
                     'user_id' => $user->id,
                     'file_path' => $filePath,

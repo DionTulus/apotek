@@ -9,6 +9,7 @@ import {
     Filter,
     Package,
     Search,
+    FileText,
     User,
     XCircle,
 } from 'lucide-react';
@@ -17,6 +18,7 @@ import { useState } from 'react';
 interface PrescriptionItem {
     id: number;
     prescription_number: string;
+    file_path: string;
     doctor_name?: string;
     patient_name?: string;
     image_url: string;
@@ -127,17 +129,31 @@ export default function PrescriptionsIndex({ prescriptions, filters }: Props) {
                                 <div>
                                     {/* Prescription Image Preview Header */}
                                     <div className="relative h-48 bg-slate-100 group overflow-hidden">
-                                        <img
-                                            src={rx.image_url}
-                                            alt={`Resep ${rx.prescription_number}`}
-                                            className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
-                                        />
-                                        <button
-                                            onClick={() => setSelectedImage(rx.image_url)}
-                                            className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white gap-2 transition text-xs font-bold"
-                                        >
-                                            <Eye className="w-5 h-5" /> Perbesar Foto
-                                        </button>
+                                        {rx.file_path.toLowerCase().endsWith('.pdf') ? (
+                                            <a
+                                                href={rx.image_url}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className="flex h-full flex-col items-center justify-center gap-2 text-sm font-bold text-slate-600 hover:text-blue-600"
+                                            >
+                                                <FileText className="h-10 w-10" />
+                                                Buka resep PDF
+                                            </a>
+                                        ) : (
+                                            <>
+                                                <img
+                                                    src={rx.image_url}
+                                                    alt={`Resep ${rx.prescription_number}`}
+                                                    className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                                                />
+                                                <button
+                                                    onClick={() => setSelectedImage(rx.image_url)}
+                                                    className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white gap-2 transition text-xs font-bold"
+                                                >
+                                                    <Eye className="w-5 h-5" /> Perbesar Foto
+                                                </button>
+                                            </>
+                                        )}
                                         <span
                                             className={`absolute top-3 right-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${
                                                 rx.status === 'approved'

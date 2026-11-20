@@ -5,12 +5,17 @@ namespace Tests\Feature;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Enums\Role;
+use App\Enums\ShipmentStatus;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Prescription;
+use App\Models\Shipment;
 use App\Models\ShippingMethod;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
+use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 
 class CustomerAccountTest extends TestCase
@@ -62,7 +67,7 @@ class CustomerAccountTest extends TestCase
 
     public function test_customer_can_list_own_orders()
     {
-        Order::create([
+        $order = Order::create([
             'order_number' => 'ORD-USER-01',
             'user_id' => $this->user->id,
             'status' => OrderStatus::PENDING_PAYMENT,
@@ -145,7 +150,7 @@ class CustomerAccountTest extends TestCase
 
     public function test_public_track_order_with_valid_credentials()
     {
-        Order::create([
+        $order = Order::create([
             'order_number' => 'ORD-TRACK-01',
             'user_id' => $this->user->id,
             'status' => OrderStatus::SHIPPED,
@@ -161,11 +166,55 @@ class CustomerAccountTest extends TestCase
             'shipping_address' => 'Jl Dago',
         ]);
 
+        Shipment::create([
+            'order_id' => $order->id,
+            'courier' => 'JNE',
+            'service' => 'REG',
+            'tracking_number' => 'RESI-TRACK-01',
+            'cost' => 10000,
+            'status' => ShipmentStatus::SHIPPED,
+            'shipped_at' => now(),
+        ]);
+
+        $order->statusHistories()->create([
+            'status' => OrderStatus::SHIPPED,
+            'note' => 'Paket telah diserahkan ke kurir.',
+        ]);
+
         $response = $this->post('/lacak-pesanan', [
             'order_number' => 'ORD-TRACK-01',
             'contact' => '08123456789',
         ]);
 
-        $response->assertStatus(200);
+        $response->assertOk()->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('store/tracking')
+            ->where('orderResult.order_number', 'ORD-TRACK-01')
+            ->where('orderResult.shipment.tracking_number', 'RESI-TRACK-01')
+            ->has('orderResult.statusHistories', 1));
+    }
+
+    public function test_prescription_file_is_only_available_to_owner_or_staff(): void
+    {
+        Storage::fake('local');
+        Storage::fake('public');
+        Storage::disk('local')->put('prescriptions/private.jpg', 'private image');
+
+        $prescription = Prescription::create([
+            'user_id' => $this->user->id,
+            'file_path' => 'prescriptions/private.jpg',
+        ]);
+
+        $this->actingAs($this->otherUser)
+            ->get(route('prescriptions.file', $prescription))
+            ->assertForbidden();
+
+        $this->actingAs($this->user)
+            ->get(route('prescriptions.file', $prescription))
+            ->assertOk();
+
+        $pharmacist = User::factory()->create(['role' => Role::PHARMACIST]);
+        $this->actingAs($pharmacist)
+            ->get(route('prescriptions.file', $prescription))
+            ->assertOk();
     }
 }

@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\PurchaseController as AdminPurchaseController;
 use App\Http\Controllers\Admin\StockController as AdminStockController;
 use App\Http\Controllers\Admin\SupplierController as AdminSupplierController;
 use App\Http\Controllers\Auth\SocialiteController;
+use App\Http\Controllers\PrescriptionFileController;
 use App\Http\Controllers\Store\AddressController;
 use App\Http\Controllers\Store\BlogController;
 use App\Http\Controllers\Store\CartController;
@@ -56,6 +57,9 @@ Route::get('/produk', [ProductController::class, 'index'])->name('products.index
 Route::get('/produk/{slug}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/lacak-pesanan', [TrackingController::class, 'index'])->name('tracking.index');
 Route::post('/lacak-pesanan', [TrackingController::class, 'index'])->name('tracking.search');
+Route::get('/resep/{prescription}/file', [PrescriptionFileController::class, 'show'])
+    ->middleware('auth')
+    ->name('prescriptions.file');
 
 // --- Webhook Routes ---
 Route::post('/midtrans/notification', [MidtransWebhookController::class, 'handleNotification'])->name('webhook.midtrans');
@@ -69,6 +73,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         if (request()->user()?->isAdmin()) {
             return redirect()->route('admin.dashboard');
+        }
+
+        if (request()->user()?->isPharmacist()) {
+            return redirect()->route('admin.orders.index');
         }
 
         return redirect()->route('home');
@@ -107,6 +115,30 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/akun/resep', [MyPrescriptionController::class, 'index'])->name('account.prescriptions');
 });
 
+// --- Sales Operations (Admin and Pharmacist) ---
+Route::middleware(['auth', 'role:admin,pharmacist'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/pesanan', [AdminOrderController::class, 'index'])->name('orders.index');
+    Route::get('/pesanan/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
+    Route::post('/pesanan/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.status');
+    Route::post('/pesanan/{order}/batal', [AdminOrderController::class, 'cancel'])->name('orders.cancel');
+
+    Route::get('/resep', [PrescriptionVerificationController::class, 'index'])->name('prescriptions.index');
+    Route::post('/resep/{prescription}/approve', [PrescriptionVerificationController::class, 'approve'])->name('prescriptions.approve');
+    Route::post('/resep/{prescription}/reject', [PrescriptionVerificationController::class, 'reject'])->name('prescriptions.reject');
+
+    Route::get('/pembayaran', [AdminPaymentController::class, 'index'])->name('payments.index');
+    Route::post('/pembayaran/{order}/cod', [AdminPaymentController::class, 'confirmCod'])->name('payments.cod');
+    Route::post('/pembayaran/{payment}/manual', [AdminPaymentController::class, 'confirmManual'])->name('payments.manual');
+
+    Route::get('/pengiriman', [AdminShipmentController::class, 'index'])->name('shipments.index');
+    Route::post('/pengiriman/{order}/kirim', [AdminShipmentController::class, 'ship'])->name('shipments.ship');
+    Route::post('/pengiriman/{order}/terima', [AdminShipmentController::class, 'deliver'])->name('shipments.deliver');
+
+    Route::get('/retur', [AdminReturnController::class, 'index'])->name('returns.index');
+    Route::post('/retur/{return}/approve', [AdminReturnController::class, 'approve'])->name('returns.approve');
+    Route::post('/retur/{return}/reject', [AdminReturnController::class, 'reject'])->name('returns.reject');
+});
+
 // --- Admin ERP Group (Middleware role:admin) ---
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     // Fase 9: Dashboard KPI
@@ -140,28 +172,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/pembelian', [AdminPurchaseController::class, 'store'])->name('purchases.store');
     Route::get('/pembelian/{purchase}', [AdminPurchaseController::class, 'show'])->name('purchases.show');
     Route::post('/pembelian/{purchase}/receive', [AdminPurchaseController::class, 'receive'])->name('purchases.receive');
-
-    // Fase 8: Penjualan & Operasional
-    Route::get('/pesanan', [AdminOrderController::class, 'index'])->name('orders.index');
-    Route::get('/pesanan/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
-    Route::post('/pesanan/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.status');
-    Route::post('/pesanan/{order}/batal', [AdminOrderController::class, 'cancel'])->name('orders.cancel');
-
-    Route::get('/resep', [PrescriptionVerificationController::class, 'index'])->name('prescriptions.index');
-    Route::post('/resep/{prescription}/approve', [PrescriptionVerificationController::class, 'approve'])->name('prescriptions.approve');
-    Route::post('/resep/{prescription}/reject', [PrescriptionVerificationController::class, 'reject'])->name('prescriptions.reject');
-
-    Route::get('/pembayaran', [AdminPaymentController::class, 'index'])->name('payments.index');
-    Route::post('/pembayaran/{order}/cod', [AdminPaymentController::class, 'confirmCod'])->name('payments.cod');
-    Route::post('/pembayaran/{payment}/manual', [AdminPaymentController::class, 'confirmManual'])->name('payments.manual');
-
-    Route::get('/pengiriman', [AdminShipmentController::class, 'index'])->name('shipments.index');
-    Route::post('/pengiriman/{order}/kirim', [AdminShipmentController::class, 'ship'])->name('shipments.ship');
-    Route::post('/pengiriman/{order}/terima', [AdminShipmentController::class, 'deliver'])->name('shipments.deliver');
-
-    Route::get('/retur', [AdminReturnController::class, 'index'])->name('returns.index');
-    Route::post('/retur/{return}/approve', [AdminReturnController::class, 'approve'])->name('returns.approve');
-    Route::post('/retur/{return}/reject', [AdminReturnController::class, 'reject'])->name('returns.reject');
 
     Route::get('/pelanggan', [AdminCustomerController::class, 'index'])->name('customers.index');
     Route::get('/pelanggan/{user}', [AdminCustomerController::class, 'show'])->name('customers.show');

@@ -65,7 +65,7 @@ interface OrderDetailProps {
         items: OrderItem[];
         shippingMethod?: { name: string; est_days: string };
         shipment?: { tracking_number?: string; status?: string };
-        prescription?: { file_path: string; status: string };
+        prescription?: { id: number; file_path: string; status: string };
         statusHistories: StatusHistory[];
         returns: OrderReturn[];
     };
@@ -113,6 +113,7 @@ export default function OrderDetail({ order }: OrderDetailProps) {
 
     const canCancel = safeOrder.status === 'pending_payment';
     const canReturn = ['shipped', 'delivered', 'completed'].includes(safeOrder.status);
+    const trackingUrl = `/lacak-pesanan?order_number=${encodeURIComponent(safeOrder.order_number)}&contact=${encodeURIComponent(safeOrder.recipient_phone)}`;
 
     return (
         <StoreLayout>
@@ -134,6 +135,14 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                     </div>
 
                     <div className="flex items-center gap-3">
+                        {safeOrder.shipment?.tracking_number && (
+                            <Link
+                                href={trackingUrl}
+                                className="px-4 py-2 rounded-xl bg-blue-500/20 hover:bg-blue-500/30 text-blue-200 border border-blue-500/40 text-xs font-bold transition flex items-center gap-1.5"
+                            >
+                                <Truck className="w-4 h-4" /> Lacak Pengiriman
+                            </Link>
+                        )}
                         {canCancel && (
                             <button
                                 onClick={handleCancelOrder}

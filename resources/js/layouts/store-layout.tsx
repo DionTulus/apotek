@@ -169,19 +169,19 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
                                         <p className="text-xs font-bold text-slate-800">{user.name}</p>
                                         <p className="text-[11px] text-slate-500 truncate">{user.email}</p>
                                     </div>
-                                    {user.role === 'admin' && (
+                                    {(user.role === 'admin' || user.role === 'pharmacist') && (
                                         <Link
-                                            href="/admin"
+                                            href={user.role === 'admin' ? '/admin' : '/admin/pesanan'}
                                             className="block px-4 py-2 text-xs text-blue-600 font-bold hover:bg-slate-50"
                                         >
-                                            Panel Admin ERP
+                                            {user.role === 'admin' ? 'Panel Admin ERP' : 'Panel Apoteker'}
                                         </Link>
                                     )}
                                     <Link href="/akun/pesanan" className="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-50">
                                         Riwayat Pesanan
                                     </Link>
-                                    <Link href="/akun/pengaturan" className="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-50">
-                                        Pengaturan Akun
+                                    <Link href="/settings/profile" className="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-50">
+                                        Profil Saya
                                     </Link>
                                     <Link
                                         href="/logout"

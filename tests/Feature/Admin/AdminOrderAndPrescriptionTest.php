@@ -19,6 +19,7 @@ use App\Models\Product;
 use App\Models\ShippingMethod;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 
 class AdminOrderAndPrescriptionTest extends TestCase
@@ -136,6 +137,41 @@ class AdminOrderAndPrescriptionTest extends TestCase
         $order->refresh();
         $this->assertEquals(PrescriptionStatus::APPROVED, $prescription->status);
         $this->assertEquals(OrderStatus::PAID, $order->status);
+    }
+
+    public function test_prescription_queue_includes_its_order_and_image_url(): void
+    {
+        $prescription = Prescription::create([
+            'user_id' => $this->customer->id,
+            'file_path' => 'prescriptions/rx-queue.jpg',
+            'status' => PrescriptionStatus::PENDING,
+        ]);
+
+        $order = Order::create([
+            'order_number' => 'ORD-RX-QUEUE-001',
+            'user_id' => $this->customer->id,
+            'prescription_id' => $prescription->id,
+            'status' => OrderStatus::AWAITING_PRESCRIPTION,
+            'payment_method' => PaymentMethod::MIDTRANS,
+            'payment_status' => PaymentStatus::UNPAID,
+            'subtotal' => 35000,
+            'discount_total' => 0,
+            'shipping_cost' => 15000,
+            'grand_total' => 50000,
+            'shipping_method_id' => $this->shippingMethod->id,
+            'recipient_name' => 'Andi',
+            'recipient_phone' => '0812345678',
+            'shipping_address' => 'Jl Sukajadi No 1',
+        ]);
+
+        $this->actingAs($this->admin)
+            ->get(route('admin.prescriptions.index'))
+            ->assertOk()
+            ->assertInertia(fn (AssertableInertia $page) => $page
+                ->component('admin/prescriptions/index')
+                ->where('prescriptions.data.0.order.order_number', $order->order_number)
+                ->where('prescriptions.data.0.prescription_number', 'RX-'.str_pad((string) $prescription->id, 6, '0', STR_PAD_LEFT))
+                ->where('prescriptions.data.0.image_url', route('prescriptions.file', $prescription->id)));
     }
 
     public function test_admin_can_reject_prescription_which_cancels_order_and_restores_stock(): void
@@ -313,5 +349,48 @@ class AdminOrderAndPrescriptionTest extends TestCase
             'category' => TransactionCategory::REFUND->value,
             'amount' => 70000,
         ]);
+    }
+
+    public function test_pharmacist_can_manage_sales_operations_but_not_admin_pages(): void
+    {
+        $pharmacist = User::factory()->create(['role' => Role::PHARMACIST]);
+
+        foreach ([
+            'admin.orders.index',
+            'admin.prescriptions.index',
+            'admin.payments.index',
+            'admin.shipments.index',
+            'admin.returns.index',
+        ] as $routeName) {
+            $this->actingAs($pharmacist)->get(route($routeName))->assertOk();
+        }
+
+        $this->actingAs($pharmacist)->get(route('admin.dashboard'))->assertForbidden();
+        $this->actingAs($pharmacist)->get(route('admin.products.index'))->assertForbidden();
+
+        $order = Order::create([
+            'order_number' => 'ORD-PHARMACIST-001',
+            'user_id' => $this->customer->id,
+            'status' => OrderStatus::PAID,
+            'payment_method' => PaymentMethod::MIDTRANS,
+            'payment_status' => PaymentStatus::PAID,
+            'subtotal' => 35000,
+            'discount_total' => 0,
+            'shipping_cost' => 15000,
+            'grand_total' => 50000,
+            'shipping_method_id' => $this->shippingMethod->id,
+            'recipient_name' => 'Andi',
+            'recipient_phone' => '0812345678',
+            'shipping_address' => 'Jl Sukajadi No 1',
+        ]);
+
+        $this->actingAs($pharmacist)
+            ->post(route('admin.orders.status', $order->id), [
+                'status' => OrderStatus::PROCESSING->value,
+                'notes' => 'Pesanan sedang disiapkan',
+            ])
+            ->assertRedirect();
+
+        $this->assertEquals(OrderStatus::PROCESSING, $order->refresh()->status);
     }
 }

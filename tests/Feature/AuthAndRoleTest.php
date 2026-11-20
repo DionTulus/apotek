@@ -22,6 +22,34 @@ test('admin can access admin dashboard', function () {
     $response->assertOk();
 });
 
+test('admin is redirected to admin dashboard after login', function () {
+    $admin = User::factory()->create(['role' => Role::ADMIN]);
+
+    $response = $this->post(route('login.store'), [
+        'email' => $admin->email,
+        'password' => 'password',
+    ]);
+
+    $response->assertRedirect(route('dashboard', absolute: false));
+
+    $this->get(route('dashboard'))
+        ->assertRedirect(route('admin.dashboard', absolute: false));
+});
+
+test('pharmacist is redirected to order management after login', function () {
+    $pharmacist = User::factory()->create(['role' => Role::PHARMACIST]);
+
+    $response = $this->post(route('login.store'), [
+        'email' => $pharmacist->email,
+        'password' => 'password',
+    ]);
+
+    $response->assertRedirect(route('dashboard', absolute: false));
+
+    $this->get(route('dashboard'))
+        ->assertRedirect(route('admin.orders.index', absolute: false));
+});
+
 test('user registration assigns customer role by default', function () {
     $response = $this->post('/register', [
         'name' => 'Budi Baru',

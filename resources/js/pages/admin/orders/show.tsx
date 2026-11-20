@@ -55,6 +55,7 @@ interface Shipment {
 interface Prescription {
     id: number;
     prescription_number: string;
+    file_path: string;
     doctor_name?: string;
     patient_name?: string;
     image_url: string;
@@ -342,11 +343,23 @@ export default function OrderShow({ order, statusList }: Props) {
                                 </h2>
                                 <div className="flex flex-col sm:flex-row gap-4">
                                     <div className="w-32 h-32 rounded-lg bg-slate-100 border border-slate-200 overflow-hidden flex-shrink-0">
-                                        <img
-                                            src={order.prescription.image_url}
-                                            alt="Resep Dokter"
-                                            className="w-full h-full object-cover"
-                                        />
+                                        {order.prescription.file_path.toLowerCase().endsWith('.pdf') ? (
+                                            <a
+                                                href={order.prescription.image_url}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className="flex h-full flex-col items-center justify-center gap-2 text-xs font-bold text-slate-600 hover:text-blue-600"
+                                            >
+                                                <FileText className="h-8 w-8" />
+                                                Buka PDF
+                                            </a>
+                                        ) : (
+                                            <img
+                                                src={order.prescription.image_url}
+                                                alt="Resep Dokter"
+                                                className="w-full h-full object-cover"
+                                            />
+                                        )}
                                     </div>
                                     <div className="space-y-1.5 text-xs text-slate-600">
                                         <p><span className="font-semibold text-slate-800">No. Resep:</span> {order.prescription.prescription_number}</p>
