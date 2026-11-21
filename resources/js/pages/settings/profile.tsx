@@ -4,9 +4,10 @@ import DeleteUser from '@/components/delete-user';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { edit } from '@/routes/profile';
+import { edit as editSecurity } from '@/routes/security';
 import type { Auth } from '@/types';
 import { send } from '@/routes/verification';
-import { CheckCircle2, UserRound } from 'lucide-react';
+import { CheckCircle2, LockKeyhole, UserRound } from 'lucide-react';
 
 type PageProps = {
     auth: Auth;
@@ -147,6 +148,29 @@ export default function Profile({
                             </>
                         )}
                     </Form>
+                </section>
+
+                <section className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-8">
+                    <div className="flex items-start gap-4">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+                            <LockKeyhole className="h-6 w-6" />
+                        </div>
+                        <div>
+                            <h2 className="font-semibold text-slate-900">
+                                Keamanan Akun
+                            </h2>
+                            <p className="mt-1 text-sm text-slate-500">
+                                Ganti kata sandi untuk menjaga keamanan akun
+                                Anda.
+                            </p>
+                        </div>
+                    </div>
+                    <Button
+                        asChild
+                        className="shrink-0 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+                    >
+                        <Link href={editSecurity()}>Ganti Kata Sandi</Link>
+                    </Button>
                 </section>
 
                 <div className="mt-6">

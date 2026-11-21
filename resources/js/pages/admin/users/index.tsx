@@ -370,7 +370,7 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
                                 </div>
 
                                 <div>
-                                    <label className="block font-semibold text-slate-700 mb-1">Password</label>
+                                    <label className="block font-semibold text-slate-700 mb-1">Kata Sandi</label>
                                     <input
                                         type="password"
                                         value={addForm.data.password}
