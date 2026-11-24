@@ -178,6 +178,38 @@ mysql -u root -p apotek_erp < database/dump/apotek_erp.sql
 
 ---
 
+## Deploy Otomatis ke InfinityFree
+
+GitHub Actions mengunggah aplikasi ke `yon.page.gd` setiap push ke branch `main` jika proses build deployment berhasil. Pull request tidak mengunggah file. Pemeriksaan CI berjalan terpisah dan tidak menjadi syarat deploy. Workflow memakai FTP karena InfinityFree tidak menyediakan Git langsung di hosting.
+
+### 1. Tambahkan kredensial FTP sebagai GitHub Secrets
+
+Di repository GitHub, buka **Settings → Secrets and variables → Actions → New repository secret**, lalu tambahkan:
+
+- `INFINITYFREE_FTP_SERVER` — alamat server FTP dari panel InfinityFree.
+- `INFINITYFREE_FTP_USERNAME` — username FTP.
+- `INFINITYFREE_FTP_PASSWORD` — password FTP.
+
+Jangan memasukkan kredensial ke repository atau mengirimkannya melalui chat. FTP biasa tidak mengenkripsi koneksi; gunakan akun FTP khusus bila hosting menyediakannya.
+
+### 2. Siapkan konfigurasi aplikasi di hosting
+
+Setelah website InfinityFree selesai diaktifkan, buat file `.env` melalui FTP di `/htdocs/laravel/.env`. File ini tidak ikut diunggah oleh workflow. Atur setidaknya `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL` sesuai domain dan status SSL (`https://yon.page.gd` jika SSL aktif), `APP_KEY`, serta kredensial MySQL dari panel hosting.
+
+Hosting harus menyediakan PHP 8.3 atau lebih baru. Karena source Laravel berada di `/htdocs/laravel` dan folder itu diblokir dari akses web, set juga:
+
+```env
+FILESYSTEM_PUBLIC_ROOT=../storage
+```
+
+Dengan begitu, file pada disk `public` disimpan di `/htdocs/storage` dan dapat diakses melalui URL `/storage/...`. Buat key aplikasi secara lokal dengan `php artisan key:generate --show`; jangan gunakan key dari environment lokal yang sudah dipakai.
+
+### 3. Deploy
+
+Push perubahan ke `main`. Job **Deploy to InfinityFree** membangun dan mengunggah frontend serta dependency PHP production ke `/htdocs/`. File `.env`, dump database, file resep privat, dependency development, dan metadata Git tidak ikut diunggah. Workflow tidak menghapus seluruh isi hosting.
+
+Workflow ini hanya menangani upload file. Buat database MySQL dan siapkan skema aplikasinya melalui sarana hosting yang tersedia; InfinityFree tidak menjalankan perintah Artisan dari workflow FTP.
+
 ## 🎬 Skrip Panduan Demo Sistem (10–15 Menit)
 
 Gunakan skenario berikut saat mempresentasikan sistem:

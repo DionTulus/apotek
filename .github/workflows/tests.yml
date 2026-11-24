@@ -36,3 +36,83 @@ jobs:
 
       - name: Run CI Checks
         run: composer ci:check
+
+  deploy:
+    name: Deploy to InfinityFree
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+          coverage: none
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+
+      - name: Install production dependencies and build assets
+        run: |
+          cp .env.example .env
+          composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
+          php artisan key:generate --force
+          npm ci
+          npm run build
+
+      - name: Prepare InfinityFree files
+        run: |
+          release="$RUNNER_TEMP/infinityfree-release"
+          mkdir -p "$release/laravel"
+
+          rsync -a \
+            --exclude='/.git/' \
+            --exclude='/.github/' \
+            --exclude='/.env*' \
+            --exclude='/node_modules/' \
+            --exclude='/vendor/' \
+            --exclude='/tests/' \
+            --exclude='/database/dump/' \
+            --exclude='/database/database.sqlite' \
+            --exclude='/storage/app/private/' \
+            --exclude='/public/' \
+            --exclude='/package-lock.json' \
+            --exclude='/package.json' \
+            --exclude='/pnpm-workspace.yaml' \
+            --exclude='/vite.config.ts' \
+            --exclude='/tsconfig.json' \
+            --exclude='/phpunit.xml' \
+            --exclude='/phpstan.neon' \
+            --exclude='/pint.json' \
+            --exclude='/boost.json' \
+            --exclude='/components.json' \
+            --exclude='/README.md' \
+            --exclude='/moduleAndDocs/' \
+            ./ "$release/laravel/"
+
+          rsync -a vendor/ "$release/laravel/vendor/"
+          rsync -a --exclude='/index.php' --exclude='/.htaccess' \
+            public/ "$release/"
+          cp deployment/infinityfree/index.php "$release/index.php"
+          cp deployment/infinityfree/root.htaccess "$release/.htaccess"
+          cp deployment/infinityfree/laravel.htaccess "$release/laravel/.htaccess"
+
+      - name: Upload to InfinityFree
+        uses: SamKirkland/FTP-Deploy-Action@8e83cea8672e3fbcbb9fdafff34debf6ae4c5f65 # v4.3.5
+        with:
+          server: ${{ secrets.INFINITYFREE_FTP_SERVER }}
+          username: ${{ secrets.INFINITYFREE_FTP_USERNAME }}
+          password: ${{ secrets.INFINITYFREE_FTP_PASSWORD }}
+          protocol: ftp
+          local-dir: ${{ runner.temp }}/infinityfree-release/
+          server-dir: /htdocs/
+          dangerous-clean-slate: false
+          log-level: minimal
