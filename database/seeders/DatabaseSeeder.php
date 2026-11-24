@@ -7,6 +7,7 @@ use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
 use App\Enums\PaymentStatus;
 use App\Enums\PurchaseStatus;
+use App\Enums\PrescriptionStatus;
 use App\Enums\Role;
 use App\Enums\ShipmentStatus;
 use App\Enums\StockMovementType;
@@ -25,6 +26,7 @@ use App\Models\OrderItem;
 use App\Models\OrderStatusHistory;
 use App\Models\PageVisit;
 use App\Models\Payment;
+use App\Models\Prescription;
 use App\Models\Product;
 use App\Models\ProductBatch;
 use App\Models\Promo;
@@ -40,6 +42,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
@@ -363,6 +366,60 @@ class DatabaseSeeder extends Seeder
 
             $products[] = $prod;
         }
+
+        // 7b. Contoh antrian resep menunggu validasi apoteker
+        $prescriptionProduct = collect($products)->first(fn (Product $product) => $product->requires_prescription);
+        $prescriptionPath = 'prescriptions/contoh-resep.png';
+        Storage::disk('local')->put($prescriptionPath, file_get_contents(public_path('logo_klinik.png')));
+
+        $prescription = Prescription::create([
+            'user_id' => $customer1->id,
+            'file_path' => $prescriptionPath,
+            'doctor_name' => 'dr. Andi Santoso, Sp.A',
+            'status' => PrescriptionStatus::PENDING,
+            'created_at' => now()->subMinutes(30),
+            'updated_at' => now()->subMinutes(30),
+        ]);
+
+        $prescriptionOrder = Order::create([
+            'order_number' => 'APT-'.now()->format('Ymd').'-RX001',
+            'user_id' => $customer1->id,
+            'prescription_id' => $prescription->id,
+            'status' => OrderStatus::AWAITING_PRESCRIPTION,
+            'payment_method' => PaymentMethod::MIDTRANS,
+            'payment_status' => PaymentStatus::UNPAID,
+            'subtotal' => $prescriptionProduct->price,
+            'discount_total' => 0,
+            'shipping_cost' => $shippingMethods[0]->base_cost,
+            'grand_total' => $prescriptionProduct->price + $shippingMethods[0]->base_cost,
+            'shipping_method_id' => $shippingMethods[0]->id,
+            'recipient_name' => $customer1->name,
+            'recipient_phone' => $customer1->phone,
+            'shipping_address' => 'Jl. Ganesha No. 10, Coblong, Kota Bandung',
+            'created_at' => now()->subMinutes(30),
+            'updated_at' => now()->subMinutes(30),
+        ]);
+
+        OrderItem::create([
+            'order_id' => $prescriptionOrder->id,
+            'product_id' => $prescriptionProduct->id,
+            'product_name' => $prescriptionProduct->name,
+            'sku' => $prescriptionProduct->sku,
+            'price' => $prescriptionProduct->price,
+            'cost_price' => $prescriptionProduct->cost_price,
+            'qty' => 1,
+            'subtotal' => $prescriptionProduct->price,
+            'created_at' => now()->subMinutes(30),
+            'updated_at' => now()->subMinutes(30),
+        ]);
+
+        OrderStatusHistory::create([
+            'order_id' => $prescriptionOrder->id,
+            'status' => OrderStatus::AWAITING_PRESCRIPTION,
+            'note' => 'Menunggu validasi resep dokter oleh apoteker.',
+            'created_at' => now()->subMinutes(30),
+            'updated_at' => now()->subMinutes(30),
+        ]);
 
         // 8. Testimonials (8)
         $testimonials = [

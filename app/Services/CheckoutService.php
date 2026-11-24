@@ -85,6 +85,10 @@ class CheckoutService
                 $totalWeightGram += $product->weight_gram * $item->qty;
             }
 
+            if ($hasPrescriptionProducts && ! $prescriptionFile) {
+                throw new Exception('Unggah resep dokter untuk melanjutkan pesanan obat keras.');
+            }
+
             // Calculate shipping cost
             $shippingCost = $this->shippingService->calculateCost($shippingMethod, $totalWeightGram);
 

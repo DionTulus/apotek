@@ -96,6 +96,35 @@ class AdminCatalogAndInventoryTest extends TestCase
         $this->assertEquals(9500, $product->price);
     }
 
+    public function test_duplicate_product_name_creates_unique_slug(): void
+    {
+        foreach (['DUP-001', 'DUP-002'] as $sku) {
+            $this->actingAs($this->admin)->post(route('admin.products.store'), [
+                'category_id' => $this->category->id,
+                'name' => 'Obat Canva Asli',
+                'sku' => $sku,
+                'drug_class' => DrugClass::KERAS->value,
+                'price' => 10000,
+                'cost_price' => 1000,
+                'unit' => 'Tablet',
+                'stock' => 10,
+                'min_stock' => 2,
+                'weight_gram' => 8,
+                'requires_prescription' => false,
+                'is_active' => true,
+            ])->assertRedirect(route('admin.products.index'));
+        }
+
+        $this->assertDatabaseHas('products', [
+            'name' => 'Obat Canva Asli',
+            'slug' => 'obat-canva-asli',
+        ]);
+        $this->assertDatabaseHas('products', [
+            'name' => 'Obat Canva Asli',
+            'slug' => 'obat-canva-asli-2',
+        ]);
+    }
+
     public function test_admin_can_adjust_stock_manually(): void
     {
         $product = Product::create([

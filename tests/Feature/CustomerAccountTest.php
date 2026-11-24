@@ -6,6 +6,8 @@ use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Enums\Role;
 use App\Enums\ShipmentStatus;
+use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
@@ -216,5 +218,30 @@ class CustomerAccountTest extends TestCase
         $this->actingAs($pharmacist)
             ->get(route('prescriptions.file', $prescription))
             ->assertOk();
+    }
+
+    public function test_checkout_requires_prescription_file_for_prescription_product(): void
+    {
+        $this->product->update(['requires_prescription' => true]);
+
+        $cart = Cart::create(['user_id' => $this->user->id]);
+        CartItem::create([
+            'cart_id' => $cart->id,
+            'product_id' => $this->product->id,
+            'qty' => 1,
+        ]);
+
+        $this->actingAs($this->user)
+            ->post(route('checkout.store'), [
+                'recipient_name' => 'Budi',
+                'recipient_phone' => '08123456789',
+                'full_address' => 'Jl Dago',
+                'shipping_method_id' => $this->shippingMethod->id,
+                'payment_method' => 'midtrans',
+            ])
+            ->assertRedirect()
+            ->assertSessionHas('error', 'Unggah resep dokter untuk melanjutkan pesanan obat keras.');
+
+        $this->assertDatabaseMissing('orders', ['user_id' => $this->user->id]);
     }
 }

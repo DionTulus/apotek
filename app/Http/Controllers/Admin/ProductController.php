@@ -81,7 +81,7 @@ class ProductController extends Controller
             'image'                 => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
         ]);
 
-        $data['slug'] = Str::slug($data['name']);
+        $data['slug'] = $this->makeUniqueSlug($data['name']);
         $initialStock = (int) $data['stock'];
 
         if ($request->hasFile('image')) {
@@ -137,7 +137,7 @@ class ProductController extends Controller
             'image'                 => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
         ]);
 
-        $data['slug'] = Str::slug($data['name']);
+        $data['slug'] = $this->makeUniqueSlug($data['name'], $product->id);
 
         if ($request->hasFile('image')) {
             if ($product->image) {
@@ -155,5 +155,22 @@ class ProductController extends Controller
     {
         $product->delete();
         return back()->with('success', 'Produk berhasil dihapus (soft delete).');
+    }
+
+    private function makeUniqueSlug(string $name, ?int $exceptId = null): string
+    {
+        $baseSlug = Str::slug($name);
+        $slug = $baseSlug;
+        $suffix = 2;
+
+        while (Product::withTrashed()
+            ->where('slug', $slug)
+            ->when($exceptId, fn ($query) => $query->where('id', '<>', $exceptId))
+            ->exists()) {
+            $slug = "{$baseSlug}-{$suffix}";
+            $suffix++;
+        }
+
+        return $slug;
     }
 }
