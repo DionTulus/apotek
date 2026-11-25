@@ -61,7 +61,7 @@ class AdminReportController extends Controller
 
         $totalSales = (clone $baseOrdersQuery)->sum('grand_total');
         $totalOrdersCount = (clone $baseOrdersQuery)->count();
-        $totalDiscounts = (clone $baseOrdersQuery)->sum('discount_amount');
+        $totalDiscounts = (clone $baseOrdersQuery)->sum('discount_total');
         $aov = $totalOrdersCount > 0 ? round($totalSales / $totalOrdersCount) : 0;
 
         $totalQtySold = OrderItem::whereHas('order', function ($q) use ($startDate, $endDate, $validStatuses) {
@@ -197,7 +197,7 @@ class AdminReportController extends Controller
                     $order->status->value,
                     strtoupper($order->payment_method),
                     $order->subtotal,
-                    $order->discount_amount,
+                    $order->discount_total,
                     $order->shipping_cost,
                     $order->grand_total,
                     $itemsStr,
