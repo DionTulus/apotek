@@ -41,7 +41,7 @@ interface Props {
 
 const drugClassColors: Record<string, string> = {
     bebas: 'bg-green-50 text-green-700',
-    bebas_terbatas: 'bg-blue-50 text-blue-700',
+    bebas_terbatas: 'bg-emerald-50 text-emerald-700',
     keras: 'bg-red-50 text-red-700',
     herbal: 'bg-emerald-50 text-emerald-700',
     suplemen: 'bg-yellow-50 text-yellow-700',
@@ -80,7 +80,7 @@ export default function ProductsIndex({ products, categories, drugClasses, filte
                     </div>
                     <Link
                         href="/admin/produk/create"
-                        className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition"
+                        className="flex items-center gap-2 bg-emerald-700 hover:bg-emerald-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition"
                         id="btn-add-product"
                     >
                         <Plus className="w-4 h-4" /> Tambah Produk
@@ -97,7 +97,7 @@ export default function ProductsIndex({ products, categories, drugClasses, filte
                                 value={form.data.search}
                                 onChange={(e) => form.setData('search', e.target.value)}
                                 placeholder="Nama / SKU..."
-                                className="w-full pl-9 pr-3 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                                className="w-full pl-9 pr-3 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-300"
                                 id="input-product-search"
                             />
                         </div>
@@ -108,7 +108,7 @@ export default function ProductsIndex({ products, categories, drugClasses, filte
                         <select
                             value={form.data.category}
                             onChange={(e) => form.setData('category', e.target.value)}
-                            className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                            className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300"
                         >
                             <option value="">Semua</option>
                             {categories.map((c) => (
@@ -122,7 +122,7 @@ export default function ProductsIndex({ products, categories, drugClasses, filte
                         <select
                             value={form.data.drug_class}
                             onChange={(e) => form.setData('drug_class', e.target.value)}
-                            className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                            className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300"
                         >
                             <option value="">Semua</option>
                             {drugClasses.map((d) => (
@@ -136,7 +136,7 @@ export default function ProductsIndex({ products, categories, drugClasses, filte
                         <select
                             value={form.data.stock_alert}
                             onChange={(e) => form.setData('stock_alert', e.target.value)}
-                            className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                            className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300"
                         >
                             <option value="">Semua</option>
                             <option value="low">Stok Rendah</option>
@@ -228,7 +228,7 @@ export default function ProductsIndex({ products, categories, drugClasses, filte
                                                 <div className="flex items-center justify-end gap-2">
                                                     <Link
                                                         href={`/admin/produk/${p.id}/edit`}
-                                                        className="p-1.5 rounded-lg hover:bg-indigo-50 text-indigo-600"
+                                                        className="p-1.5 rounded-lg hover:bg-emerald-50 text-emerald-600"
                                                         title="Edit"
                                                     >
                                                         <Edit2 className="w-4 h-4" />
@@ -259,7 +259,7 @@ export default function ProductsIndex({ products, categories, drugClasses, filte
                                 href={link.url ?? '#'}
                                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${
                                     link.active
-                                        ? 'bg-indigo-600 text-white border-indigo-600'
+                                        ? 'bg-emerald-700 text-white border-emerald-600'
                                         : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                                 } ${!link.url ? 'opacity-40 pointer-events-none' : ''}`}
                                 dangerouslySetInnerHTML={{ __html: link.label }}

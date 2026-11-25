@@ -107,7 +107,7 @@ export default function PrescriptionsIndex({ prescriptions, filters }: Props) {
                                     onClick={() => handleFilterStatus(st)}
                                     className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition ${
                                         isActive
-                                            ? 'bg-[#8CA9FF] text-white shadow-xs'
+                                            ? 'bg-[#065f46] text-white shadow-xs'
                                             : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
                                     }`}
                                 >
@@ -134,7 +134,7 @@ export default function PrescriptionsIndex({ prescriptions, filters }: Props) {
                                                 href={rx.image_url}
                                                 target="_blank"
                                                 rel="noreferrer"
-                                                className="flex h-full flex-col items-center justify-center gap-2 text-sm font-bold text-slate-600 hover:text-blue-600"
+                                                className="flex h-full flex-col items-center justify-center gap-2 text-sm font-bold text-slate-600 hover:text-emerald-600"
                                             >
                                                 <FileText className="h-10 w-10" />
                                                 Buka resep PDF
@@ -199,7 +199,7 @@ export default function PrescriptionsIndex({ prescriptions, filters }: Props) {
                                                     <span className="font-semibold">Order Terkait:</span>
                                                     <Link
                                                         href={`/admin/pesanan/${rx.order.id}`}
-                                                        className="text-[#6587e6] hover:underline font-mono font-bold"
+                                                        className="text-[#047857] hover:underline font-mono font-bold"
                                                     >
                                                         #{rx.order.order_number}
                                                     </Link>
@@ -224,7 +224,7 @@ export default function PrescriptionsIndex({ prescriptions, filters }: Props) {
                                     <div className="p-4 pt-0 flex items-center gap-2">
                                         <button
                                             onClick={() => handleApprove(rx)}
-                                            className="flex-1 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5"
+                                            className="flex-1 py-2 bg-emerald-700 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5"
                                         >
                                             <CheckCircle2 className="w-4 h-4" /> Setujui
                                         </button>

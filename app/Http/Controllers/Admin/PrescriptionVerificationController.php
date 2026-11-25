@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\OrderStatus;
+use App\Enums\PaymentMethod;
 use App\Enums\PrescriptionStatus;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Prescription;
 use App\Services\PaymentService;
 use Illuminate\Http\RedirectResponse;
@@ -47,19 +49,29 @@ class PrescriptionVerificationController extends Controller
                 'note'        => $request->input('note'),
             ]);
 
-            // Advance related order from awaiting_prescription to paid
-            $order = \App\Models\Order::where('prescription_id', $prescription->id)->first();
+            $order = Order::where('prescription_id', $prescription->id)
+                ->lockForUpdate()
+                ->first();
             if ($order && $order->status === OrderStatus::AWAITING_PRESCRIPTION) {
-                $order->update(['status' => OrderStatus::PAID, 'paid_at' => now()]);
+                $nextStatus = $order->payment_method === PaymentMethod::COD
+                    ? OrderStatus::PROCESSING
+                    : OrderStatus::PENDING_PAYMENT;
+
+                $order->update([
+                    'status' => $nextStatus,
+                    'expires_at' => now()->addHours(24),
+                ]);
                 $order->statusHistories()->create([
-                    'status'     => OrderStatus::PAID,
-                    'note'       => 'Resep dokter telah diverifikasi dan disetujui.',
+                    'status'     => $nextStatus,
+                    'note'       => $order->payment_method === PaymentMethod::COD
+                        ? 'Resep disetujui. Pesanan siap diproses dengan pembayaran COD.'
+                        : 'Resep disetujui. Pelanggan dapat melanjutkan pembayaran.',
                     'created_by' => $request->user()->id,
                 ]);
             }
         });
 
-        return back()->with('success', 'Resep berhasil disetujui. Pesanan dapat dilanjutkan.');
+        return back()->with('success', 'Resep disetujui. Pesanan dapat dilanjutkan sesuai metode pembayaran.');
     }
 
     public function reject(Request $request, Prescription $prescription, PaymentService $paymentService): RedirectResponse

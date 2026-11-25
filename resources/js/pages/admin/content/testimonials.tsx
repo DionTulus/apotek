@@ -94,7 +94,7 @@ export default function TestimonialsIndex({ testimonials }: Props) {
                                     <p className="text-xs text-slate-700 italic">"{t.content}"</p>
 
                                     <div className="pt-2 border-t border-slate-100 flex items-center gap-2.5">
-                                        <div className="w-8 h-8 rounded-full bg-[#8CA9FF]/20 text-[#6587e6] font-bold text-xs flex items-center justify-center">
+                                        <div className="w-8 h-8 rounded-full bg-[#065f46]/20 text-[#047857] font-bold text-xs flex items-center justify-center">
                                             {t.name.slice(0, 2).toUpperCase()}
                                         </div>
                                         <div>
@@ -112,7 +112,7 @@ export default function TestimonialsIndex({ testimonials }: Props) {
                                         className={`flex-1 py-1.5 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 ${
                                             t.is_approved
                                                 ? 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-                                                : 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                                                : 'bg-emerald-700 hover:bg-emerald-700 text-white'
                                         }`}
                                     >
                                         {t.is_approved ? (
@@ -154,7 +154,7 @@ export default function TestimonialsIndex({ testimonials }: Props) {
                                     dangerouslySetInnerHTML={{ __html: link.label }}
                                     className={`px-3 py-1.5 rounded-lg font-medium transition ${
                                         link.active
-                                            ? 'bg-[#8CA9FF] text-white font-bold'
+                                            ? 'bg-[#065f46] text-white font-bold'
                                             : link.url
                                             ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                             : 'text-slate-300 pointer-events-none'

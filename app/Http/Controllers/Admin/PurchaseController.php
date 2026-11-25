@@ -44,7 +44,14 @@ class PurchaseController extends Controller
     {
         return Inertia::render('admin/purchases/create', [
             'suppliers' => Supplier::where('is_active', true)->orderBy('name')->get(['id', 'name']),
-            'products'  => Product::where('is_active', true)->orderBy('name')->get(['id', 'name', 'sku', 'cost_price', 'unit']),
+            'products' => Product::where('is_active', true)
+                ->orderBy('name')
+                ->get(['id', 'name', 'sku', 'cost_price', 'unit']),
+            'criticalStockProducts' => Product::where('is_active', true)
+                ->whereColumn('stock', '<=', 'min_stock')
+                ->orderBy('stock')
+                ->limit(5)
+                ->get(['id', 'name', 'sku', 'stock', 'min_stock', 'unit', 'cost_price']),
         ]);
     }
 

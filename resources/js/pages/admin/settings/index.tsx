@@ -61,7 +61,7 @@ export default function SettingsIndex({ settings }: Props) {
                         onClick={() => setActiveTab('profile')}
                         className={`pb-3 border-b-2 flex items-center gap-2 transition ${
                             activeTab === 'profile'
-                                ? 'border-[#8CA9FF] text-[#6587e6] font-bold'
+                                ? 'border-[#065f46] text-[#047857] font-bold'
                                 : 'border-transparent text-slate-500 hover:text-slate-800'
                         }`}
                     >
@@ -71,7 +71,7 @@ export default function SettingsIndex({ settings }: Props) {
                         onClick={() => setActiveTab('legal')}
                         className={`pb-3 border-b-2 flex items-center gap-2 transition ${
                             activeTab === 'legal'
-                                ? 'border-[#8CA9FF] text-[#6587e6] font-bold'
+                                ? 'border-[#065f46] text-[#047857] font-bold'
                                 : 'border-transparent text-slate-500 hover:text-slate-800'
                         }`}
                     >
@@ -81,7 +81,7 @@ export default function SettingsIndex({ settings }: Props) {
                         onClick={() => setActiveTab('payment')}
                         className={`pb-3 border-b-2 flex items-center gap-2 transition ${
                             activeTab === 'payment'
-                                ? 'border-[#8CA9FF] text-[#6587e6] font-bold'
+                                ? 'border-[#065f46] text-[#047857] font-bold'
                                 : 'border-transparent text-slate-500 hover:text-slate-800'
                         }`}
                     >
@@ -101,7 +101,7 @@ export default function SettingsIndex({ settings }: Props) {
                                         type="text"
                                         value={form.data.site_name}
                                         onChange={(e) => form.setData('site_name', e.target.value)}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -111,7 +111,7 @@ export default function SettingsIndex({ settings }: Props) {
                                         type="text"
                                         value={form.data.site_tagline}
                                         onChange={(e) => form.setData('site_tagline', e.target.value)}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                     />
                                 </div>
                             </div>
@@ -123,7 +123,7 @@ export default function SettingsIndex({ settings }: Props) {
                                         type="text"
                                         value={form.data.phone}
                                         onChange={(e) => form.setData('phone', e.target.value)}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                     />
                                 </div>
                                 <div>
@@ -132,7 +132,7 @@ export default function SettingsIndex({ settings }: Props) {
                                         type="text"
                                         value={form.data.whatsapp}
                                         onChange={(e) => form.setData('whatsapp', e.target.value)}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                     />
                                 </div>
                                 <div>
@@ -141,7 +141,7 @@ export default function SettingsIndex({ settings }: Props) {
                                         type="email"
                                         value={form.data.email}
                                         onChange={(e) => form.setData('email', e.target.value)}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                     />
                                 </div>
                             </div>
@@ -153,7 +153,7 @@ export default function SettingsIndex({ settings }: Props) {
                                     value={form.data.operating_hours}
                                     onChange={(e) => form.setData('operating_hours', e.target.value)}
                                     placeholder="Senin - Minggu: 08:00 - 22:00 WIB"
-                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                 />
                             </div>
 
@@ -163,7 +163,7 @@ export default function SettingsIndex({ settings }: Props) {
                                     value={form.data.address}
                                     onChange={(e) => form.setData('address', e.target.value)}
                                     rows={2}
-                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                 />
                             </div>
 
@@ -176,7 +176,7 @@ export default function SettingsIndex({ settings }: Props) {
                                     value={form.data.maps_embed}
                                     onChange={(e) => form.setData('maps_embed', e.target.value)}
                                     placeholder="https://maps.google.com/maps?..."
-                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF] font-mono text-[11px]"
+                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46] font-mono text-[11px]"
                                 />
                             </div>
                         </div>
@@ -191,7 +191,7 @@ export default function SettingsIndex({ settings }: Props) {
                                     value={form.data.vision}
                                     onChange={(e) => form.setData('vision', e.target.value)}
                                     rows={2}
-                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                 />
                             </div>
 
@@ -201,7 +201,7 @@ export default function SettingsIndex({ settings }: Props) {
                                     value={form.data.mission}
                                     onChange={(e) => form.setData('mission', e.target.value)}
                                     rows={3}
-                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                 />
                             </div>
 
@@ -213,7 +213,7 @@ export default function SettingsIndex({ settings }: Props) {
                                     value={form.data.terms_content}
                                     onChange={(e) => form.setData('terms_content', e.target.value)}
                                     rows={5}
-                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                 />
                             </div>
 
@@ -225,7 +225,7 @@ export default function SettingsIndex({ settings }: Props) {
                                     value={form.data.privacy_content}
                                     onChange={(e) => form.setData('privacy_content', e.target.value)}
                                     rows={5}
-                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                 />
                             </div>
                         </div>
@@ -244,8 +244,8 @@ export default function SettingsIndex({ settings }: Props) {
                                     type="text"
                                     value={form.data.bank_bca}
                                     onChange={(e) => form.setData('bank_bca', e.target.value)}
-                                    placeholder="Contoh: 123-456-7890 a/n PT Klinik Premisys Medika"
-                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF] font-mono"
+                                    placeholder="Contoh: 123-456-7890 a/n PT Klinik Premysis Medika"
+                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46] font-mono"
                                 />
                             </div>
 
@@ -255,8 +255,8 @@ export default function SettingsIndex({ settings }: Props) {
                                     type="text"
                                     value={form.data.bank_mandiri}
                                     onChange={(e) => form.setData('bank_mandiri', e.target.value)}
-                                    placeholder="Contoh: 987-654-3210 a/n PT Klinik Premisys Medika"
-                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF] font-mono"
+                                    placeholder="Contoh: 987-654-3210 a/n PT Klinik Premysis Medika"
+                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46] font-mono"
                                 />
                             </div>
                         </div>
@@ -267,7 +267,7 @@ export default function SettingsIndex({ settings }: Props) {
                         <button
                             type="submit"
                             disabled={form.processing}
-                            className="px-6 py-2.5 bg-[#8CA9FF] hover:bg-[#7292eb] text-white text-xs font-bold rounded-lg transition flex items-center gap-2 shadow-xs"
+                            className="px-6 py-2.5 bg-[#065f46] hover:bg-[#047857] text-white text-xs font-bold rounded-lg transition flex items-center gap-2 shadow-xs"
                         >
                             <Save className="w-4 h-4" />
                             {form.processing ? 'Menyimpan Pengaturan...' : 'Simpan Semua Pengaturan'}

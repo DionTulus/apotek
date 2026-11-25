@@ -88,7 +88,7 @@ export default function CrmShow({ lead, statuses }: Props) {
             case 'whatsapp':
                 return <MessageCircle className="w-4 h-4 text-emerald-500" />;
             case 'phone':
-                return <Phone className="w-4 h-4 text-blue-500" />;
+                return <Phone className="w-4 h-4 text-emerald-500" />;
             case 'email':
                 return <Mail className="w-4 h-4 text-amber-500" />;
             case 'consultation':
@@ -114,7 +114,7 @@ export default function CrmShow({ lead, statuses }: Props) {
                         <div>
                             <div className="flex items-center gap-2">
                                 <h1 className="text-xl font-bold text-slate-800">{lead.name}</h1>
-                                <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase bg-blue-100 text-blue-800">
+                                <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase bg-emerald-100 text-emerald-800">
                                     {lead.status}
                                 </span>
                             </div>
@@ -129,7 +129,7 @@ export default function CrmShow({ lead, statuses }: Props) {
                         href={`https://wa.me/${lead.phone.replace(/[^0-9]/g, '')}`}
                         target="_blank"
                         rel="noreferrer"
-                        className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-2 shadow-xs"
+                        className="px-4 py-2 bg-emerald-700 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-2 shadow-xs"
                     >
                         <MessageCircle className="w-4 h-4" /> Hubungi via WhatsApp
                     </a>
@@ -142,7 +142,7 @@ export default function CrmShow({ lead, statuses }: Props) {
                         {/* Profile Info */}
                         <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
                             <h2 className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
-                                <User className="w-4 h-4 text-[#8CA9FF]" />
+                                <User className="w-4 h-4 text-[#065f46]" />
                                 Informasi Kontak Prospek
                             </h2>
                             <div className="space-y-3 text-xs">
@@ -178,7 +178,7 @@ export default function CrmShow({ lead, statuses }: Props) {
                         {/* Pipeline Status Form */}
                         <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
                             <h2 className="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
-                                <CheckCircle2 className="w-4 h-4 text-[#8CA9FF]" />
+                                <CheckCircle2 className="w-4 h-4 text-[#065f46]" />
                                 Update Status Pipeline
                             </h2>
                             <form onSubmit={submitStatus} className="space-y-3 text-xs">
@@ -186,7 +186,7 @@ export default function CrmShow({ lead, statuses }: Props) {
                                     <select
                                         value={statusForm.data.status}
                                         onChange={(e) => statusForm.setData('status', e.target.value)}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                     >
                                         {statuses.map((st) => (
                                             <option key={st.value} value={st.value}>
@@ -198,7 +198,7 @@ export default function CrmShow({ lead, statuses }: Props) {
                                 <button
                                     type="submit"
                                     disabled={statusForm.processing}
-                                    className="w-full py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded-lg font-bold transition shadow-xs"
+                                    className="w-full py-2 bg-[#065f46] hover:bg-[#047857] text-white rounded-lg font-bold transition shadow-xs"
                                 >
                                     {statusForm.processing ? 'Menyimpan...' : 'Simpan Perubahan Status'}
                                 </button>
@@ -217,7 +217,7 @@ export default function CrmShow({ lead, statuses }: Props) {
                                 </p>
                                 <Link
                                     href={`/admin/pelanggan/${lead.user.id}`}
-                                    className="text-xs font-semibold text-[#6587e6] hover:underline"
+                                    className="text-xs font-semibold text-[#047857] hover:underline"
                                 >
                                     Lihat Riwayat Belanja Pelanggan &rarr;
                                 </Link>
@@ -230,7 +230,7 @@ export default function CrmShow({ lead, statuses }: Props) {
                         {/* Record New Interaction Form */}
                         <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
                             <h2 className="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
-                                <Plus className="w-4 h-4 text-[#8CA9FF]" />
+                                <Plus className="w-4 h-4 text-[#065f46]" />
                                 Catat Interaksi / Follow-up Baru
                             </h2>
                             <form onSubmit={submitInteraction} className="space-y-4 text-xs">
@@ -242,7 +242,7 @@ export default function CrmShow({ lead, statuses }: Props) {
                                         <select
                                             value={interactionForm.data.type}
                                             onChange={(e) => interactionForm.setData('type', e.target.value)}
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         >
                                             <option value="whatsapp">WhatsApp Chat</option>
                                             <option value="phone">Panggilan Telepon</option>
@@ -260,7 +260,7 @@ export default function CrmShow({ lead, statuses }: Props) {
                                             type="date"
                                             value={interactionForm.data.interacted_at}
                                             onChange={(e) => interactionForm.setData('interacted_at', e.target.value)}
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         />
                                     </div>
                                 </div>
@@ -274,7 +274,7 @@ export default function CrmShow({ lead, statuses }: Props) {
                                         onChange={(e) => interactionForm.setData('summary', e.target.value)}
                                         placeholder="Contoh: Sudah dikonfirmasi membutuhkan resep antibiotik, diarahkan untuk mengunggah resep di website..."
                                         rows={3}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -283,7 +283,7 @@ export default function CrmShow({ lead, statuses }: Props) {
                                     <button
                                         type="submit"
                                         disabled={interactionForm.processing}
-                                        className="px-4 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded-lg font-bold transition flex items-center gap-1.5 shadow-xs"
+                                        className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white rounded-lg font-bold transition flex items-center gap-1.5 shadow-xs"
                                     >
                                         <Send className="w-3.5 h-3.5" />
                                         {interactionForm.processing ? 'Menyimpan...' : 'Simpan Catatan Follow-up'}
@@ -303,8 +303,8 @@ export default function CrmShow({ lead, statuses }: Props) {
                                 <div className="relative border-l-2 border-slate-200 ml-3 space-y-4 py-2">
                                     {lead.interactions.map((act) => (
                                         <div key={act.id} className="relative pl-6">
-                                            <div className="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-white border-2 border-[#8CA9FF] flex items-center justify-center">
-                                                <span className="w-1.5 h-1.5 rounded-full bg-[#8CA9FF]" />
+                                            <div className="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-white border-2 border-[#065f46] flex items-center justify-center">
+                                                <span className="w-1.5 h-1.5 rounded-full bg-[#065f46]" />
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <div className="flex items-center gap-1 font-bold text-slate-800 uppercase text-xs">

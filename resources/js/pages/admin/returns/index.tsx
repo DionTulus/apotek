@@ -105,7 +105,7 @@ export default function ReturnsIndex({ returns, statusList, filters }: Props) {
                             onClick={() => handleFilterStatus('')}
                             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
                                 !filters.status
-                                    ? 'bg-[#8CA9FF] text-white shadow-xs'
+                                    ? 'bg-[#065f46] text-white shadow-xs'
                                     : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
                             }`}
                         >
@@ -117,7 +117,7 @@ export default function ReturnsIndex({ returns, statusList, filters }: Props) {
                                 onClick={() => handleFilterStatus(st.value)}
                                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition ${
                                     filters.status === st.value
-                                        ? 'bg-[#8CA9FF] text-white shadow-xs'
+                                        ? 'bg-[#065f46] text-white shadow-xs'
                                         : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
                                 }`}
                             >
@@ -155,7 +155,7 @@ export default function ReturnsIndex({ returns, statusList, filters }: Props) {
                                                     {ret.order ? (
                                                         <Link
                                                             href={`/admin/pesanan/${ret.order.id}`}
-                                                            className="text-[#6587e6] hover:underline"
+                                                            className="text-[#047857] hover:underline"
                                                         >
                                                             #{ret.order.order_number}
                                                         </Link>
@@ -188,7 +188,7 @@ export default function ReturnsIndex({ returns, statusList, filters }: Props) {
                                                         className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase inline-block mb-1 ${
                                                             isRefund
                                                                 ? 'bg-amber-100 text-amber-800'
-                                                                : 'bg-blue-100 text-blue-800'
+                                                                : 'bg-emerald-100 text-emerald-800'
                                                         }`}
                                                     >
                                                         {ret.type}
@@ -239,7 +239,7 @@ export default function ReturnsIndex({ returns, statusList, filters }: Props) {
                                                                 onClick={() =>
                                                                     setActionModal({ type: 'approve', item: ret })
                                                                 }
-                                                                className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-[11px] font-bold transition inline-flex items-center gap-1"
+                                                                className="px-2.5 py-1 bg-emerald-700 hover:bg-emerald-700 text-white rounded text-[11px] font-bold transition inline-flex items-center gap-1"
                                                             >
                                                                 <CheckCircle2 className="w-3.5 h-3.5" /> Setujui
                                                             </button>
@@ -284,7 +284,7 @@ export default function ReturnsIndex({ returns, statusList, filters }: Props) {
                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                         className={`px-3 py-1.5 rounded-lg font-medium transition ${
                                             link.active
-                                                ? 'bg-[#8CA9FF] text-white font-bold'
+                                                ? 'bg-[#065f46] text-white font-bold'
                                                 : link.url
                                                 ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                                 : 'text-slate-300 pointer-events-none'
@@ -357,7 +357,7 @@ export default function ReturnsIndex({ returns, statusList, filters }: Props) {
                                                 : 'Contoh: Kerusakan bukan akibat kesalahan pengiriman / segel obat terbuka...'
                                         }
                                         rows={3}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required={actionModal.type === 'reject'}
                                     />
                                 </div>
@@ -374,7 +374,7 @@ export default function ReturnsIndex({ returns, statusList, filters }: Props) {
                                         disabled={actionForm.processing}
                                         className={`px-4 py-2 text-white rounded-lg transition font-bold ${
                                             actionModal.type === 'approve'
-                                                ? 'bg-emerald-600 hover:bg-emerald-700'
+                                                ? 'bg-emerald-700 hover:bg-emerald-700'
                                                 : 'bg-rose-600 hover:bg-rose-700'
                                         }`}
                                     >

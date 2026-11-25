@@ -50,12 +50,12 @@ export default function Cart({ cartItems = [], subtotal = 0 }: CartProps) {
 
     return (
         <StoreLayout>
-            <Head title="Keranjang Belanja - Klinik Premisys Medika" />
+            <Head title="Keranjang Belanja - Klinik Premysis Medika" />
 
             {/* Header */}
             <div className="bg-slate-900 text-white py-10 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
                 <div className="max-w-7xl mx-auto flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-2xl bg-[#8CA9FF]/20 border border-[#8CA9FF]/30 text-[#8CA9FF] flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-2xl bg-[#065f46]/20 border border-[#065f46]/30 text-[#065f46] flex items-center justify-center">
                         <ShoppingCart className="w-5 h-5" />
                     </div>
                     <div>
@@ -70,7 +70,7 @@ export default function Cart({ cartItems = [], subtotal = 0 }: CartProps) {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
                 {cartItems.length === 0 ? (
                     <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center space-y-4 max-w-md mx-auto">
-                        <div className="w-16 h-16 rounded-full bg-blue-50 text-[#8CA9FF] flex items-center justify-center mx-auto">
+                        <div className="w-16 h-16 rounded-full bg-emerald-50 text-[#065f46] flex items-center justify-center mx-auto">
                             <ShoppingCart className="w-8 h-8" />
                         </div>
                         <h3 className="text-lg font-bold text-slate-900">Keranjang Belanja Anda Kosong</h3>
@@ -79,7 +79,7 @@ export default function Cart({ cartItems = [], subtotal = 0 }: CartProps) {
                         </p>
                         <Link
                             href="/produk"
-                            className="inline-block px-6 py-3 rounded-full bg-[#8CA9FF] text-white text-xs font-bold hover:bg-blue-500 transition shadow"
+                            className="inline-block px-6 py-3 rounded-full bg-[#065f46] text-white text-xs font-bold hover:bg-emerald-700 transition shadow"
                         >
                             Mulai Belanja Sekarang
                         </Link>
@@ -106,7 +106,7 @@ export default function Cart({ cartItems = [], subtotal = 0 }: CartProps) {
                                     <h3 className="font-extrabold text-sm text-slate-900">
                                         Daftar Produk ({cartItems.length} Item)
                                     </h3>
-                                    <Link href="/produk" className="text-xs font-bold text-[#8CA9FF] hover:text-blue-600">
+                                    <Link href="/produk" className="text-xs font-bold text-[#065f46] hover:text-emerald-600">
                                         + Tambah Produk Lain
                                     </Link>
                                 </div>
@@ -120,7 +120,7 @@ export default function Cart({ cartItems = [], subtotal = 0 }: CartProps) {
                                             <div key={item.id} className="p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                                                 <div className="flex gap-4 items-center flex-1">
                                                     <div className="w-16 h-16 sm:w-20 sm:h-20 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center shrink-0">
-                                                        <Pill className="w-8 h-8 text-[#8CA9FF]/40" />
+                                                        <Pill className="w-8 h-8 text-[#065f46]/40" />
                                                     </div>
                                                     <div className="space-y-1">
                                                         {p.requires_prescription && (
@@ -129,7 +129,7 @@ export default function Cart({ cartItems = [], subtotal = 0 }: CartProps) {
                                                             </span>
                                                         )}
                                                         <Link href={`/produk/${p.slug}`}>
-                                                            <h4 className="font-bold text-slate-900 text-xs sm:text-sm line-clamp-2 hover:text-blue-600">
+                                                            <h4 className="font-bold text-slate-900 text-xs sm:text-sm line-clamp-2 hover:text-emerald-600">
                                                                 {p.name}
                                                             </h4>
                                                         </Link>
@@ -213,7 +213,7 @@ export default function Cart({ cartItems = [], subtotal = 0 }: CartProps) {
 
                                 <Link
                                     href="/checkout"
-                                    className="w-full py-4 rounded-2xl bg-[#8CA9FF] hover:bg-blue-500 text-white font-extrabold text-xs shadow-lg shadow-[#8CA9FF]/30 transition flex items-center justify-center gap-2 group"
+                                    className="w-full py-4 rounded-2xl bg-[#065f46] hover:bg-emerald-700 text-white font-extrabold text-xs shadow-lg shadow-[#065f46]/30 transition flex items-center justify-center gap-2 group"
                                 >
                                     Lanjut ke Checkout
                                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -221,7 +221,7 @@ export default function Cart({ cartItems = [], subtotal = 0 }: CartProps) {
 
                                 <div className="p-3 rounded-xl bg-slate-50 border border-slate-100 text-[11px] text-slate-500 space-y-1">
                                     <div className="flex items-center gap-1.5 font-bold text-slate-700">
-                                        <AlertCircle className="w-3.5 h-3.5 text-[#8CA9FF]" /> Garansi Apotek
+                                        <AlertCircle className="w-3.5 h-3.5 text-[#065f46]" /> Garansi Apotek
                                     </div>
                                     <p>Stok produk dikunci setelah Anda membuat pesanan di checkout.</p>
                                 </div>

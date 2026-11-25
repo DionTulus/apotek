@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import type { AuthLayoutProps } from '@/types';
 import AppLogoIcon from '@/components/app-logo-icon';
 import { home } from '@/routes';
@@ -8,6 +8,11 @@ export default function AuthSimpleLayout({
     title,
     description,
 }: AuthLayoutProps) {
+    const { component } = usePage();
+    const logoSrc = ['auth/login', 'auth/register'].includes(component)
+        ? '/logo_klinik.png'
+        : '/logo_klinik2.png';
+
     return (
         <main className="min-h-screen bg-slate-50 text-slate-800 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(460px,0.9fr)]">
             <section className="relative hidden min-h-screen overflow-hidden bg-gradient-to-br from-emerald-950 via-emerald-900 to-green-800 px-12 py-14 text-white lg:flex lg:flex-col lg:justify-between xl:px-20">
@@ -19,8 +24,8 @@ export default function AuthSimpleLayout({
                     className="relative z-10 inline-flex w-fit items-center gap-4 rounded-2xl bg-white px-4 py-3 shadow-lg shadow-black/10"
                 >
                     <img
-                        src="/logo_klinik.png"
-                        alt="Klinik Premisys Medika"
+                        src={logoSrc}
+                        alt="Klinik Premysis Medika"
                         className="h-14 w-12 object-contain"
                     />
                     <span className="text-sm font-bold tracking-wide text-emerald-950">
@@ -45,7 +50,7 @@ export default function AuthSimpleLayout({
                 </div>
 
                 <p className="relative z-10 text-sm text-emerald-100/70">
-                    Klinik Premisys Medika
+                    Klinik Premysis Medika
                 </p>
             </section>
 
@@ -55,11 +60,19 @@ export default function AuthSimpleLayout({
                         href={home()}
                         className="mb-10 inline-flex items-center gap-3 lg:hidden"
                     >
-                        <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-800 text-white shadow-sm">
-                            <AppLogoIcon className="h-6 w-6" />
-                        </span>
+                        {logoSrc === '/logo_klinik.png' ? (
+                            <span className="flex h-11 w-11 items-center justify-center rounded-xl text-white shadow-sm">
+                                <AppLogoIcon className="h-6 w-6" />
+                            </span>
+                        ) : (
+                            <img
+                                src={logoSrc}
+                                alt="Logo Klinik Premysis Medika"
+                                className="h-11 w-11 object-contain"
+                            />
+                        )}
                         <span className="text-sm font-bold text-emerald-900">
-                            Klinik Premisys Medika
+                            Klinik Premysis Medika
                         </span>
                     </Link>
 
@@ -83,7 +96,7 @@ export default function AuthSimpleLayout({
                     </div>
 
                     <p className="mt-6 text-center text-xs text-slate-400">
-                        © {new Date().getFullYear()} Klinik Premisys Medika
+                        © {new Date().getFullYear()} Klinik Premysis Medika
                     </p>
                 </div>
             </section>

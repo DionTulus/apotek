@@ -136,7 +136,7 @@ export default function Catalog({
                 <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                     <div className="flex items-center gap-3">
                         <div className="rounded-xl bg-white p-2 shadow-sm border border-slate-200">
-                            <Filter className="h-4 w-4 text-[#8CA9FF]" />
+                            <Filter className="h-4 w-4 text-[#065f46]" />
                         </div>
                         <div>
                             <p className="text-xs text-slate-500">Menampilkan</p>
@@ -172,12 +172,12 @@ export default function Catalog({
                             onChange={(e) => setQ(e.target.value)}
                             onKeyDown={(e) => e.key === 'Enter' && applyFilters()}
                             placeholder="Cari obat, vitamin, atau kategori..."
-                            className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2.5 pl-9 pr-3 text-xs text-slate-700 outline-none ring-0 placeholder:text-slate-400 focus:border-[#8CA9FF]"
+                            className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2.5 pl-9 pr-3 text-xs text-slate-700 outline-none ring-0 placeholder:text-slate-400 focus:border-[#065f46]"
                         />
                     </div>
                     <button
                         onClick={() => applyFilters()}
-                        className="rounded-xl bg-[#8CA9FF] px-4 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-blue-500"
+                        className="rounded-xl bg-[#065f46] px-4 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-emerald-700"
                     >
                         Cari
                     </button>
@@ -186,14 +186,14 @@ export default function Catalog({
                 <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
                     {productList.length === 0 ? (
                         <div className="col-span-full rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center">
-                            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-[#8CA9FF]">
+                            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 text-[#065f46]">
                                 <Pill className="h-8 w-8" />
                             </div>
                             <h3 className="text-base font-bold text-slate-800">Belum ada produk</h3>
                             <p className="mt-2 text-xs text-slate-500">Coba ubah kata kunci atau reset filter Anda.</p>
                             <button
                                 onClick={handleReset}
-                                className="mt-4 rounded-full bg-[#8CA9FF] px-4 py-2 text-xs font-bold text-white"
+                                className="mt-4 rounded-full bg-[#065f46] px-4 py-2 text-xs font-bold text-white"
                             >
                                 Reset Filter
                             </button>
@@ -224,7 +224,7 @@ export default function Catalog({
                                                 {product.image ? (
                                                     <img src={`/storage/${product.image}`} className="h-full w-full object-contain p-2" alt={product.name} />
                                                 ) : (
-                                                    <Pill className="h-16 w-16 text-[#8CA9FF]/35" />
+                                                    <Pill className="h-16 w-16 text-[#065f46]/35" />
                                                 )}
                                             </div>
                                         </Link>
@@ -233,7 +233,7 @@ export default function Catalog({
                                             {product.category?.name || 'Obat'}
                                         </p>
                                         <Link href={`/produk/${product.slug}`}>
-                                            <h3 className="mt-2 line-clamp-2 text-sm font-bold text-slate-900 hover:text-blue-600">
+                                            <h3 className="mt-2 line-clamp-2 text-sm font-bold text-slate-900 hover:text-emerald-600">
                                                 {product.name}
                                             </h3>
                                         </Link>
@@ -258,7 +258,7 @@ export default function Catalog({
                                             onClick={(e) => handleAddToCart(product.id, e)}
                                             disabled={product.stock <= 0}
                                             className={`rounded-full p-2.5 text-white shadow-sm transition ${
-                                                product.stock > 0 ? 'bg-[#8CA9FF] hover:bg-blue-500' : 'cursor-not-allowed bg-slate-300'
+                                                product.stock > 0 ? 'bg-[#065f46] hover:bg-emerald-700' : 'cursor-not-allowed bg-slate-300'
                                             }`}
                                             title="Tambah ke keranjang"
                                         >
@@ -291,7 +291,7 @@ export default function Catalog({
                                     preserveScroll
                                     className={`rounded-xl border px-3 py-2 text-xs font-bold transition ${
                                         link.active
-                                            ? 'border-[#8CA9FF] bg-[#8CA9FF] text-white'
+                                            ? 'border-[#065f46] bg-[#065f46] text-white'
                                             : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
                                     }`}
                                     dangerouslySetInnerHTML={{ __html: link.label }}

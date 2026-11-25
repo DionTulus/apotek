@@ -9,17 +9,17 @@ interface TermsProps {
 export default function Terms({ terms }: TermsProps) {
     return (
         <StoreLayout>
-            <Head title="Syarat & Ketentuan - Klinik Premisys Medika" />
+            <Head title="Syarat & Ketentuan - Klinik Premysis Medika" />
 
-            <div className="bg-gradient-to-r from-slate-900 to-blue-950 text-white py-12 px-4 sm:px-6 lg:px-8 text-center">
+            <div className="bg-gradient-to-r from-slate-900 to-emerald-950 text-white py-12 px-4 sm:px-6 lg:px-8 text-center">
                 <h1 className="text-3xl font-black">Syarat & Ketentuan Layanan</h1>
-                <p className="text-xs sm:text-sm text-slate-300 mt-2">Ketentuan penggunaan layanan dan transaksi di Klinik Premisys Medika</p>
+                <p className="text-xs sm:text-sm text-slate-300 mt-2">Ketentuan penggunaan layanan dan transaksi di Klinik Premysis Medika</p>
             </div>
 
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm space-y-6 text-xs sm:text-sm text-slate-700 leading-relaxed">
                     <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
-                        <FileText className="w-6 h-6 text-[#8CA9FF]" />
+                        <FileText className="w-6 h-6 text-[#065f46]" />
                         <h2 className="text-lg font-bold text-slate-900">Aturan Penggunaan & Pembelian</h2>
                     </div>
 

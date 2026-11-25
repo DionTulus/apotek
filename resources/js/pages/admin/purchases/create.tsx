@@ -1,7 +1,8 @@
 import AdminLayout from '@/layouts/admin-layout';
 import { Link, useForm } from '@inertiajs/react';
-import { ArrowLeft, Minus, Plus, Trash2 } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2 } from 'lucide-react';
 import React, { useState } from 'react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface Supplier {
     id: number;
@@ -16,9 +17,20 @@ interface ProductOption {
     unit: string;
 }
 
+interface CriticalStockProduct {
+    id: number;
+    name: string;
+    sku: string;
+    stock: number;
+    min_stock: number;
+    unit: string;
+    cost_price: number;
+}
+
 interface Props {
     suppliers: Supplier[];
     products: ProductOption[];
+    criticalStockProducts: CriticalStockProduct[];
 }
 
 interface POItem {
@@ -29,7 +41,7 @@ interface POItem {
     expiry_date: string;
 }
 
-export default function PurchaseCreate({ suppliers, products }: Props) {
+export default function PurchaseCreate({ suppliers, products, criticalStockProducts }: Props) {
     const [items, setItems] = useState<POItem[]>([
         { product_id: '', qty: '1', unit_cost: '', batch_no: '', expiry_date: '' },
     ]);
@@ -48,6 +60,36 @@ export default function PurchaseCreate({ suppliers, products }: Props) {
 
     const addItem = () => {
         const next = [...items, { product_id: '', qty: '1', unit_cost: '', batch_no: '', expiry_date: '' }];
+        setItems(next);
+        form.setData('items', next);
+    };
+
+    const addCriticalStockProduct = (product: CriticalStockProduct) => {
+        const productId = String(product.id);
+        const existingIndex = items.findIndex((item) => item.product_id === productId);
+
+        if (existingIndex !== -1) {
+            const existingQty = Number.parseInt(items[existingIndex].qty, 10) || 0;
+            updateItem(existingIndex, 'qty', String(existingQty + 1));
+            return;
+        }
+
+        const emptyIndex = items.findIndex((item) => !item.product_id);
+        if (emptyIndex !== -1) {
+            updateItem(emptyIndex, 'product_id', productId);
+            return;
+        }
+
+        const next = [
+            ...items,
+            {
+                product_id: productId,
+                qty: '1',
+                unit_cost: String(product.cost_price),
+                batch_no: '',
+                expiry_date: '',
+            },
+        ];
         setItems(next);
         form.setData('items', next);
     };
@@ -85,7 +127,7 @@ export default function PurchaseCreate({ suppliers, products }: Props) {
         form.post('/admin/pembelian');
     };
 
-    const inputCls = 'w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300';
+    const inputCls = 'w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300';
 
     return (
         <AdminLayout title="Buat Purchase Order">
@@ -101,15 +143,25 @@ export default function PurchaseCreate({ suppliers, products }: Props) {
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div>
                                 <label className="text-xs font-semibold text-slate-600 mb-1 block">Supplier *</label>
-                                <select
+                                <Select
                                     value={form.data.supplier_id}
-                                    onChange={(e) => form.setData('supplier_id', e.target.value)}
-                                    className={inputCls}
-                                    id="select-supplier"
+                                    onValueChange={(value) => form.setData('supplier_id', value)}
                                 >
-                                    <option value="">Pilih supplier...</option>
-                                    {suppliers.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
-                                </select>
+                                    <SelectTrigger id="select-supplier" className={`${inputCls} bg-white text-slate-800`}>
+                                        <SelectValue placeholder="Pilih supplier..." />
+                                    </SelectTrigger>
+                                    <SelectContent className="border-slate-200 bg-white text-slate-800">
+                                        {suppliers.map((supplier) => (
+                                            <SelectItem
+                                                key={supplier.id}
+                                                value={String(supplier.id)}
+                                                className="focus:bg-emerald-100 focus:text-emerald-950"
+                                            >
+                                                {supplier.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
                                 {form.errors.supplier_id && <p className="text-xs text-red-500 mt-1">{form.errors.supplier_id}</p>}
                             </div>
                             <div>
@@ -135,6 +187,41 @@ export default function PurchaseCreate({ suppliers, products }: Props) {
                         </div>
                     </div>
 
+                    {criticalStockProducts.length > 0 && (
+                        <section className="rounded-2xl border border-amber-200 bg-amber-50/60 p-6 shadow-sm">
+                            <div className="mb-4">
+                                <h2 className="text-sm font-bold text-slate-800">Produk Stok Kritis</h2>
+                                <p className="mt-1 text-xs text-slate-600">
+                                    Tambahkan produk yang stoknya perlu segera diisi ke Purchase Order.
+                                </p>
+                            </div>
+                            <div className="grid gap-2 sm:grid-cols-2">
+                                {criticalStockProducts.map((product) => (
+                                    <div
+                                        key={product.id}
+                                        className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-amber-200 bg-white p-3"
+                                    >
+                                        <div className="min-w-0">
+                                            <p className="truncate text-xs font-semibold text-slate-800">{product.name}</p>
+                                            <p className="text-[10px] text-slate-500">
+                                                SKU: {product.sku} · Stok: {product.stock} {product.unit} (min. {product.min_stock})
+                                            </p>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={() => addCriticalStockProduct(product)}
+                                            className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-emerald-700 px-2.5 py-2 text-[11px] font-semibold text-white transition hover:bg-emerald-800"
+                                            aria-label={`Tambahkan ${product.name} ke Purchase Order`}
+                                        >
+                                            <Plus className="h-3.5 w-3.5" />
+                                            Tambahkan
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
                     {/* Items */}
                     <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
                         <div className="flex items-center justify-between mb-4">
@@ -142,7 +229,7 @@ export default function PurchaseCreate({ suppliers, products }: Props) {
                             <button
                                 type="button"
                                 onClick={addItem}
-                                className="flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-xl bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
+                                className="flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
                                 id="btn-add-item"
                             >
                                 <Plus className="w-3.5 h-3.5" /> Tambah Baris
@@ -162,16 +249,25 @@ export default function PurchaseCreate({ suppliers, products }: Props) {
                                         {/* Product */}
                                         <div className="col-span-4">
                                             {idx === 0 && <label className="text-xs font-semibold text-slate-500 mb-1 block">Produk *</label>}
-                                            <select
+                                            <Select
                                                 value={item.product_id}
-                                                onChange={(e) => updateItem(idx, 'product_id', e.target.value)}
-                                                className={inputCls}
+                                                onValueChange={(value) => updateItem(idx, 'product_id', value)}
                                             >
-                                                <option value="">Pilih produk...</option>
-                                                {products.map((p) => (
-                                                    <option key={p.id} value={p.id}>{p.name} ({p.sku})</option>
-                                                ))}
-                                            </select>
+                                                <SelectTrigger className={`${inputCls} bg-white text-slate-800`}>
+                                                    <SelectValue placeholder="Pilih produk..." />
+                                                </SelectTrigger>
+                                                <SelectContent className="border-slate-200 bg-white text-slate-800">
+                                                    {products.map((product) => (
+                                                        <SelectItem
+                                                            key={product.id}
+                                                            value={String(product.id)}
+                                                            className="focus:bg-emerald-100 focus:text-emerald-950"
+                                                        >
+                                                            {product.name} ({product.sku})
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
                                         </div>
                                         {/* Qty */}
                                         <div className="col-span-1">
@@ -252,7 +348,7 @@ export default function PurchaseCreate({ suppliers, products }: Props) {
                         <button
                             type="submit"
                             disabled={form.processing}
-                            className="px-6 py-2.5 bg-indigo-600 text-white text-sm font-semibold rounded-xl hover:bg-indigo-700 disabled:opacity-60"
+                            className="px-6 py-2.5 bg-emerald-700 text-white text-sm font-semibold rounded-xl hover:bg-emerald-700 disabled:opacity-60"
                             id="btn-submit-po"
                         >
                             {form.processing ? 'Menyimpan...' : 'Simpan Purchase Order'}

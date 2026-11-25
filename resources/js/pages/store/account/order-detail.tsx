@@ -125,12 +125,12 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                     <div>
                         <Link
                             href="/akun/pesanan"
-                            className="text-xs font-bold text-[#8CA9FF] hover:text-white flex items-center gap-1 mb-2"
+                            className="text-xs font-bold text-[#065f46] hover:text-white flex items-center gap-1 mb-2"
                         >
                             <ArrowLeft className="w-3.5 h-3.5" /> Kembali ke Riwayat Pesanan
                         </Link>
                         <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
-                            Detail Order <span className="font-mono text-[#8CA9FF]">#{safeOrder.order_number}</span>
+                            Detail Order <span className="font-mono text-[#065f46]">#{safeOrder.order_number}</span>
                         </h1>
                     </div>
 
@@ -138,7 +138,7 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                         {safeOrder.shipment?.tracking_number && (
                             <Link
                                 href={trackingUrl}
-                                className="px-4 py-2 rounded-xl bg-blue-500/20 hover:bg-blue-500/30 text-blue-200 border border-blue-500/40 text-xs font-bold transition flex items-center gap-1.5"
+                                className="px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-700/30 text-emerald-200 border border-emerald-500/40 text-xs font-bold transition flex items-center gap-1.5"
                             >
                                 <Truck className="w-4 h-4" /> Lacak Pengiriman
                             </Link>
@@ -154,7 +154,7 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                         {canCancel && (
                             <Link
                                 href={`/pembayaran/${safeOrder.order_number}`}
-                                className="px-4 py-2 rounded-xl bg-[#8CA9FF] hover:bg-blue-500 text-white text-xs font-extrabold shadow transition"
+                                className="px-4 py-2 rounded-xl bg-[#065f46] hover:bg-emerald-700 text-white text-xs font-extrabold shadow transition"
                             >
                                 Bayar Sekarang
                             </Link>
@@ -178,13 +178,13 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                         {/* Status Timeline */}
                         <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
                             <h3 className="font-extrabold text-sm text-slate-900 pb-3 border-b border-slate-100 flex items-center gap-2">
-                                <Clock className="w-4 h-4 text-[#8CA9FF]" /> Timeline Status Pesanan
+                                <Clock className="w-4 h-4 text-[#065f46]" /> Timeline Status Pesanan
                             </h3>
 
                             <div className="relative pl-6 border-l-2 border-slate-200 space-y-6 my-4">
                                 {safeOrder.statusHistories.map((sh) => (
                                     <div key={sh.id} className="relative">
-                                        <div className="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-[#8CA9FF] border-2 border-white shadow" />
+                                        <div className="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-[#065f46] border-2 border-white shadow" />
                                         <div>
                                             <span className="text-xs font-extrabold text-slate-900 capitalize">
                                                 {sh.status.replace('_', ' ')}
@@ -233,7 +233,7 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                         {/* Items List */}
                         <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
                             <h3 className="font-extrabold text-sm text-slate-900 pb-3 border-b border-slate-100 flex items-center gap-2">
-                                <PackageCheck className="w-4 h-4 text-[#8CA9FF]" /> Rincian Produk
+                                <PackageCheck className="w-4 h-4 text-[#065f46]" /> Rincian Produk
                             </h3>
 
                             <div className="divide-y divide-slate-100">
@@ -241,7 +241,7 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                                     <div key={item.id} className="py-3 flex justify-between items-center text-xs">
                                         <div className="flex items-center gap-3">
                                             <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
-                                                <Pill className="w-5 h-5 text-[#8CA9FF]" />
+                                                <Pill className="w-5 h-5 text-[#065f46]" />
                                             </div>
                                             <div>
                                                 <p className="font-bold text-slate-900">{item.product_name}</p>
@@ -261,7 +261,7 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                     <div className="lg:col-span-4 space-y-6">
                         <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-5">
                             <h3 className="font-extrabold text-sm text-slate-900 pb-3 border-b border-slate-100 flex items-center gap-2">
-                                <MapPin className="w-4 h-4 text-[#8CA9FF]" /> Informasi Pengiriman
+                                <MapPin className="w-4 h-4 text-[#065f46]" /> Informasi Pengiriman
                             </h3>
 
                             <div className="text-xs space-y-2 text-slate-600">
@@ -269,12 +269,12 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                                 <p className="font-semibold">{safeOrder.recipient_phone}</p>
                                 <p className="leading-relaxed text-slate-500">{safeOrder.shipping_address}</p>
                                 {safeOrder.shippingMethod && (
-                                    <p className="pt-2 text-[11px] text-[#8CA9FF] font-bold">
+                                    <p className="pt-2 text-[11px] text-[#065f46] font-bold">
                                         Kurir: {safeOrder.shippingMethod.name} ({safeOrder.shippingMethod.est_days})
                                     </p>
                                 )}
                                 {safeOrder.shipment?.tracking_number && (
-                                    <div className="p-3 rounded-xl bg-blue-50 border border-blue-100 text-blue-900 mt-2">
+                                    <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-900 mt-2">
                                         <span className="text-[10px] text-slate-400 block">No. Resi Pengiriman</span>
                                         <span className="font-mono font-bold text-sm">{safeOrder.shipment.tracking_number}</span>
                                     </div>
@@ -298,7 +298,7 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                                 )}
                                 <div className="pt-3 border-t border-slate-100 flex justify-between items-center text-sm font-black text-slate-900">
                                     <span>Total Bayar:</span>
-                                    <span className="text-xl text-[#8CA9FF]">{formatRp(safeOrder.grand_total)}</span>
+                                    <span className="text-xl text-[#065f46]">{formatRp(safeOrder.grand_total)}</span>
                                 </div>
                             </div>
                         </div>

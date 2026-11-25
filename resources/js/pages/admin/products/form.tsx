@@ -116,7 +116,7 @@ export default function ProductForm({ product, categories, drugClasses }: Props)
         form.post(url, { forceFormData: true });
     };
 
-    const inputCls = 'w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300';
+    const inputCls = 'w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300';
 
     return (
         <AdminLayout title={isEdit ? 'Edit Produk' : 'Tambah Produk'}>
@@ -136,7 +136,7 @@ export default function ProductForm({ product, categories, drugClasses }: Props)
                             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
                                 <p className="text-xs font-bold text-slate-700 mb-3">Gambar Produk</p>
                                 <div
-                                    className="border-2 border-dashed border-slate-200 rounded-xl h-48 flex items-center justify-center cursor-pointer hover:border-indigo-400 transition relative overflow-hidden"
+                                    className="border-2 border-dashed border-slate-200 rounded-xl h-48 flex items-center justify-center cursor-pointer hover:border-emerald-400 transition relative overflow-hidden"
                                     onClick={() => fileRef.current?.click()}
                                 >
                                     {preview ? (
@@ -165,7 +165,7 @@ export default function ProductForm({ product, categories, drugClasses }: Props)
                                         type="checkbox"
                                         checked={form.data.is_active}
                                         onChange={(e) => form.setData('is_active', e.target.checked)}
-                                        className="w-4 h-4 accent-indigo-600"
+                                        className="w-4 h-4 accent-emerald-600"
                                         id="chk-is-active"
                                     />
                                     <span className="text-sm text-slate-700 font-medium">Produk Aktif</span>
@@ -175,7 +175,7 @@ export default function ProductForm({ product, categories, drugClasses }: Props)
                                         type="checkbox"
                                         checked={form.data.is_featured}
                                         onChange={(e) => form.setData('is_featured', e.target.checked)}
-                                        className="w-4 h-4 accent-indigo-600"
+                                        className="w-4 h-4 accent-emerald-600"
                                         id="chk-is-featured"
                                     />
                                     <span className="text-sm text-slate-700 font-medium">Produk Unggulan</span>
@@ -275,7 +275,7 @@ export default function ProductForm({ product, categories, drugClasses }: Props)
                         <button
                             type="submit"
                             disabled={form.processing}
-                            className="flex items-center gap-2 px-6 py-2.5 bg-indigo-600 text-white text-sm font-semibold rounded-xl hover:bg-indigo-700 disabled:opacity-60"
+                            className="flex items-center gap-2 px-6 py-2.5 bg-emerald-700 text-white text-sm font-semibold rounded-xl hover:bg-emerald-700 disabled:opacity-60"
                             id="btn-submit-product"
                         >
                             <Save className="w-4 h-4" />

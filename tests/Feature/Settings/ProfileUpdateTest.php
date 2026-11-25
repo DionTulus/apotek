@@ -2,6 +2,14 @@
 
 use App\Models\User;
 
+test('settings root redirects to the profile page', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->get('/settings')
+        ->assertRedirect(route('profile.edit'));
+});
+
 test('profile page is displayed', function () {
     $user = User::factory()->create();
 

@@ -28,7 +28,7 @@ export default function Profile({
 
             <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
                 <div className="mb-8">
-                    <p className="mb-2 text-sm font-semibold text-blue-600">
+                    <p className="mb-2 text-sm font-semibold text-emerald-600">
                         Akun Anda
                     </p>
                     <h1 className="text-3xl font-bold tracking-tight text-slate-900">
@@ -40,7 +40,7 @@ export default function Profile({
                 </div>
 
                 <div className="mb-6 flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
                         <UserRound className="h-7 w-7" />
                     </div>
                     <div className="min-w-0">
@@ -79,7 +79,7 @@ export default function Profile({
                                     </label>
                                     <input
                                         id="name"
-                                        className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 transition outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                                        className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 transition outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
                                         defaultValue={auth.user.name}
                                         name="name"
                                         required
@@ -99,7 +99,7 @@ export default function Profile({
                                     <input
                                         id="email"
                                         type="email"
-                                        className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 transition outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                                        className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 transition outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
                                         defaultValue={auth.user.email}
                                         name="email"
                                         required
@@ -138,7 +138,7 @@ export default function Profile({
                                     <Button
                                         disabled={processing}
                                         data-test="update-profile-button"
-                                        className="rounded-lg bg-blue-600 px-5 text-white hover:bg-blue-700"
+                                        className="rounded-lg bg-emerald-700 px-5 text-white hover:bg-emerald-700"
                                     >
                                         {processing
                                             ? 'Menyimpan...'
@@ -152,7 +152,7 @@ export default function Profile({
 
                 <section className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-8">
                     <div className="flex items-start gap-4">
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
                             <LockKeyhole className="h-6 w-6" />
                         </div>
                         <div>
@@ -167,7 +167,7 @@ export default function Profile({
                     </div>
                     <Button
                         asChild
-                        className="shrink-0 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+                        className="shrink-0 rounded-lg bg-emerald-700 text-white hover:bg-emerald-700"
                     >
                         <Link href={editSecurity()}>Ganti Kata Sandi</Link>
                     </Button>

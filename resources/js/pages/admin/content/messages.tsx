@@ -66,7 +66,7 @@ export default function MessagesIndex({ messages, unreadCount, filters }: Props)
                             onClick={() => handleFilterUnread(false)}
                             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
                                 !filters.unread
-                                    ? 'bg-[#8CA9FF] text-white shadow-xs'
+                                    ? 'bg-[#065f46] text-white shadow-xs'
                                     : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
                             }`}
                         >
@@ -76,7 +76,7 @@ export default function MessagesIndex({ messages, unreadCount, filters }: Props)
                             onClick={() => handleFilterUnread(true)}
                             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
                                 filters.unread
-                                    ? 'bg-[#8CA9FF] text-white shadow-xs'
+                                    ? 'bg-[#065f46] text-white shadow-xs'
                                     : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
                             }`}
                         >
@@ -98,7 +98,7 @@ export default function MessagesIndex({ messages, unreadCount, filters }: Props)
                                 key={msg.id}
                                 className={`bg-white rounded-xl border p-5 shadow-xs transition space-y-3 ${
                                     !msg.is_read
-                                        ? 'border-[#8CA9FF] bg-blue-50/20'
+                                        ? 'border-[#065f46] bg-emerald-50/20'
                                         : 'border-slate-200'
                                 }`}
                             >
@@ -107,7 +107,7 @@ export default function MessagesIndex({ messages, unreadCount, filters }: Props)
                                         <div
                                             className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs ${
                                                 !msg.is_read
-                                                    ? 'bg-[#8CA9FF] text-white'
+                                                    ? 'bg-[#065f46] text-white'
                                                     : 'bg-slate-100 text-slate-600'
                                             }`}
                                         >
@@ -150,14 +150,14 @@ export default function MessagesIndex({ messages, unreadCount, filters }: Props)
                                                 href={`https://wa.me/${msg.phone.replace(/[^0-9]/g, '')}`}
                                                 target="_blank"
                                                 rel="noreferrer"
-                                                className="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition inline-flex items-center gap-1 text-[11px]"
+                                                className="px-3 py-1 bg-emerald-700 hover:bg-emerald-700 text-white font-bold rounded-lg transition inline-flex items-center gap-1 text-[11px]"
                                             >
                                                 <MessageCircle className="w-3.5 h-3.5" /> Balas WhatsApp
                                             </a>
                                         )}
                                         <a
                                             href={`mailto:${msg.email}`}
-                                            className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition inline-flex items-center gap-1 text-[11px]"
+                                            className="px-3 py-1 bg-emerald-700 hover:bg-emerald-700 text-white font-bold rounded-lg transition inline-flex items-center gap-1 text-[11px]"
                                         >
                                             <Mail className="w-3.5 h-3.5" /> Balas Email
                                         </a>
@@ -202,7 +202,7 @@ export default function MessagesIndex({ messages, unreadCount, filters }: Props)
                                     dangerouslySetInnerHTML={{ __html: link.label }}
                                     className={`px-3 py-1.5 rounded-lg font-medium transition ${
                                         link.active
-                                            ? 'bg-[#8CA9FF] text-white font-bold'
+                                            ? 'bg-[#065f46] text-white font-bold'
                                             : link.url
                                             ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                             : 'text-slate-300 pointer-events-none'

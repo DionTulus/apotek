@@ -56,7 +56,7 @@ Route::get('/promo', [PromoController::class, 'index'])->name('promo.index');
 Route::get('/produk', [ProductController::class, 'index'])->name('products.index');
 Route::get('/produk/{slug}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/lacak-pesanan', [TrackingController::class, 'index'])->name('tracking.index');
-Route::post('/lacak-pesanan', [TrackingController::class, 'index'])->name('tracking.search');
+Route::post('/lacak-pesanan', [TrackingController::class, 'search'])->name('tracking.search');
 Route::get('/resep/{prescription}/file', [PrescriptionFileController::class, 'show'])
     ->middleware('auth')
     ->name('prescriptions.file');

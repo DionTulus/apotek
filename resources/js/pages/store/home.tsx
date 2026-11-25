@@ -73,14 +73,14 @@ export default function Home({
 
     return (
         <StoreLayout>
-            <Head title="Beranda - Klinik Premisys Medika" />
+            <Head title="Beranda - Klinik Premysis Medika" />
 
             {/* Hero Section */}
-            <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white py-16 lg:py-24">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#8CA9FF]/20 via-transparent to-transparent pointer-events-none" />
+            <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-900 text-white py-16 lg:py-24">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#065f46]/20 via-transparent to-transparent pointer-events-none" />
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                     <div className="lg:col-span-7 space-y-6">
-                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#8CA9FF]/20 border border-[#8CA9FF]/30 text-[#8CA9FF] text-xs font-bold tracking-wide">
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-emerald-100 text-xs font-bold tracking-wide">
                             <ShieldCheck className="w-4 h-4" /> Apotek Resmi Berizin BPOM & Kemenkes
                         </div>
                         <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
@@ -93,7 +93,7 @@ export default function Home({
                         <div className="flex flex-wrap items-center gap-4 pt-2">
                             <Link
                                 href="/produk"
-                                className="px-6 py-3.5 rounded-full bg-[#8CA9FF] hover:bg-blue-500 text-slate-950 font-extrabold text-sm shadow-lg shadow-[#8CA9FF]/30 transition-all flex items-center gap-2 group"
+                                className="px-6 py-3.5 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-sm shadow-lg shadow-emerald-950/30 transition-all flex items-center gap-2 group"
                             >
                                 Belanja Obat Sekarang
                                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -109,15 +109,15 @@ export default function Home({
                         {/* Badges */}
                         <div className="grid grid-cols-3 gap-4 pt-6 border-t border-slate-800 text-xs">
                             <div className="flex items-center gap-2">
-                                <CheckCircle2 className="w-5 h-5 text-[#8CA9FF]" />
+                                <CheckCircle2 className="w-5 h-5 text-emerald-300" />
                                 <span>100% Produk Asli</span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <Truck className="w-5 h-5 text-[#8CA9FF]" />
+                                <Truck className="w-5 h-5 text-emerald-300" />
                                 <span>Kirim 1-3 Jam</span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <FileText className="w-5 h-5 text-[#8CA9FF]" />
+                                <FileText className="w-5 h-5 text-emerald-300" />
                                 <span>Upload Resep Mudah</span>
                             </div>
                         </div>
@@ -127,11 +127,11 @@ export default function Home({
                     <div className="lg:col-span-5 hidden lg:block">
                         <div className="p-6 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/10 shadow-2xl space-y-4">
                             <div className="flex items-center gap-3 border-b border-white/10 pb-4">
-                                <div className="w-12 h-12 rounded-2xl bg-[#8CA9FF] text-white flex items-center justify-center font-bold text-xl">
+                                <div className="w-12 h-12 rounded-2xl bg-[#065f46] text-white flex items-center justify-center font-bold text-xl">
                                     <Pill className="w-7 h-7" />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-white text-base">Klinik Premisys Medika</h3>
+                                    <h3 className="font-bold text-white text-base">Klinik Premysis Medika</h3>
                                     <p className="text-xs text-slate-300">Siap Melayani 24/7</p>
                                 </div>
                             </div>
@@ -155,7 +155,7 @@ export default function Home({
             <section className="bg-white border-b border-slate-200 py-8">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-6">
                     <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-slate-50">
-                        <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                        <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
                             <ShieldCheck className="w-6 h-6" />
                         </div>
                         <div>
@@ -173,7 +173,7 @@ export default function Home({
                         </div>
                     </div>
                     <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-slate-50">
-                        <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center shrink-0">
+                        <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
                             <FileText className="w-6 h-6" />
                         </div>
                         <div>
@@ -200,7 +200,7 @@ export default function Home({
                         <h2 className="text-xl sm:text-2xl font-black text-slate-900">Kategori Pilihan</h2>
                         <p className="text-xs sm:text-sm text-slate-500">Cari produk kesehatan berdasarkan kategori kebutuhan Anda</p>
                     </div>
-                    <Link href="/produk" className="text-xs font-bold text-[#8CA9FF] hover:text-blue-700 flex items-center gap-1">
+                    <Link href="/produk" className="text-xs font-bold text-[#065f46] hover:text-emerald-700 flex items-center gap-1">
                         Lihat Semua <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                 </div>
@@ -210,12 +210,12 @@ export default function Home({
                         <Link
                             key={cat.id}
                             href={`/produk?kategori=${cat.slug}`}
-                            className="p-4 rounded-2xl bg-white border border-slate-200 hover:border-[#8CA9FF] hover:shadow-md transition text-center group flex flex-col items-center justify-center"
+                            className="p-4 rounded-2xl bg-white border border-slate-200 hover:border-[#065f46] hover:shadow-md transition text-center group flex flex-col items-center justify-center"
                         >
-                            <div className="w-12 h-12 rounded-full bg-blue-50 text-[#8CA9FF] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                            <div className="w-12 h-12 rounded-full bg-emerald-50 text-[#065f46] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                                 <Pill className="w-6 h-6" />
                             </div>
-                            <span className="text-xs font-bold text-slate-800 line-clamp-2 leading-tight group-hover:text-blue-600">
+                            <span className="text-xs font-bold text-slate-800 line-clamp-2 leading-tight group-hover:text-emerald-600">
                                 {cat.name}
                             </span>
                         </Link>
@@ -231,7 +231,7 @@ export default function Home({
                             <h2 className="text-xl sm:text-2xl font-black text-slate-900">Produk Terlaris & Rekomendasi</h2>
                             <p className="text-xs sm:text-sm text-slate-500">Obat dan suplemen paling favorit pilihan pelanggan</p>
                         </div>
-                        <Link href="/produk" className="text-xs font-bold text-[#8CA9FF] hover:text-blue-700 flex items-center gap-1">
+                        <Link href="/produk" className="text-xs font-bold text-[#065f46] hover:text-emerald-700 flex items-center gap-1">
                             Lihat Katalog Lengkap <ArrowRight className="w-3.5 h-3.5" />
                         </Link>
                     </div>
@@ -252,14 +252,14 @@ export default function Home({
                                         {p.image ? (
                                             <img src={`/storage/${p.image}`} className="w-full h-full object-contain p-2" alt={p.name} />
                                         ) : (
-                                            <Pill className="w-16 h-16 text-[#8CA9FF]/40" />
+                                            <Pill className="w-16 h-16 text-[#065f46]/40" />
                                         )}
                                     </div>
                                     <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
                                         {p.category?.name || 'Obat'}
                                     </p>
                                     <Link href={`/produk/${p.slug}`} className="block">
-                                        <h3 className="font-bold text-slate-900 text-sm line-clamp-2 hover:text-blue-600 transition my-1">
+                                        <h3 className="font-bold text-slate-900 text-sm line-clamp-2 hover:text-emerald-600 transition my-1">
                                             {p.name}
                                         </h3>
                                     </Link>
@@ -273,7 +273,7 @@ export default function Home({
                                     </div>
                                     <Link
                                         href={`/produk/${p.slug}`}
-                                        className="p-2.5 rounded-full bg-[#8CA9FF] hover:bg-blue-500 text-white shadow-sm transition"
+                                        className="p-2.5 rounded-full bg-[#065f46] hover:bg-emerald-700 text-white shadow-sm transition"
                                         title="Lihat Detail"
                                     >
                                         <ShoppingCart className="w-4 h-4" />
@@ -288,15 +288,15 @@ export default function Home({
             {/* Active Promo Banner */}
             {promos.length > 0 && (
                 <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-[#8CA9FF] text-white p-8 sm:p-12 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div className="rounded-3xl bg-gradient-to-r from-emerald-700 via-emerald-800 to-green-900 text-white p-8 sm:p-12 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
                         <div className="space-y-4 max-w-xl z-10">
                             <span className="px-3 py-1 rounded-full bg-white/20 text-xs font-bold tracking-wider">
                                 VOUCHER PROMO AKTIF
                             </span>
                             <h2 className="text-2xl sm:text-4xl font-black">{promos[0].name}</h2>
-                            <p className="text-xs sm:text-sm text-blue-100">{promos[0].description}</p>
+                            <p className="text-xs sm:text-sm text-emerald-100">{promos[0].description}</p>
                             <div className="flex items-center gap-3 pt-2">
-                                <span className="px-4 py-2 rounded-xl bg-white text-blue-900 font-mono font-bold text-sm tracking-wider shadow">
+                                <span className="px-4 py-2 rounded-xl bg-white text-emerald-900 font-mono font-bold text-sm tracking-wider shadow">
                                     KODE: {promos[0].code}
                                 </span>
                             </div>
@@ -318,7 +318,7 @@ export default function Home({
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="text-center max-w-xl mx-auto mb-10">
                             <h2 className="text-2xl font-black text-slate-900">Apa Kata Pelanggan Kami?</h2>
-                            <p className="text-xs text-slate-500 mt-1">Ulasan jujur dari pembeli yang mempercayakan kebutuhan obatnya di Klinik Premisys Medika</p>
+                            <p className="text-xs text-slate-500 mt-1">Ulasan jujur dari pembeli yang mempercayakan kebutuhan obatnya di Klinik Premysis Medika</p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

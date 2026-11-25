@@ -36,12 +36,12 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
 
     return (
         <StoreLayout>
-            <Head title="Testimoni Pelanggan - Klinik Premisys Medika" />
+            <Head title="Testimoni Pelanggan - Klinik Premysis Medika" />
 
-            <div className="bg-gradient-to-r from-slate-900 to-blue-950 text-white py-12 px-4 sm:px-6 lg:px-8 text-center">
+            <div className="bg-gradient-to-r from-slate-900 to-emerald-950 text-white py-12 px-4 sm:px-6 lg:px-8 text-center">
                 <h1 className="text-3xl font-black">Testimoni Pelanggan</h1>
                 <p className="text-xs sm:text-sm text-slate-300 mt-2">
-                    Pengalaman nyata pelanggan dalam berbelanja obat & suplemen di Klinik Premisys Medika
+                    Pengalaman nyata pelanggan dalam berbelanja obat & suplemen di Klinik Premysis Medika
                 </p>
             </div>
 
@@ -49,7 +49,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                 {/* Testimonials List */}
                 <div className="lg:col-span-8 space-y-6">
                     <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
-                        <MessageSquare className="w-5 h-5 text-[#8CA9FF]" /> Ulasan Pembeli ({testimonials?.data?.length || 0})
+                        <MessageSquare className="w-5 h-5 text-[#065f46]" /> Ulasan Pembeli ({testimonials?.data?.length || 0})
                     </h2>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -109,7 +109,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                                         value={data.content}
                                         onChange={(e) => setData('content', e.target.value)}
                                         placeholder="Tuliskan ulasan jujur Anda tentang pelayanan dan obat yang dibeli..."
-                                        className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#8CA9FF] focus:outline-none"
+                                        className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#065f46] focus:outline-none"
                                     />
                                     {errors.content && <p className="text-[11px] text-rose-500 mt-1">{errors.content}</p>}
                                 </div>
@@ -117,7 +117,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                                 <button
                                     type="submit"
                                     disabled={processing}
-                                    className="w-full py-3 rounded-xl bg-[#8CA9FF] hover:bg-blue-500 text-white text-xs font-bold shadow-md transition flex items-center justify-center gap-2"
+                                    className="w-full py-3 rounded-xl bg-[#065f46] hover:bg-emerald-700 text-white text-xs font-bold shadow-md transition flex items-center justify-center gap-2"
                                 >
                                     <Send className="w-4 h-4" /> {processing ? 'Mengirim...' : 'Kirim Testimoni'}
                                 </button>
@@ -128,7 +128,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                                 <p className="text-xs text-slate-600 font-medium">Silakan masuk ke akun Anda terlebih dahulu untuk memberikan ulasan.</p>
                                 <Link
                                     href="/login"
-                                    className="inline-block px-5 py-2 rounded-full bg-[#8CA9FF] hover:bg-blue-500 text-white text-xs font-bold shadow-xs transition"
+                                    className="inline-block px-5 py-2 rounded-full bg-[#065f46] hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition"
                                 >
                                     Masuk Akun
                                 </Link>

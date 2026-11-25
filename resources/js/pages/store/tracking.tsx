@@ -68,12 +68,12 @@ export default function Tracking({
 
     return (
         <StoreLayout>
-            <Head title="Lacak Pesanan Kamu - Klinik Premisys Medika" />
+            <Head title="Lacak Pesanan Kamu - Klinik Premysis Medika" />
 
             {/* Header Banner */}
             <div className="bg-slate-900 text-white py-12 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
                 <div className="max-w-3xl mx-auto text-center space-y-4">
-                    <div className="w-12 h-12 rounded-2xl bg-[#8CA9FF]/20 border border-[#8CA9FF]/30 text-[#8CA9FF] flex items-center justify-center mx-auto">
+                    <div className="w-12 h-12 rounded-2xl bg-[#065f46]/20 border border-[#065f46]/30 text-[#065f46] flex items-center justify-center mx-auto">
                         <PackageCheck className="w-6 h-6" />
                     </div>
                     <h1 className="text-3xl font-black tracking-tight">Lacak Status Pengiriman Pesanan</h1>
@@ -102,7 +102,7 @@ export default function Tracking({
                         <button
                             type="submit"
                             disabled={processing}
-                            className="w-full sm:w-auto px-6 py-3 rounded-2xl bg-[#8CA9FF] hover:bg-blue-500 text-white font-extrabold text-xs shadow transition flex items-center justify-center gap-1.5 shrink-0"
+                            className="w-full sm:w-auto px-6 py-3 rounded-2xl bg-[#065f46] hover:bg-emerald-700 text-white font-extrabold text-xs shadow transition flex items-center justify-center gap-1.5 shrink-0"
                         >
                             <Search className="w-4 h-4" /> Lacak
                         </button>
@@ -126,7 +126,7 @@ export default function Tracking({
                                 <h2 className="text-xl font-black text-slate-900 font-mono">#{orderResult.order_number}</h2>
                             </div>
 
-                            <span className="px-4 py-1.5 rounded-full bg-[#8CA9FF]/10 text-[#8CA9FF] border border-[#8CA9FF]/30 text-xs font-extrabold uppercase">
+                            <span className="px-4 py-1.5 rounded-full bg-[#065f46]/10 text-[#065f46] border border-[#065f46]/30 text-xs font-extrabold uppercase">
                                 {orderResult.status.replace('_', ' ')}
                             </span>
                         </div>
@@ -141,7 +141,7 @@ export default function Tracking({
                             <div>
                                 <span className="text-slate-400 text-[10px] block">Kurir & Resi</span>
                                 <p className="font-bold text-slate-900">{orderResult.shippingMethod?.name || 'Kurir Apotek'}</p>
-                                <p className="font-mono text-blue-600 font-bold">
+                                <p className="font-mono text-emerald-600 font-bold">
                                     Resi: {orderResult.shipment?.tracking_number || 'Belum di-generate'}
                                 </p>
                             </div>
@@ -150,13 +150,13 @@ export default function Tracking({
                         {/* Timeline */}
                         <div className="space-y-4">
                             <h3 className="font-extrabold text-sm text-slate-900 flex items-center gap-2">
-                                <Clock className="w-4 h-4 text-[#8CA9FF]" /> Kronologi Status Pengiriman
+                                <Clock className="w-4 h-4 text-[#065f46]" /> Kronologi Status Pengiriman
                             </h3>
 
-                            <div className="relative pl-6 border-l-2 border-[#8CA9FF]/40 space-y-6 my-2">
+                            <div className="relative pl-6 border-l-2 border-[#065f46]/40 space-y-6 my-2">
                                 {orderResult.statusHistories.map((sh) => (
                                     <div key={sh.id} className="relative">
-                                        <div className="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-[#8CA9FF] border-2 border-white shadow" />
+                                        <div className="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-[#065f46] border-2 border-white shadow" />
                                         <div>
                                             <span className="text-xs font-extrabold text-slate-900 uppercase">
                                                 {sh.status.replace('_', ' ')}

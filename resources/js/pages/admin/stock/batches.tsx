@@ -46,8 +46,8 @@ export default function StockBatches({ product, batches }: Props) {
                 </Link>
 
                 <div className="flex items-center gap-3">
-                    <div className="p-2.5 bg-indigo-100 rounded-xl">
-                        <Box className="w-5 h-5 text-indigo-600" />
+                    <div className="p-2.5 bg-emerald-100 rounded-xl">
+                        <Box className="w-5 h-5 text-emerald-600" />
                     </div>
                     <div>
                         <h2 className="text-xl font-bold text-slate-800">{product.name}</h2>
@@ -105,7 +105,7 @@ export default function StockBatches({ product, batches }: Props) {
                                 key={i}
                                 href={link.url ?? '#'}
                                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${
-                                    link.active ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                                    link.active ? 'bg-emerald-700 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                                 } ${!link.url ? 'opacity-40 pointer-events-none' : ''}`}
                                 dangerouslySetInnerHTML={{ __html: link.label }}
                             />

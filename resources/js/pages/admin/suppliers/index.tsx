@@ -65,7 +65,7 @@ const SupplierModal = ({ open, onClose, supplier }: { open: boolean; onClose: ()
 
     if (!open) return null;
 
-    const inputCls = 'w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300';
+    const inputCls = 'w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300';
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
@@ -100,7 +100,7 @@ const SupplierModal = ({ open, onClose, supplier }: { open: boolean; onClose: ()
                         {supplier && (
                             <div className="col-span-2">
                                 <label className="flex items-center gap-3 cursor-pointer">
-                                    <input type="checkbox" checked={form.data.is_active} onChange={(e) => form.setData('is_active', e.target.checked)} className="w-4 h-4 accent-indigo-600" />
+                                    <input type="checkbox" checked={form.data.is_active} onChange={(e) => form.setData('is_active', e.target.checked)} className="w-4 h-4 accent-emerald-600" />
                                     <span className="text-sm text-slate-700 font-medium">Supplier Aktif</span>
                                 </label>
                             </div>
@@ -108,7 +108,7 @@ const SupplierModal = ({ open, onClose, supplier }: { open: boolean; onClose: ()
                     </div>
                     <div className="flex justify-end gap-3 pt-2">
                         <button type="button" onClick={onClose} className="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200">Batal</button>
-                        <button type="submit" disabled={form.processing} className="px-4 py-2 text-xs font-semibold rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-60">
+                        <button type="submit" disabled={form.processing} className="px-4 py-2 text-xs font-semibold rounded-lg bg-emerald-700 text-white hover:bg-emerald-700 disabled:opacity-60">
                             {form.processing ? 'Menyimpan...' : 'Simpan'}
                         </button>
                     </div>
@@ -153,7 +153,7 @@ export default function SuppliersIndex({ suppliers, filters }: Props) {
                         </Link>
                         <button
                             onClick={() => { setEditing(null); setModalOpen(true); }}
-                            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition"
+                            className="flex items-center gap-2 bg-emerald-700 hover:bg-emerald-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition"
                             id="btn-add-supplier"
                         >
                             <Plus className="w-4 h-4" /> Tambah Supplier
@@ -168,7 +168,7 @@ export default function SuppliersIndex({ suppliers, filters }: Props) {
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             placeholder="Cari nama supplier..."
-                            className="pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-300 w-64"
+                            className="pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-300 w-64"
                             id="input-supplier-search"
                         />
                     </div>
@@ -208,7 +208,7 @@ export default function SuppliersIndex({ suppliers, filters }: Props) {
                                     </td>
                                     <td className="px-4 py-3">
                                         <div className="flex items-center justify-end gap-2">
-                                            <button onClick={() => { setEditing(s); setModalOpen(true); }} className="p-1.5 rounded-lg hover:bg-indigo-50 text-indigo-600" title="Edit">
+                                            <button onClick={() => { setEditing(s); setModalOpen(true); }} className="p-1.5 rounded-lg hover:bg-emerald-50 text-emerald-600" title="Edit">
                                                 <Edit2 className="w-4 h-4" />
                                             </button>
                                             <button onClick={() => confirmDelete(s)} className="p-1.5 rounded-lg hover:bg-red-50 text-red-500" title="Hapus">
@@ -229,7 +229,7 @@ export default function SuppliersIndex({ suppliers, filters }: Props) {
                                 key={i}
                                 href={link.url ?? '#'}
                                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${
-                                    link.active ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                                    link.active ? 'bg-emerald-700 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                                 } ${!link.url ? 'opacity-40 pointer-events-none' : ''}`}
                                 dangerouslySetInnerHTML={{ __html: link.label }}
                             />

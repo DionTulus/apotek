@@ -63,7 +63,7 @@ interface Props {
     };
 }
 
-const COLORS = ['#8CA9FF', '#10B981', '#F59E0B', '#EC4899', '#8B5CF6', '#3B82F6', '#14B8A6'];
+const COLORS = ['#065f46', '#10B981', '#F59E0B', '#EC4899', '#8B5CF6', '#3B82F6', '#14B8A6'];
 
 export default function AnalyticsIndex({
     metrics,
@@ -101,7 +101,7 @@ export default function AnalyticsIndex({
                                 onClick={() => handleDaysChange(d)}
                                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
                                     days === d
-                                        ? 'bg-[#8CA9FF] text-white shadow-xs'
+                                        ? 'bg-[#065f46] text-white shadow-xs'
                                         : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
                                 }`}
                             >
@@ -115,7 +115,7 @@ export default function AnalyticsIndex({
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     {/* Page Views */}
                     <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3.5">
-                        <div className="w-10 h-10 rounded-lg bg-blue-50 text-[#8CA9FF] flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-lg bg-emerald-50 text-[#065f46] flex items-center justify-center">
                             <Eye className="w-5 h-5" />
                         </div>
                         <div>
@@ -171,7 +171,7 @@ export default function AnalyticsIndex({
                         </div>
                         <div className="flex items-center gap-4 text-xs">
                             <span className="flex items-center gap-1.5 text-slate-600">
-                                <span className="w-3 h-3 rounded-full bg-[#8CA9FF]" /> Kunjungan (Pageviews)
+                                <span className="w-3 h-3 rounded-full bg-[#065f46]" /> Kunjungan (Pageviews)
                             </span>
                             <span className="flex items-center gap-1.5 text-slate-600">
                                 <span className="w-3 h-3 rounded-full bg-emerald-500" /> Pesanan
@@ -204,7 +204,7 @@ export default function AnalyticsIndex({
                                     type="monotone"
                                     dataKey="page_views"
                                     name="Kunjungan"
-                                    stroke="#8CA9FF"
+                                    stroke="#065f46"
                                     strokeWidth={2.5}
                                     dot={false}
                                 />
@@ -227,7 +227,7 @@ export default function AnalyticsIndex({
                     <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs flex flex-col justify-between">
                         <div>
                             <h2 className="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
-                                <Layers className="w-4 h-4 text-[#8CA9FF]" />
+                                <Layers className="w-4 h-4 text-[#065f46]" />
                                 Omset per Kategori Obat
                             </h2>
 
@@ -252,7 +252,7 @@ export default function AnalyticsIndex({
                     <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs flex flex-col justify-between">
                         <div>
                             <h2 className="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
-                                <CreditCard className="w-4 h-4 text-[#8CA9FF]" />
+                                <CreditCard className="w-4 h-4 text-[#065f46]" />
                                 Metode Pembayaran Favorit
                             </h2>
 
@@ -277,7 +277,7 @@ export default function AnalyticsIndex({
                     <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs flex flex-col justify-between">
                         <div>
                             <h2 className="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
-                                <Globe className="w-4 h-4 text-[#8CA9FF]" />
+                                <Globe className="w-4 h-4 text-[#065f46]" />
                                 Halaman Paling Ramai
                             </h2>
 

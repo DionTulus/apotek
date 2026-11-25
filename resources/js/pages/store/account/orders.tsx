@@ -52,7 +52,7 @@ export default function Orders({ orders, statusList = [], currentStatus = '' }: 
             case 'shipped':
             case 'processing':
             case 'paid':
-                return 'bg-blue-100 text-blue-800 border-blue-200';
+                return 'bg-emerald-100 text-emerald-800 border-emerald-200';
             case 'awaiting_prescription':
             case 'pending_payment':
                 return 'bg-amber-100 text-amber-800 border-amber-200';
@@ -71,7 +71,7 @@ export default function Orders({ orders, statusList = [], currentStatus = '' }: 
 
             <div className="bg-slate-900 text-white py-10 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
                 <div className="max-w-7xl mx-auto flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-2xl bg-[#8CA9FF]/20 border border-[#8CA9FF]/30 text-[#8CA9FF] flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-2xl bg-[#065f46]/20 border border-[#065f46]/30 text-[#065f46] flex items-center justify-center">
                         <ShoppingBag className="w-5 h-5" />
                     </div>
                     <div>
@@ -87,14 +87,14 @@ export default function Orders({ orders, statusList = [], currentStatus = '' }: 
                 {/* Filter Tabs */}
                 <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-2 overflow-x-auto">
                     <span className="text-xs font-bold text-slate-500 mr-2 shrink-0 flex items-center gap-1">
-                        <Filter className="w-3.5 h-3.5 text-[#8CA9FF]" /> Filter Status:
+                        <Filter className="w-3.5 h-3.5 text-[#065f46]" /> Filter Status:
                     </span>
 
                     <button
                         onClick={() => handleFilterStatus('')}
                         className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition shrink-0 ${
                             currentStatus === ''
-                                ? 'bg-[#8CA9FF] text-white shadow'
+                                ? 'bg-[#065f46] text-white shadow'
                                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                         }`}
                     >
@@ -107,7 +107,7 @@ export default function Orders({ orders, statusList = [], currentStatus = '' }: 
                             onClick={() => handleFilterStatus(st.value)}
                             className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition shrink-0 ${
                                 currentStatus === st.value
-                                    ? 'bg-[#8CA9FF] text-white shadow'
+                                    ? 'bg-[#065f46] text-white shadow'
                                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                             }`}
                         >
@@ -119,7 +119,7 @@ export default function Orders({ orders, statusList = [], currentStatus = '' }: 
                 {/* Orders List */}
                 {orders.data.length === 0 ? (
                     <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center space-y-4 max-w-md mx-auto">
-                        <div className="w-16 h-16 rounded-full bg-blue-50 text-[#8CA9FF] flex items-center justify-center mx-auto">
+                        <div className="w-16 h-16 rounded-full bg-emerald-50 text-[#065f46] flex items-center justify-center mx-auto">
                             <Package className="w-8 h-8" />
                         </div>
                         <h3 className="text-lg font-bold text-slate-900">Belum Ada Pesanan</h3>
@@ -128,7 +128,7 @@ export default function Orders({ orders, statusList = [], currentStatus = '' }: 
                         </p>
                         <Link
                             href="/produk"
-                            className="inline-block px-6 py-3 rounded-full bg-[#8CA9FF] text-white text-xs font-bold hover:bg-blue-500 transition shadow"
+                            className="inline-block px-6 py-3 rounded-full bg-[#065f46] text-white text-xs font-bold hover:bg-emerald-700 transition shadow"
                         >
                             Mulai Belanja Obat
                         </Link>
@@ -142,7 +142,7 @@ export default function Orders({ orders, statusList = [], currentStatus = '' }: 
                             >
                                 <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100">
                                     <div className="flex items-center gap-3">
-                                        <span className="font-mono text-xs font-extrabold text-[#8CA9FF]">
+                                        <span className="font-mono text-xs font-extrabold text-[#065f46]">
                                             #{order.order_number}
                                         </span>
                                         <span className="text-xs text-slate-400">
@@ -190,7 +190,7 @@ export default function Orders({ orders, statusList = [], currentStatus = '' }: 
                                         {order.status === 'pending_payment' && (
                                             <Link
                                                 href={`/pembayaran/${order.order_number}`}
-                                                className="px-4 py-2 rounded-xl bg-[#8CA9FF] hover:bg-blue-500 text-white text-xs font-extrabold shadow-sm transition"
+                                                className="px-4 py-2 rounded-xl bg-[#065f46] hover:bg-emerald-700 text-white text-xs font-extrabold shadow-sm transition"
                                             >
                                                 Bayar Sekarang
                                             </Link>
@@ -216,7 +216,7 @@ export default function Orders({ orders, statusList = [], currentStatus = '' }: 
                                         preserveScroll
                                         className={`px-3 py-2 rounded-xl text-xs font-bold transition border ${
                                             link.active
-                                                ? 'bg-[#8CA9FF] text-white border-[#8CA9FF]'
+                                                ? 'bg-[#065f46] text-white border-[#065f46]'
                                                 : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
                                         }`}
                                         dangerouslySetInnerHTML={{ __html: link.label }}

@@ -94,7 +94,7 @@ export default function CrmIndex({ leads, statuses, stats, filters }: Props) {
     const getStatusBadge = (st: string) => {
         switch (st) {
             case 'new':
-                return 'bg-blue-100 text-blue-800';
+                return 'bg-emerald-100 text-emerald-800';
             case 'contacted':
                 return 'bg-amber-100 text-amber-800';
             case 'converted':
@@ -120,7 +120,7 @@ export default function CrmIndex({ leads, statuses, stats, filters }: Props) {
 
                     <button
                         onClick={() => setIsAddModalOpen(true)}
-                        className="px-3.5 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-xs"
+                        className="px-3.5 py-2 bg-[#065f46] hover:bg-[#047857] text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-xs"
                     >
                         <Plus className="w-4 h-4" /> Tambah Prospek
                     </button>
@@ -132,11 +132,11 @@ export default function CrmIndex({ leads, statuses, stats, filters }: Props) {
                         onClick={() => handleFilterStatus('new')}
                         className={`p-4 rounded-xl border cursor-pointer transition shadow-xs ${
                             filters.status === 'new'
-                                ? 'bg-blue-50 border-[#8CA9FF]'
+                                ? 'bg-emerald-50 border-[#065f46]'
                                 : 'bg-white border-slate-200 hover:bg-slate-50'
                         }`}
                     >
-                        <span className="text-[11px] font-semibold text-blue-600">Prospek Baru</span>
+                        <span className="text-[11px] font-semibold text-emerald-600">Prospek Baru</span>
                         <p className="text-xl font-extrabold text-slate-800 mt-1">{stats.new}</p>
                     </div>
 
@@ -187,14 +187,14 @@ export default function CrmIndex({ leads, statuses, stats, filters }: Props) {
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 placeholder="Cari nama, no. WhatsApp, atau email..."
-                                className="w-full pl-9 pr-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                className="w-full pl-9 pr-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                             />
                         </div>
 
                         <select
                             value={source}
                             onChange={(e) => setSource(e.target.value)}
-                            className="px-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                            className="px-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                         >
                             <option value="">Semua Sumber (Source)</option>
                             <option value="Form Kontak Website">Form Kontak Website</option>
@@ -215,7 +215,7 @@ export default function CrmIndex({ leads, statuses, stats, filters }: Props) {
 
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white text-xs font-bold rounded-lg transition"
+                            className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white text-xs font-bold rounded-lg transition"
                         >
                             Cari
                         </button>
@@ -243,7 +243,7 @@ export default function CrmIndex({ leads, statuses, stats, filters }: Props) {
                                             <td className="px-4 py-3.5">
                                                 <Link
                                                     href={`/admin/crm/${lead.id}`}
-                                                    className="font-bold text-slate-800 hover:text-[#6587e6] transition"
+                                                    className="font-bold text-slate-800 hover:text-[#047857] transition"
                                                 >
                                                     {lead.name}
                                                 </Link>
@@ -284,7 +284,7 @@ export default function CrmIndex({ leads, statuses, stats, filters }: Props) {
                                             <td className="px-4 py-3.5 text-right">
                                                 <Link
                                                     href={`/admin/crm/${lead.id}`}
-                                                    className="px-3 py-1 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded text-[11px] font-bold transition shadow-xs"
+                                                    className="px-3 py-1 bg-[#065f46] hover:bg-[#047857] text-white rounded text-[11px] font-bold transition shadow-xs"
                                                 >
                                                     Detail & Follow Up
                                                 </Link>
@@ -314,7 +314,7 @@ export default function CrmIndex({ leads, statuses, stats, filters }: Props) {
                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                         className={`px-3 py-1.5 rounded-lg font-medium transition ${
                                             link.active
-                                                ? 'bg-[#8CA9FF] text-white font-bold'
+                                                ? 'bg-[#065f46] text-white font-bold'
                                                 : link.url
                                                 ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                                 : 'text-slate-300 pointer-events-none'
@@ -330,7 +330,7 @@ export default function CrmIndex({ leads, statuses, stats, filters }: Props) {
                 {isAddModalOpen && (
                     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
                         <div className="bg-white rounded-xl max-w-md w-full p-6 shadow-xl space-y-4">
-                            <div className="flex items-center gap-2 text-[#6587e6]">
+                            <div className="flex items-center gap-2 text-[#047857]">
                                 <User className="w-5 h-5" />
                                 <h3 className="text-base font-bold text-slate-800">Tambah Prospek Baru</h3>
                             </div>
@@ -342,7 +342,7 @@ export default function CrmIndex({ leads, statuses, stats, filters }: Props) {
                                         value={leadForm.data.name}
                                         onChange={(e) => leadForm.setData('name', e.target.value)}
                                         placeholder="Contoh: Bpk. Bambang Sutrisno"
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -354,7 +354,7 @@ export default function CrmIndex({ leads, statuses, stats, filters }: Props) {
                                         value={leadForm.data.phone}
                                         onChange={(e) => leadForm.setData('phone', e.target.value)}
                                         placeholder="Contoh: 081234567890"
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -366,7 +366,7 @@ export default function CrmIndex({ leads, statuses, stats, filters }: Props) {
                                         value={leadForm.data.email}
                                         onChange={(e) => leadForm.setData('email', e.target.value)}
                                         placeholder="Contoh: bambang@example.com"
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                     />
                                 </div>
 
@@ -375,7 +375,7 @@ export default function CrmIndex({ leads, statuses, stats, filters }: Props) {
                                     <select
                                         value={leadForm.data.source}
                                         onChange={(e) => leadForm.setData('source', e.target.value)}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                     >
                                         <option value="Form Kontak Website">Form Kontak Website</option>
                                         <option value="WhatsApp Direct">WhatsApp Direct</option>
@@ -391,7 +391,7 @@ export default function CrmIndex({ leads, statuses, stats, filters }: Props) {
                                         onChange={(e) => leadForm.setData('note', e.target.value)}
                                         placeholder="Contoh: Mencari obat resep hipertensi Amlodipine untuk terapi rutin..."
                                         rows={3}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                     />
                                 </div>
 
@@ -406,7 +406,7 @@ export default function CrmIndex({ leads, statuses, stats, filters }: Props) {
                                     <button
                                         type="submit"
                                         disabled={leadForm.processing}
-                                        className="px-4 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded-lg transition font-bold"
+                                        className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white rounded-lg transition font-bold"
                                     >
                                         {leadForm.processing ? 'Menyimpan...' : 'Simpan Prospek'}
                                     </button>

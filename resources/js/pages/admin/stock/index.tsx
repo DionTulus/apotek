@@ -72,7 +72,7 @@ const AdjustModal = ({ product, onClose }: { product: Product; onClose: () => vo
                             min={1}
                             value={form.data.qty}
                             onChange={(e) => form.setData('qty', e.target.value)}
-                            className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                            className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300"
                             id="input-adjust-qty"
                         />
                         {form.errors.qty && <p className="text-xs text-red-500 mt-1">{form.errors.qty}</p>}
@@ -83,7 +83,7 @@ const AdjustModal = ({ product, onClose }: { product: Product; onClose: () => vo
                             rows={2}
                             value={form.data.note}
                             onChange={(e) => form.setData('note', e.target.value)}
-                            className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 resize-none"
+                            className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300 resize-none"
                             placeholder="Alasan penyesuaian stok..."
                             id="input-adjust-note"
                         />
@@ -91,7 +91,7 @@ const AdjustModal = ({ product, onClose }: { product: Product; onClose: () => vo
                     </div>
                     <div className="flex justify-end gap-3">
                         <button type="button" onClick={onClose} className="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200">Batal</button>
-                        <button type="submit" disabled={form.processing} className="px-5 py-2 text-xs font-semibold rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-60">
+                        <button type="submit" disabled={form.processing} className="px-5 py-2 text-xs font-semibold rounded-lg bg-emerald-700 text-white hover:bg-emerald-700 disabled:opacity-60">
                             {form.processing ? 'Menyimpan...' : 'Simpan'}
                         </button>
                     </div>
@@ -137,7 +137,7 @@ export default function StockIndex({ products, filters }: Props) {
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 placeholder="Cari produk / SKU..."
-                                className="pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-300 w-52"
+                                className="pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-300 w-52"
                                 id="input-stock-search"
                             />
                         </div>
@@ -150,7 +150,7 @@ export default function StockIndex({ products, filters }: Props) {
                                 onClick={() => doFilter(btn.value)}
                                 className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition ${
                                     filters.alert === btn.value
-                                        ? 'bg-indigo-600 text-white border-indigo-600'
+                                        ? 'bg-emerald-700 text-white border-emerald-600'
                                         : (btn.color ?? 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50')
                                 }`}
                             >
@@ -215,7 +215,7 @@ export default function StockIndex({ products, filters }: Props) {
                                             <div className="flex items-center justify-end gap-1">
                                                 <button
                                                     onClick={() => setAdjustProduct(p)}
-                                                    className="flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
+                                                    className="flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
                                                     title="Sesuaikan Stok"
                                                     id={`btn-adjust-${p.id}`}
                                                 >
@@ -252,7 +252,7 @@ export default function StockIndex({ products, filters }: Props) {
                                 key={i}
                                 href={link.url ?? '#'}
                                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${
-                                    link.active ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                                    link.active ? 'bg-emerald-700 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                                 } ${!link.url ? 'opacity-40 pointer-events-none' : ''}`}
                                 dangerouslySetInnerHTML={{ __html: link.label }}
                             />

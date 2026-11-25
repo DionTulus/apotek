@@ -71,7 +71,7 @@ export default function CustomerShow({ customer, orders, stats }: Props) {
             case 'cancelled':
                 return 'bg-rose-100 text-rose-800';
             case 'paid':
-                return 'bg-blue-100 text-blue-800';
+                return 'bg-emerald-100 text-emerald-800';
             case 'processing':
                 return 'bg-cyan-100 text-cyan-800';
             case 'shipped':
@@ -107,7 +107,7 @@ export default function CustomerShow({ customer, orders, stats }: Props) {
                 {/* KPI Stats Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-blue-50 text-[#8CA9FF] flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-lg bg-emerald-50 text-[#065f46] flex items-center justify-center">
                             <ShoppingBag className="w-5 h-5" />
                         </div>
                         <div>
@@ -155,7 +155,7 @@ export default function CustomerShow({ customer, orders, stats }: Props) {
                     <div className="space-y-6">
                         <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
                             <h2 className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
-                                <User className="w-4 h-4 text-[#8CA9FF]" />
+                                <User className="w-4 h-4 text-[#065f46]" />
                                 Informasi Kontak
                             </h2>
                             <div className="space-y-3 text-xs">
@@ -183,7 +183,7 @@ export default function CustomerShow({ customer, orders, stats }: Props) {
                         {/* Addresses */}
                         <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
                             <h2 className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
-                                <MapPin className="w-4 h-4 text-[#8CA9FF]" />
+                                <MapPin className="w-4 h-4 text-[#065f46]" />
                                 Daftar Alamat Tersimpan ({customer.addresses?.length || 0})
                             </h2>
                             {customer.addresses && customer.addresses.length > 0 ? (
@@ -193,7 +193,7 @@ export default function CustomerShow({ customer, orders, stats }: Props) {
                                             key={addr.id}
                                             className={`p-3 rounded-lg border text-xs space-y-1 ${
                                                 addr.is_primary
-                                                    ? 'border-[#8CA9FF] bg-blue-50/40'
+                                                    ? 'border-[#065f46] bg-emerald-50/40'
                                                     : 'border-slate-200 bg-slate-50'
                                             }`}
                                         >
@@ -202,7 +202,7 @@ export default function CustomerShow({ customer, orders, stats }: Props) {
                                                     {addr.recipient_name}
                                                 </span>
                                                 {addr.is_primary && (
-                                                    <span className="px-1.5 py-0.5 bg-[#8CA9FF] text-white text-[9px] font-bold rounded">
+                                                    <span className="px-1.5 py-0.5 bg-[#065f46] text-white text-[9px] font-bold rounded">
                                                         UTAMA
                                                     </span>
                                                 )}
@@ -226,7 +226,7 @@ export default function CustomerShow({ customer, orders, stats }: Props) {
                         <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-xs">
                             <div className="p-4 border-b border-slate-200 flex items-center justify-between">
                                 <h2 className="text-sm font-bold text-slate-800 flex items-center gap-2">
-                                    <ShoppingBag className="w-4 h-4 text-[#8CA9FF]" />
+                                    <ShoppingBag className="w-4 h-4 text-[#065f46]" />
                                     Riwayat Pesanan Pelanggan
                                 </h2>
                             </div>
@@ -301,7 +301,7 @@ export default function CustomerShow({ customer, orders, stats }: Props) {
                                                 dangerouslySetInnerHTML={{ __html: link.label }}
                                                 className={`px-3 py-1.5 rounded-lg font-medium transition ${
                                                     link.active
-                                                        ? 'bg-[#8CA9FF] text-white font-bold'
+                                                        ? 'bg-[#065f46] text-white font-bold'
                                                         : link.url
                                                         ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                                         : 'text-slate-300 pointer-events-none'

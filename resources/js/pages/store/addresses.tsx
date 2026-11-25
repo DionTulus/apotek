@@ -96,7 +96,7 @@ export default function Addresses({ addresses = [] }: AddressesProps) {
             <div className="bg-slate-900 text-white py-10 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
                 <div className="max-w-7xl mx-auto flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-2xl bg-[#8CA9FF]/20 border border-[#8CA9FF]/30 text-[#8CA9FF] flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-2xl bg-[#065f46]/20 border border-[#065f46]/30 text-[#065f46] flex items-center justify-center">
                             <MapPin className="w-5 h-5" />
                         </div>
                         <div>
@@ -106,7 +106,7 @@ export default function Addresses({ addresses = [] }: AddressesProps) {
                     </div>
                     <button
                         onClick={openAddModal}
-                        className="px-4 py-2.5 rounded-full bg-[#8CA9FF] hover:bg-blue-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow"
+                        className="px-4 py-2.5 rounded-full bg-[#065f46] hover:bg-emerald-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow"
                     >
                         <Plus className="w-4 h-4" /> Tambah Alamat Baru
                     </button>
@@ -116,7 +116,7 @@ export default function Addresses({ addresses = [] }: AddressesProps) {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
                 {addresses.length === 0 ? (
                     <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center space-y-4 max-w-md mx-auto">
-                        <div className="w-16 h-16 rounded-full bg-blue-50 text-[#8CA9FF] flex items-center justify-center mx-auto">
+                        <div className="w-16 h-16 rounded-full bg-emerald-50 text-[#065f46] flex items-center justify-center mx-auto">
                             <MapPin className="w-8 h-8" />
                         </div>
                         <h3 className="text-lg font-bold text-slate-900">Belum Ada Alamat Tersimpan</h3>
@@ -125,7 +125,7 @@ export default function Addresses({ addresses = [] }: AddressesProps) {
                         </p>
                         <button
                             onClick={openAddModal}
-                            className="px-6 py-3 rounded-full bg-[#8CA9FF] text-white text-xs font-bold hover:bg-blue-500 transition shadow"
+                            className="px-6 py-3 rounded-full bg-[#065f46] text-white text-xs font-bold hover:bg-emerald-700 transition shadow"
                         >
                             + Tambah Alamat Pertama
                         </button>
@@ -136,7 +136,7 @@ export default function Addresses({ addresses = [] }: AddressesProps) {
                             <div
                                 key={addr.id}
                                 className={`bg-white rounded-2xl border p-6 transition flex flex-col justify-between relative ${
-                                    addr.is_default ? 'border-[#8CA9FF] shadow-md' : 'border-slate-200'
+                                    addr.is_default ? 'border-[#065f46] shadow-md' : 'border-slate-200'
                                 }`}
                             >
                                 <div className="space-y-3">
@@ -146,8 +146,8 @@ export default function Addresses({ addresses = [] }: AddressesProps) {
                                                 {addr.label}
                                             </span>
                                             {addr.is_default && (
-                                                <span className="px-2.5 py-1 rounded-md bg-blue-100 text-blue-700 text-xs font-extrabold flex items-center gap-1">
-                                                    <Star className="w-3 h-3 fill-blue-600" /> Utama
+                                                <span className="px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-700 text-xs font-extrabold flex items-center gap-1">
+                                                    <Star className="w-3 h-3 fill-emerald-600" /> Utama
                                                 </span>
                                             )}
                                         </div>
@@ -167,7 +167,7 @@ export default function Addresses({ addresses = [] }: AddressesProps) {
                                     {!addr.is_default && (
                                         <button
                                             onClick={() => handleSetDefault(addr.id)}
-                                            className="text-xs font-bold text-[#8CA9FF] hover:text-blue-700 transition"
+                                            className="text-xs font-bold text-[#065f46] hover:text-emerald-700 transition"
                                         >
                                             Jadikan Utamakan
                                         </button>
@@ -313,7 +313,7 @@ export default function Addresses({ addresses = [] }: AddressesProps) {
                                         type="checkbox"
                                         checked={data.is_default}
                                         onChange={(e) => setData('is_default', e.target.checked)}
-                                        className="rounded border-slate-300 text-[#8CA9FF]"
+                                        className="rounded border-slate-300 text-[#065f46]"
                                     />
                                     <span className="font-bold text-slate-700">Jadikan Alamat Utama</span>
                                 </label>
@@ -330,7 +330,7 @@ export default function Addresses({ addresses = [] }: AddressesProps) {
                                 <button
                                     type="submit"
                                     disabled={processing}
-                                    className="px-6 py-2.5 rounded-xl bg-[#8CA9FF] hover:bg-blue-500 text-white font-extrabold shadow"
+                                    className="px-6 py-2.5 rounded-xl bg-[#065f46] hover:bg-emerald-700 text-white font-extrabold shadow"
                                 >
                                     {processing ? 'Menyimpan...' : 'Simpan Alamat'}
                                 </button>

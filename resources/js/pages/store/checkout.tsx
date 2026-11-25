@@ -148,12 +148,12 @@ export default function Checkout({
 
     return (
         <StoreLayout>
-            <Head title="Checkout Pesanan - Klinik Premisys Medika" />
+            <Head title="Checkout Pesanan - Klinik Premysis Medika" />
 
             {/* Header */}
             <div className="bg-slate-900 text-white py-10 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
                 <div className="max-w-7xl mx-auto flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-2xl bg-[#8CA9FF]/20 border border-[#8CA9FF]/30 text-[#8CA9FF] flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-2xl bg-[#065f46]/20 border border-[#065f46]/30 text-[#065f46] flex items-center justify-center">
                         <PackageCheck className="w-5 h-5" />
                     </div>
                     <div>
@@ -176,7 +176,7 @@ export default function Checkout({
                                     <ShieldAlert className="w-5 h-5" /> Unggah Resep Dokter (Wajib untuk Obat Keras)
                                 </div>
                                 <p className="text-xs text-slate-600 leading-relaxed">
-                                    Keranjang Anda berisi produk obat keras. Apoteker kami wajib memverifikasi resep dokter resmi sebelum pesanan diproses.
+                                    Keranjang Anda berisi obat yang memerlukan resep. Apoteker atau admin akan memeriksa resep terlebih dahulu; pembayaran baru tersedia setelah resep disetujui.
                                 </p>
 
                                 <div>
@@ -186,6 +186,7 @@ export default function Checkout({
                                     <input
                                         type="file"
                                         accept=".jpg,.jpeg,.png,.pdf"
+                                        required={hasPrescriptionProducts}
                                         onChange={(e) =>
                                             setData('prescription_file', e.target.files ? e.target.files[0] : null)
                                         }
@@ -202,11 +203,11 @@ export default function Checkout({
                         <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-5">
                             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                                 <h3 className="font-extrabold text-sm text-slate-900 flex items-center gap-2">
-                                    <MapPin className="w-4 h-4 text-[#8CA9FF]" /> Alamat Pengiriman
+                                    <MapPin className="w-4 h-4 text-[#065f46]" /> Alamat Pengiriman
                                 </h3>
                                 <Link
                                     href="/alamat"
-                                    className="text-xs font-bold text-[#8CA9FF] hover:text-blue-700"
+                                    className="text-xs font-bold text-[#065f46] hover:text-emerald-700"
                                 >
                                     + Kelola Alamat
                                 </Link>
@@ -224,7 +225,7 @@ export default function Checkout({
                                                     onClick={() => handleSelectAddress(addr)}
                                                     className={`p-4 rounded-2xl border cursor-pointer transition ${
                                                         isSelected
-                                                            ? 'border-[#8CA9FF] bg-blue-50/40 ring-2 ring-[#8CA9FF]/30'
+                                                            ? 'border-[#065f46] bg-emerald-50/40 ring-2 ring-[#065f46]/30'
                                                             : 'border-slate-200 hover:border-slate-300'
                                                     }`}
                                                 >
@@ -233,7 +234,7 @@ export default function Checkout({
                                                             {addr.label}
                                                         </span>
                                                         {isSelected && (
-                                                            <CheckCircle2 className="w-4 h-4 text-[#8CA9FF]" />
+                                                            <CheckCircle2 className="w-4 h-4 text-[#065f46]" />
                                                         )}
                                                     </div>
                                                     <p className="text-xs font-bold text-slate-900">
@@ -267,7 +268,7 @@ export default function Checkout({
                                                 setUseManualAddress(false);
                                                 if (defaultAddress) handleSelectAddress(defaultAddress);
                                             }}
-                                            className="text-xs font-bold text-[#8CA9FF] mb-2 block"
+                                            className="text-xs font-bold text-[#065f46] mb-2 block"
                                         >
                                             ← Pilih dari Alamat Tersimpan
                                         </button>
@@ -326,7 +327,7 @@ export default function Checkout({
                         {/* Shipping Method */}
                         <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
                             <h3 className="font-extrabold text-sm text-slate-900 pb-3 border-b border-slate-100 flex items-center gap-2">
-                                <Truck className="w-4 h-4 text-[#8CA9FF]" /> Pilih Kurir Pengiriman
+                                <Truck className="w-4 h-4 text-[#065f46]" /> Pilih Kurir Pengiriman
                             </h3>
 
                             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -339,7 +340,7 @@ export default function Checkout({
                                             key={sm.id}
                                             className={`p-4 rounded-2xl border cursor-pointer transition flex flex-col justify-between ${
                                                 isSelected
-                                                    ? 'border-[#8CA9FF] bg-blue-50/40 ring-2 ring-[#8CA9FF]/30'
+                                                    ? 'border-[#065f46] bg-emerald-50/40 ring-2 ring-[#065f46]/30'
                                                     : 'border-slate-200 hover:border-slate-300'
                                             }`}
                                         >
@@ -356,7 +357,7 @@ export default function Checkout({
                                                     <span className="font-extrabold text-slate-900 text-xs">
                                                         {sm.name}
                                                     </span>
-                                                    {isSelected && <CheckCircle2 className="w-4 h-4 text-[#8CA9FF]" />}
+                                                    {isSelected && <CheckCircle2 className="w-4 h-4 text-[#065f46]" />}
                                                 </div>
                                                 <p className="text-[11px] text-slate-500">Estimasi: {sm.est_days}</p>
                                             </div>
@@ -373,14 +374,14 @@ export default function Checkout({
                         {/* Payment Method */}
                         <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
                             <h3 className="font-extrabold text-sm text-slate-900 pb-3 border-b border-slate-100 flex items-center gap-2">
-                                <CreditCard className="w-4 h-4 text-[#8CA9FF]" /> Metode Pembayaran
+                                <CreditCard className="w-4 h-4 text-[#065f46]" /> Metode Pembayaran
                             </h3>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <label
                                     className={`p-4 rounded-2xl border cursor-pointer transition flex items-start gap-3 ${
                                         data.payment_method === 'midtrans'
-                                            ? 'border-[#8CA9FF] bg-blue-50/40 ring-2 ring-[#8CA9FF]/30'
+                                            ? 'border-[#065f46] bg-emerald-50/40 ring-2 ring-[#065f46]/30'
                                             : 'border-slate-200'
                                     }`}
                                 >
@@ -390,7 +391,7 @@ export default function Checkout({
                                         value="midtrans"
                                         checked={data.payment_method === 'midtrans'}
                                         onChange={(e) => setData('payment_method', e.target.value)}
-                                        className="mt-1 text-[#8CA9FF]"
+                                        className="mt-1 text-[#065f46]"
                                     />
                                     <div>
                                         <h4 className="font-extrabold text-xs text-slate-900">Pembayaran Online (Midtrans)</h4>
@@ -403,7 +404,7 @@ export default function Checkout({
                                 <label
                                     className={`p-4 rounded-2xl border cursor-pointer transition flex items-start gap-3 ${
                                         data.payment_method === 'cod'
-                                            ? 'border-[#8CA9FF] bg-blue-50/40 ring-2 ring-[#8CA9FF]/30'
+                                            ? 'border-[#065f46] bg-emerald-50/40 ring-2 ring-[#065f46]/30'
                                             : 'border-slate-200'
                                     }`}
                                 >
@@ -413,7 +414,7 @@ export default function Checkout({
                                         value="cod"
                                         checked={data.payment_method === 'cod'}
                                         onChange={(e) => setData('payment_method', e.target.value)}
-                                        className="mt-1 text-[#8CA9FF]"
+                                        className="mt-1 text-[#065f46]"
                                     />
                                     <div>
                                         <h4 className="font-extrabold text-xs text-slate-900">Cash on Delivery (COD)</h4>
@@ -497,14 +498,14 @@ export default function Checkout({
                                 )}
                                 <div className="pt-3 border-t border-slate-100 flex justify-between items-center text-sm font-black text-slate-900">
                                     <span>Total Bayar:</span>
-                                    <span className="text-xl text-[#8CA9FF]">{formatRp(grandTotal)}</span>
+                                    <span className="text-xl text-[#065f46]">{formatRp(grandTotal)}</span>
                                 </div>
                             </div>
 
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="w-full py-4 rounded-2xl bg-[#8CA9FF] hover:bg-blue-500 text-white font-extrabold text-sm shadow-lg shadow-[#8CA9FF]/30 transition flex items-center justify-center gap-2 group"
+                                className="w-full py-4 rounded-2xl bg-[#065f46] hover:bg-emerald-700 text-white font-extrabold text-sm shadow-lg shadow-[#065f46]/30 transition flex items-center justify-center gap-2 group"
                             >
                                 {processing ? 'Memproses Pesanan...' : 'Buat Pesanan & Bayar'}
                                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

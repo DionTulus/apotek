@@ -9,9 +9,9 @@ interface PrivacyProps {
 export default function Privacy({ privacy }: PrivacyProps) {
     return (
         <StoreLayout>
-            <Head title="Kebijakan Privasi - Klinik Premisys Medika" />
+            <Head title="Kebijakan Privasi - Klinik Premysis Medika" />
 
-            <div className="bg-gradient-to-r from-slate-900 to-blue-950 text-white py-12 px-4 text-center">
+            <div className="bg-gradient-to-r from-slate-900 to-emerald-950 text-white py-12 px-4 text-center">
                 <h1 className="text-3xl font-black">Kebijakan Privasi</h1>
                 <p className="text-xs sm:text-sm text-slate-300 mt-2">Komitmen kami menjaga kerahasiaan data medis & pribadi Anda</p>
             </div>
@@ -19,7 +19,7 @@ export default function Privacy({ privacy }: PrivacyProps) {
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm space-y-6 text-xs sm:text-sm text-slate-700 leading-relaxed">
                     <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
-                        <ShieldCheck className="w-6 h-6 text-[#8CA9FF]" />
+                        <ShieldCheck className="w-6 h-6 text-[#065f46]" />
                         <h2 className="text-lg font-bold text-slate-900">Perlindungan Data Pribadi & Resep Medis</h2>
                     </div>
 

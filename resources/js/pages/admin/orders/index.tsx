@@ -30,7 +30,7 @@ interface Props {
 const statusColors: Record<string, string> = {
     pending_payment:        'bg-yellow-100 text-yellow-800',
     awaiting_prescription:  'bg-purple-100 text-purple-800',
-    paid:                   'bg-blue-100 text-blue-800',
+    paid:                   'bg-emerald-100 text-emerald-800',
     processing:             'bg-indigo-100 text-indigo-800',
     shipped:                'bg-cyan-100 text-cyan-800',
     delivered:              'bg-teal-100 text-teal-800',
@@ -84,7 +84,7 @@ export default function AdminOrdersIndex({ orders, statusList, filters }: Props)
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 placeholder="No. pesanan / Nama pelanggan..."
-                                className="pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-300 w-60"
+                                className="pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-300 w-60"
                                 id="input-order-search"
                             />
                         </div>
@@ -96,7 +96,7 @@ export default function AdminOrdersIndex({ orders, statusList, filters }: Props)
                     <div className="flex gap-2 flex-wrap">
                         <button
                             onClick={() => doFilter({ status: '' })}
-                            className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition ${!filters.status ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'}`}
+                            className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition ${!filters.status ? 'bg-emerald-700 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'}`}
                         >
                             Semua
                         </button>
@@ -106,7 +106,7 @@ export default function AdminOrdersIndex({ orders, statusList, filters }: Props)
                                 onClick={() => doFilter({ status: s.value })}
                                 className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition ${
                                     filters.status === s.value
-                                        ? 'bg-indigo-600 text-white border-indigo-600'
+                                        ? 'bg-emerald-700 text-white border-emerald-600'
                                         : `${statusColors[s.value] ?? 'bg-white text-slate-600'} border-transparent`
                                 }`}
                             >
@@ -160,7 +160,7 @@ export default function AdminOrdersIndex({ orders, statusList, filters }: Props)
                                     <td className="px-4 py-3 text-right">
                                         <Link
                                             href={`/admin/pesanan/${o.id}`}
-                                            className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
+                                            className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
                                         >
                                             Detail
                                         </Link>
@@ -178,7 +178,7 @@ export default function AdminOrdersIndex({ orders, statusList, filters }: Props)
                                 key={i}
                                 href={link.url ?? '#'}
                                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${
-                                    link.active ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                                    link.active ? 'bg-emerald-700 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                                 } ${!link.url ? 'opacity-40 pointer-events-none' : ''}`}
                                 dangerouslySetInnerHTML={{ __html: link.label }}
                             />

@@ -67,7 +67,7 @@ export default function PurchasesIndex({ purchases, statusList, filters }: Props
                         </Link>
                         <Link
                             href="/admin/pembelian/create"
-                            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition"
+                            className="flex items-center gap-2 bg-emerald-700 hover:bg-emerald-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition"
                             id="btn-create-po"
                         >
                             <Plus className="w-4 h-4" /> Buat PO Baru
@@ -84,7 +84,7 @@ export default function PurchasesIndex({ purchases, statusList, filters }: Props
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 placeholder="No. PO / Nama Supplier..."
-                                className="pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-300 w-56"
+                                className="pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-300 w-56"
                                 id="input-po-search"
                             />
                         </div>
@@ -93,7 +93,7 @@ export default function PurchasesIndex({ purchases, statusList, filters }: Props
                     <div className="flex gap-2">
                         <button
                             onClick={() => filterStatus('')}
-                            className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition ${!filters.status ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'}`}
+                            className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition ${!filters.status ? 'bg-emerald-700 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'}`}
                         >
                             Semua
                         </button>
@@ -102,7 +102,7 @@ export default function PurchasesIndex({ purchases, statusList, filters }: Props
                                 key={s.value}
                                 onClick={() => filterStatus(s.value)}
                                 className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition ${
-                                    filters.status === s.value ? 'bg-indigo-600 text-white border-indigo-600' : `${statusColors[s.value] ?? 'bg-white text-slate-600'} border-slate-200`
+                                    filters.status === s.value ? 'bg-emerald-700 text-white border-emerald-600' : `${statusColors[s.value] ?? 'bg-white text-slate-600'} border-slate-200`
                                 }`}
                             >
                                 {statusLabels[s.value] ?? s.label}
@@ -145,7 +145,7 @@ export default function PurchasesIndex({ purchases, statusList, filters }: Props
                                     <td className="px-4 py-3 text-right">
                                         <Link
                                             href={`/admin/pembelian/${p.id}`}
-                                            className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
+                                            className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
                                         >
                                             Detail
                                         </Link>
@@ -163,7 +163,7 @@ export default function PurchasesIndex({ purchases, statusList, filters }: Props
                                 key={i}
                                 href={link.url ?? '#'}
                                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${
-                                    link.active ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                                    link.active ? 'bg-emerald-700 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                                 } ${!link.url ? 'opacity-40 pointer-events-none' : ''}`}
                                 dangerouslySetInnerHTML={{ __html: link.label }}
                             />

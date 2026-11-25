@@ -118,7 +118,7 @@ export default function BlogsIndex({ posts, filters }: Props) {
 
                     <button
                         onClick={() => setIsAddModalOpen(true)}
-                        className="px-3.5 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-xs"
+                        className="px-3.5 py-2 bg-[#065f46] hover:bg-[#047857] text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-xs"
                     >
                         <Plus className="w-4 h-4" /> Tulis Artikel Baru
                     </button>
@@ -134,12 +134,12 @@ export default function BlogsIndex({ posts, filters }: Props) {
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 placeholder="Cari judul artikel blog..."
-                                className="w-full pl-9 pr-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                className="w-full pl-9 pr-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                             />
                         </div>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white text-xs font-bold rounded-lg transition"
+                            className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white text-xs font-bold rounded-lg transition"
                         >
                             Cari
                         </button>
@@ -227,7 +227,7 @@ export default function BlogsIndex({ posts, filters }: Props) {
                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                         className={`px-3 py-1.5 rounded-lg font-medium transition ${
                                             link.active
-                                                ? 'bg-[#8CA9FF] text-white font-bold'
+                                                ? 'bg-[#065f46] text-white font-bold'
                                                 : link.url
                                                 ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                                 : 'text-slate-300 pointer-events-none'
@@ -243,7 +243,7 @@ export default function BlogsIndex({ posts, filters }: Props) {
                 {isAddModalOpen && (
                     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
                         <div className="bg-white rounded-xl max-w-2xl w-full p-6 shadow-xl space-y-4 max-h-[90vh] overflow-y-auto">
-                            <div className="flex items-center gap-2 text-[#6587e6]">
+                            <div className="flex items-center gap-2 text-[#047857]">
                                 <BookOpen className="w-5 h-5" />
                                 <h3 className="text-base font-bold text-slate-800">Tulis Artikel Blog Baru</h3>
                             </div>
@@ -255,7 +255,7 @@ export default function BlogsIndex({ posts, filters }: Props) {
                                         value={addForm.data.title}
                                         onChange={(e) => addForm.setData('title', e.target.value)}
                                         placeholder="Contoh: 5 Tips Minum Antibiotik yang Benar dan Aman"
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -267,7 +267,7 @@ export default function BlogsIndex({ posts, filters }: Props) {
                                         onChange={(e) => addForm.setData('excerpt', e.target.value)}
                                         placeholder="Ringkasan 1-2 kalimat untuk preview..."
                                         rows={2}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -279,7 +279,7 @@ export default function BlogsIndex({ posts, filters }: Props) {
                                         onChange={(e) => addForm.setData('content', e.target.value)}
                                         placeholder="Tuliskan isi artikel edukasi lengkap..."
                                         rows={8}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -291,7 +291,7 @@ export default function BlogsIndex({ posts, filters }: Props) {
                                         value={addForm.data.cover_image}
                                         onChange={(e) => addForm.setData('cover_image', e.target.value)}
                                         placeholder="https://images.unsplash.com/..."
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                     />
                                 </div>
 
@@ -301,7 +301,7 @@ export default function BlogsIndex({ posts, filters }: Props) {
                                             type="checkbox"
                                             checked={addForm.data.is_published}
                                             onChange={(e) => addForm.setData('is_published', e.target.checked)}
-                                            className="rounded border-slate-300 text-[#8CA9FF] focus:ring-[#8CA9FF]"
+                                            className="rounded border-slate-300 text-[#065f46] focus:ring-[#065f46]"
                                         />
                                         Langsung Terbitkan (Publish)
                                     </label>
@@ -318,7 +318,7 @@ export default function BlogsIndex({ posts, filters }: Props) {
                                     <button
                                         type="submit"
                                         disabled={addForm.processing}
-                                        className="px-4 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded-lg transition font-bold"
+                                        className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white rounded-lg transition font-bold"
                                     >
                                         {addForm.processing ? 'Menerbitkan...' : 'Terbitkan Artikel'}
                                     </button>
@@ -332,7 +332,7 @@ export default function BlogsIndex({ posts, filters }: Props) {
                 {editingPost && (
                     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
                         <div className="bg-white rounded-xl max-w-2xl w-full p-6 shadow-xl space-y-4 max-h-[90vh] overflow-y-auto">
-                            <div className="flex items-center gap-2 text-[#6587e6]">
+                            <div className="flex items-center gap-2 text-[#047857]">
                                 <Edit3 className="w-5 h-5" />
                                 <h3 className="text-base font-bold text-slate-800">Edit Artikel: {editingPost.title}</h3>
                             </div>
@@ -343,7 +343,7 @@ export default function BlogsIndex({ posts, filters }: Props) {
                                         type="text"
                                         value={editForm.data.title}
                                         onChange={(e) => editForm.setData('title', e.target.value)}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -354,7 +354,7 @@ export default function BlogsIndex({ posts, filters }: Props) {
                                         value={editForm.data.excerpt}
                                         onChange={(e) => editForm.setData('excerpt', e.target.value)}
                                         rows={2}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -365,7 +365,7 @@ export default function BlogsIndex({ posts, filters }: Props) {
                                         value={editForm.data.content}
                                         onChange={(e) => editForm.setData('content', e.target.value)}
                                         rows={8}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -376,7 +376,7 @@ export default function BlogsIndex({ posts, filters }: Props) {
                                         type="text"
                                         value={editForm.data.cover_image}
                                         onChange={(e) => editForm.setData('cover_image', e.target.value)}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                     />
                                 </div>
 
@@ -386,7 +386,7 @@ export default function BlogsIndex({ posts, filters }: Props) {
                                             type="checkbox"
                                             checked={editForm.data.is_published}
                                             onChange={(e) => editForm.setData('is_published', e.target.checked)}
-                                            className="rounded border-slate-300 text-[#8CA9FF] focus:ring-[#8CA9FF]"
+                                            className="rounded border-slate-300 text-[#065f46] focus:ring-[#065f46]"
                                         />
                                         Status Terbit (Publish)
                                     </label>
@@ -403,7 +403,7 @@ export default function BlogsIndex({ posts, filters }: Props) {
                                     <button
                                         type="submit"
                                         disabled={editForm.processing}
-                                        className="px-4 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded-lg transition font-bold"
+                                        className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white rounded-lg transition font-bold"
                                     >
                                         {editForm.processing ? 'Menyimpan...' : 'Simpan Perubahan'}
                                     </button>

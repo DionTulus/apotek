@@ -126,7 +126,7 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
             case 'admin':
                 return 'bg-purple-100 text-purple-800 border-purple-200';
             case 'pharmacist':
-                return 'bg-blue-100 text-blue-800 border-blue-200';
+                return 'bg-emerald-100 text-emerald-800 border-emerald-200';
             case 'customer':
                 return 'bg-slate-100 text-slate-700 border-slate-200';
             default:
@@ -148,7 +148,7 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
 
                     <button
                         onClick={() => setIsAddModalOpen(true)}
-                        className="px-3.5 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-xs"
+                        className="px-3.5 py-2 bg-[#065f46] hover:bg-[#047857] text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-xs"
                     >
                         <Plus className="w-4 h-4" /> Tambah Staf Baru
                     </button>
@@ -160,7 +160,7 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
                         onClick={() => handleFilterRole('')}
                         className={`p-4 rounded-xl border cursor-pointer transition shadow-xs ${
                             !filters.role
-                                ? 'bg-blue-50 border-[#8CA9FF]'
+                                ? 'bg-emerald-50 border-[#065f46]'
                                 : 'bg-white border-slate-200 hover:bg-slate-50'
                         }`}
                     >
@@ -184,12 +184,12 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
                         onClick={() => handleFilterRole('pharmacist')}
                         className={`p-4 rounded-xl border cursor-pointer transition shadow-xs ${
                             filters.role === 'pharmacist'
-                                ? 'bg-blue-50 border-blue-300'
+                                ? 'bg-emerald-50 border-emerald-300'
                                 : 'bg-white border-slate-200 hover:bg-slate-50'
                         }`}
                     >
-                        <span className="text-[11px] font-semibold text-blue-600">Apoteker</span>
-                        <p className="text-xl font-extrabold text-blue-700 mt-1">{stats.pharmacist}</p>
+                        <span className="text-[11px] font-semibold text-emerald-600">Apoteker</span>
+                        <p className="text-xl font-extrabold text-emerald-700 mt-1">{stats.pharmacist}</p>
                     </div>
 
                     <div
@@ -215,12 +215,12 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 placeholder="Cari nama pengguna, email, atau nomor telepon..."
-                                className="w-full pl-9 pr-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                className="w-full pl-9 pr-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                             />
                         </div>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white text-xs font-bold rounded-lg transition"
+                            className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white text-xs font-bold rounded-lg transition"
                         >
                             Cari
                         </button>
@@ -247,7 +247,7 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
                                         <tr key={user.id} className="hover:bg-slate-50 transition">
                                             <td className="px-4 py-3.5">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-8 h-8 rounded-full bg-[#8CA9FF]/20 text-[#6587e6] font-bold flex items-center justify-center text-xs">
+                                                    <div className="w-8 h-8 rounded-full bg-[#065f46]/20 text-[#047857] font-bold flex items-center justify-center text-xs">
                                                         {user.name.slice(0, 2).toUpperCase()}
                                                     </div>
                                                     <div>
@@ -324,7 +324,7 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                         className={`px-3 py-1.5 rounded-lg font-medium transition ${
                                             link.active
-                                                ? 'bg-[#8CA9FF] text-white font-bold'
+                                                ? 'bg-[#065f46] text-white font-bold'
                                                 : link.url
                                                 ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                                 : 'text-slate-300 pointer-events-none'
@@ -340,7 +340,7 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
                 {isAddModalOpen && (
                     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
                         <div className="bg-white rounded-xl max-w-md w-full p-6 shadow-xl space-y-4">
-                            <div className="flex items-center gap-2 text-[#6587e6]">
+                            <div className="flex items-center gap-2 text-[#047857]">
                                 <Shield className="w-5 h-5" />
                                 <h3 className="text-base font-bold text-slate-800">Tambah Staf / Pengguna Baru</h3>
                             </div>
@@ -352,7 +352,7 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
                                         value={addForm.data.name}
                                         onChange={(e) => addForm.setData('name', e.target.value)}
                                         placeholder="Nama staf apotek"
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -364,7 +364,7 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
                                         value={addForm.data.email}
                                         onChange={(e) => addForm.setData('email', e.target.value)}
                                         placeholder="email@erp-apotek.test"
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -376,7 +376,7 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
                                         value={addForm.data.password}
                                         onChange={(e) => addForm.setData('password', e.target.value)}
                                         placeholder="Minimal 8 karakter"
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -388,7 +388,7 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
                                         value={addForm.data.phone}
                                         onChange={(e) => addForm.setData('phone', e.target.value)}
                                         placeholder="081234567890"
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                     />
                                 </div>
 
@@ -397,7 +397,7 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
                                     <select
                                         value={addForm.data.role}
                                         onChange={(e) => addForm.setData('role', e.target.value)}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                     >
                                         {roles.map((r) => (
                                             <option key={r.value} value={r.value}>
@@ -418,7 +418,7 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
                                     <button
                                         type="submit"
                                         disabled={addForm.processing}
-                                        className="px-4 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded-lg transition font-bold"
+                                        className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white rounded-lg transition font-bold"
                                     >
                                         {addForm.processing ? 'Menyimpan...' : 'Simpan Pengguna'}
                                     </button>
@@ -432,7 +432,7 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
                 {editingUser && (
                     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
                         <div className="bg-white rounded-xl max-w-md w-full p-6 shadow-xl space-y-4">
-                            <div className="flex items-center gap-2 text-[#6587e6]">
+                            <div className="flex items-center gap-2 text-[#047857]">
                                 <Edit3 className="w-5 h-5" />
                                 <h3 className="text-base font-bold text-slate-800">Edit Pengguna: {editingUser.name}</h3>
                             </div>
@@ -443,7 +443,7 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
                                         type="text"
                                         value={editForm.data.name}
                                         onChange={(e) => editForm.setData('name', e.target.value)}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -454,7 +454,7 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
                                         type="email"
                                         value={editForm.data.email}
                                         onChange={(e) => editForm.setData('email', e.target.value)}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -468,7 +468,7 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
                                         value={editForm.data.password}
                                         onChange={(e) => editForm.setData('password', e.target.value)}
                                         placeholder="Biarkan kosong jika tidak diubah"
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                     />
                                 </div>
 
@@ -478,7 +478,7 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
                                         type="text"
                                         value={editForm.data.phone}
                                         onChange={(e) => editForm.setData('phone', e.target.value)}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                     />
                                 </div>
 
@@ -487,7 +487,7 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
                                     <select
                                         value={editForm.data.role}
                                         onChange={(e) => editForm.setData('role', e.target.value)}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                     >
                                         {roles.map((r) => (
                                             <option key={r.value} value={r.value}>
@@ -508,7 +508,7 @@ export default function UsersIndex({ users, roles, stats, filters }: Props) {
                                     <button
                                         type="submit"
                                         disabled={editForm.processing}
-                                        className="px-4 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded-lg transition font-bold"
+                                        className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white rounded-lg transition font-bold"
                                     >
                                         {editForm.processing ? 'Menyimpan...' : 'Simpan Perubahan'}
                                     </button>

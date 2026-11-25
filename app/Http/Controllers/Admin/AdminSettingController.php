@@ -17,7 +17,7 @@ class AdminSettingController extends Controller
 
         // Defaults if not set
         $settings = array_merge([
-            'site_name'             => 'Apotek ERP',
+            'site_name'             => 'Premysis Medika',
             'site_tagline'          => 'Solusi Kesehatan & Apotek Modern Terpercaya',
             'phone'                 => '021-5551234',
             'whatsapp'              => '6281234567890',

@@ -94,7 +94,7 @@ const CategoryModal = ({
                 <form onSubmit={submit} className="p-6 space-y-4">
                     {/* Image */}
                     <div
-                        className="border-2 border-dashed border-slate-200 rounded-xl h-36 flex items-center justify-center cursor-pointer hover:border-indigo-400 transition relative overflow-hidden"
+                        className="border-2 border-dashed border-slate-200 rounded-xl h-36 flex items-center justify-center cursor-pointer hover:border-emerald-400 transition relative overflow-hidden"
                         onClick={() => fileRef.current?.click()}
                     >
                         {preview ? (
@@ -122,7 +122,7 @@ const CategoryModal = ({
                             type="text"
                             value={form.data.name}
                             onChange={(e) => form.setData('name', e.target.value)}
-                            className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                            className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300"
                             placeholder="cth: Antibiotik"
                         />
                         {form.errors.name && <p className="text-xs text-red-500 mt-1">{form.errors.name}</p>}
@@ -135,7 +135,7 @@ const CategoryModal = ({
                             rows={3}
                             value={form.data.description}
                             onChange={(e) => form.setData('description', e.target.value)}
-                            className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 resize-none"
+                            className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300 resize-none"
                         />
                     </div>
 
@@ -150,7 +150,7 @@ const CategoryModal = ({
                         <button
                             type="submit"
                             disabled={form.processing}
-                            className="px-4 py-2 text-xs font-semibold rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-60"
+                            className="px-4 py-2 text-xs font-semibold rounded-lg bg-emerald-700 text-white hover:bg-emerald-700 disabled:opacity-60"
                         >
                             {form.processing ? 'Menyimpan...' : 'Simpan'}
                         </button>
@@ -200,7 +200,7 @@ export default function CategoriesIndex({ categories, filters }: Props) {
                     </div>
                     <button
                         onClick={openCreate}
-                        className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition"
+                        className="flex items-center gap-2 bg-emerald-700 hover:bg-emerald-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition"
                         id="btn-add-category"
                     >
                         <Plus className="w-4 h-4" /> Tambah Kategori
@@ -215,7 +215,7 @@ export default function CategoriesIndex({ categories, filters }: Props) {
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             placeholder="Cari kategori..."
-                            className="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                            className="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-300"
                             id="input-search-category"
                         />
                     </div>
@@ -262,7 +262,7 @@ export default function CategoriesIndex({ categories, filters }: Props) {
                                         <td className="px-4 py-3 font-semibold text-slate-800">{cat.name}</td>
                                         <td className="px-4 py-3 text-slate-500 font-mono text-xs">{cat.slug}</td>
                                         <td className="px-4 py-3 text-center">
-                                            <span className="inline-block bg-indigo-50 text-indigo-700 text-xs font-bold px-2.5 py-0.5 rounded-full">
+                                            <span className="inline-block bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-0.5 rounded-full">
                                                 {cat.products_count}
                                             </span>
                                         </td>
@@ -270,7 +270,7 @@ export default function CategoriesIndex({ categories, filters }: Props) {
                                             <div className="flex items-center justify-end gap-2">
                                                 <button
                                                     onClick={() => openEdit(cat)}
-                                                    className="p-1.5 rounded-lg hover:bg-indigo-50 text-indigo-600"
+                                                    className="p-1.5 rounded-lg hover:bg-emerald-50 text-emerald-600"
                                                     title="Edit"
                                                 >
                                                     <Edit2 className="w-4 h-4" />
@@ -300,7 +300,7 @@ export default function CategoriesIndex({ categories, filters }: Props) {
                                 href={link.url ?? '#'}
                                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${
                                     link.active
-                                        ? 'bg-indigo-600 text-white border-indigo-600'
+                                        ? 'bg-emerald-700 text-white border-emerald-600'
                                         : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                                 } ${!link.url ? 'opacity-40 pointer-events-none' : ''}`}
                                 dangerouslySetInnerHTML={{ __html: link.label }}

@@ -23,7 +23,7 @@ class PaymentController extends Controller
             ->firstOrFail();
 
         $snapToken = null;
-        if ($order->payment_method === PaymentMethod::MIDTRANS && $order->payment_status->value === 'unpaid') {
+        if ($order->payment_method === PaymentMethod::MIDTRANS && $paymentService->canInitiatePayment($order)) {
             try {
                 $snapToken = $paymentService->createSnapToken($order);
             } catch (\Exception $e) {
@@ -45,6 +45,10 @@ class PaymentController extends Controller
         $order = Order::where('order_number', $orderNumber)
             ->where('user_id', $user->id)
             ->firstOrFail();
+
+        if (! $paymentService->canInitiatePayment($order)) {
+            return back()->with('error', 'Pembayaran tersedia setelah resep disetujui dan pesanan menunggu pembayaran.');
+        }
 
         $paymentService->checkStatus($order);
 

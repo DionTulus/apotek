@@ -57,6 +57,10 @@ interface OrderDetailProps {
 
 export default function Payment({ order, snapToken, midtransClientKey }: OrderDetailProps) {
     const formatRp = (num: number) => `Rp ${num.toLocaleString('id-ID')}`;
+    const isPrescriptionPending = order.prescription?.status === 'pending';
+    const isPrescriptionApproved = !order.prescription || order.prescription.status === 'approved';
+    const isPrescriptionRejected = order.prescription?.status === 'rejected';
+    const canPay = isPrescriptionApproved && order.status === 'pending_payment' && order.payment_status === 'unpaid';
 
     useEffect(() => {
         if (snapToken && order.payment_status === 'unpaid') {
@@ -110,7 +114,7 @@ export default function Payment({ order, snapToken, midtransClientKey }: OrderDe
             <div className="bg-slate-900 text-white py-10 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
                 <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
                     <div>
-                        <span className="text-xs text-[#8CA9FF] font-mono font-bold"># {order.order_number}</span>
+                        <span className="text-xs text-[#065f46] font-mono font-bold"># {order.order_number}</span>
                         <h1 className="text-2xl sm:text-3xl font-black tracking-tight">Status Pembayaran & Order</h1>
                     </div>
 
@@ -119,9 +123,17 @@ export default function Payment({ order, snapToken, midtransClientKey }: OrderDe
                             <span className="px-4 py-2 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center gap-1.5">
                                 <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Sudah Dibayar
                             </span>
+                        ) : isPrescriptionPending ? (
+                            <span className="px-4 py-2 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-bold flex items-center gap-1.5">
+                                <Clock className="w-4 h-4 text-amber-400" /> Menunggu Konfirmasi Resep
+                            </span>
+                        ) : isPrescriptionRejected ? (
+                            <span className="px-4 py-2 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-300 text-xs font-bold flex items-center gap-1.5">
+                                <AlertCircle className="w-4 h-4" /> Resep Ditolak
+                            </span>
                         ) : isCod ? (
-                            <span className="px-4 py-2 rounded-full bg-blue-500/20 border border-blue-500/40 text-blue-300 text-xs font-bold flex items-center gap-1.5">
-                                <Truck className="w-4 h-4 text-[#8CA9FF]" /> Pembayaran COD
+                            <span className="px-4 py-2 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center gap-1.5">
+                                <Truck className="w-4 h-4 text-[#065f46]" /> Pembayaran COD
                             </span>
                         ) : (
                             <span className="px-4 py-2 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-bold flex items-center gap-1.5">
@@ -138,22 +150,60 @@ export default function Payment({ order, snapToken, midtransClientKey }: OrderDe
                     <div className="lg:col-span-8 space-y-6">
                         {/* Prescription Status if exists */}
                         {order.prescription && (
-                            <div className="p-4 rounded-2xl bg-blue-50 border border-blue-200 text-blue-900 text-xs flex items-center gap-3">
-                                <FileText className="w-5 h-5 text-[#8CA9FF] shrink-0" />
+                            <div
+                                className={`p-4 rounded-2xl border text-xs flex items-start gap-3 ${
+                                    isPrescriptionPending
+                                        ? 'bg-amber-50 border-amber-200 text-amber-900'
+                                        : isPrescriptionRejected
+                                          ? 'bg-rose-50 border-rose-200 text-rose-900'
+                                          : 'bg-emerald-50 border-emerald-200 text-emerald-900'
+                                }`}
+                            >
+                                <FileText className="w-5 h-5 shrink-0" />
                                 <div>
-                                    <h4 className="font-extrabold text-blue-900">Resep Dokter Terlampir</h4>
-                                    <p className="text-blue-700 leading-relaxed mt-0.5">
-                                        Status Verifikasi Apoteker:{' '}
+                                    <h4
+                                        className={`font-extrabold ${
+                                            isPrescriptionPending
+                                                ? 'text-amber-900'
+                                                : isPrescriptionRejected
+                                                  ? 'text-rose-900'
+                                                  : 'text-emerald-900'
+                                        }`}
+                                    >
+                                        Resep Dokter Terlampir
+                                    </h4>
+                                    <p className="leading-relaxed mt-0.5">
+                                        Status konfirmasi resep:{' '}
                                         <strong className="uppercase">{order.prescription.status}</strong>
                                     </p>
+                                    {isPrescriptionPending && (
+                                        <div>
+                                            <p className="mt-1 leading-relaxed">
+                                                Pesanan belum dapat dibayar. Apoteker atau admin akan memeriksa resep terlebih dahulu.
+                                                Setelah disetujui, perbarui status untuk membuka pembayaran.
+                                            </p>
+                                            <button
+                                                type="button"
+                                                onClick={() => router.reload()}
+                                                className="mt-3 rounded-lg bg-amber-100 px-3 py-2 font-bold text-amber-900 transition hover:bg-amber-200"
+                                            >
+                                                Perbarui Status Resep
+                                            </button>
+                                        </div>
+                                    )}
+                                    {isPrescriptionRejected && (
+                                        <p className="mt-1 leading-relaxed">
+                                            Resep ditolak dan pesanan tidak dapat dibayar. Silakan hubungi apotek jika perlu bantuan.
+                                        </p>
+                                    )}
                                 </div>
                             </div>
                         )}
 
                         {/* Midtrans Snap Action Box */}
-                        {!isPaid && !isCod && (
+                        {canPay && !isCod && (
                             <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-5 text-center">
-                                <div className="w-16 h-16 rounded-2xl bg-[#8CA9FF]/10 text-[#8CA9FF] flex items-center justify-center mx-auto">
+                                <div className="w-16 h-16 rounded-2xl bg-[#065f46]/10 text-[#065f46] flex items-center justify-center mx-auto">
                                     <CreditCard className="w-8 h-8" />
                                 </div>
 
@@ -168,7 +218,7 @@ export default function Payment({ order, snapToken, midtransClientKey }: OrderDe
                                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3 pt-2">
                                     <button
                                         onClick={handlePaySnap}
-                                        className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#8CA9FF] hover:bg-blue-500 text-white font-extrabold text-sm shadow-lg shadow-[#8CA9FF]/30 transition"
+                                        className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#065f46] hover:bg-emerald-700 text-white font-extrabold text-sm shadow-lg shadow-[#065f46]/30 transition"
                                     >
                                         💳 Bayar Sekarang via Midtrans
                                     </button>
@@ -188,10 +238,10 @@ export default function Payment({ order, snapToken, midtransClientKey }: OrderDe
                         )}
 
                         {/* COD Notice Box */}
-                        {isCod && (
+                        {isCod && isPrescriptionApproved && !['cancelled', 'expired'].includes(order.status) && (
                             <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-4">
                                 <div className="flex items-center gap-2 text-sm font-extrabold text-slate-900">
-                                    <Truck className="w-5 h-5 text-[#8CA9FF]" /> Pembayaran Cash on Delivery (COD)
+                                    <Truck className="w-5 h-5 text-[#065f46]" /> Pembayaran Cash on Delivery (COD)
                                 </div>
                                 <p className="text-xs text-slate-600 leading-relaxed">
                                     Pesanan Anda telah diterima dan akan segera disiapkan oleh Apoteker. Siapkan uang pas sebesar{' '}
@@ -216,7 +266,7 @@ export default function Payment({ order, snapToken, midtransClientKey }: OrderDe
                         {/* Items Breakdown */}
                         <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
                             <h3 className="font-extrabold text-sm text-slate-900 pb-3 border-b border-slate-100 flex items-center gap-2">
-                                <Package className="w-4 h-4 text-[#8CA9FF]" /> Rincian Barang
+                                <Package className="w-4 h-4 text-[#065f46]" /> Rincian Barang
                             </h3>
 
                             <div className="divide-y divide-slate-100">
@@ -239,7 +289,7 @@ export default function Payment({ order, snapToken, midtransClientKey }: OrderDe
                     <div className="lg:col-span-4 space-y-6">
                         <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-5">
                             <h3 className="font-extrabold text-sm text-slate-900 pb-3 border-b border-slate-100 flex items-center gap-2">
-                                <MapPin className="w-4 h-4 text-[#8CA9FF]" /> Tujuan Pengiriman
+                                <MapPin className="w-4 h-4 text-[#065f46]" /> Tujuan Pengiriman
                             </h3>
 
                             <div className="text-xs space-y-2 text-slate-600">
@@ -247,7 +297,7 @@ export default function Payment({ order, snapToken, midtransClientKey }: OrderDe
                                 <p className="font-semibold">{order.recipient_phone}</p>
                                 <p className="leading-relaxed text-slate-500">{order.shipping_address}</p>
                                 {order.shippingMethod && (
-                                    <p className="pt-2 text-[11px] text-[#8CA9FF] font-bold">
+                                    <p className="pt-2 text-[11px] text-[#065f46] font-bold">
                                         Kurir: {order.shippingMethod.name} ({order.shippingMethod.est_days})
                                     </p>
                                 )}

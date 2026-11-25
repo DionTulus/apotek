@@ -125,7 +125,7 @@ export default function FinanceIndex({
                         </a>
                         <button
                             onClick={() => setIsExpenseModalOpen(true)}
-                            className="px-3.5 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-xs"
+                            className="px-3.5 py-2 bg-[#065f46] hover:bg-[#047857] text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-xs"
                         >
                             <Plus className="w-4 h-4" /> Catat Pengeluaran
                         </button>
@@ -168,14 +168,14 @@ export default function FinanceIndex({
                             <span className="text-xs font-semibold text-slate-500">Laba Bersih (Net Profit)</span>
                             <p
                                 className={`text-xl font-extrabold mt-1 ${
-                                    summary.net_profit >= 0 ? 'text-[#6587e6]' : 'text-rose-700'
+                                    summary.net_profit >= 0 ? 'text-[#047857]' : 'text-rose-700'
                                 }`}
                             >
                                 {formatRp(summary.net_profit)}
                             </p>
                             <p className="text-[11px] text-slate-400 mt-0.5">Pemasukan dikurangi Pengeluaran</p>
                         </div>
-                        <div className="w-11 h-11 rounded-xl bg-blue-50 text-[#8CA9FF] flex items-center justify-center">
+                        <div className="w-11 h-11 rounded-xl bg-emerald-50 text-[#065f46] flex items-center justify-center">
                             <Wallet className="w-6 h-6" />
                         </div>
                     </div>
@@ -190,7 +190,7 @@ export default function FinanceIndex({
                                 type="date"
                                 value={startDate}
                                 onChange={(e) => setStartDate(e.target.value)}
-                                className="w-full px-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                className="w-full px-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                             />
                         </div>
 
@@ -200,7 +200,7 @@ export default function FinanceIndex({
                                 type="date"
                                 value={endDate}
                                 onChange={(e) => setEndDate(e.target.value)}
-                                className="w-full px-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                className="w-full px-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                             />
                         </div>
 
@@ -209,7 +209,7 @@ export default function FinanceIndex({
                             <select
                                 value={type}
                                 onChange={(e) => setType(e.target.value)}
-                                className="w-full px-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                className="w-full px-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                             >
                                 <option value="">Semua Tipe</option>
                                 <option value="income">Pemasukan (Income)</option>
@@ -222,7 +222,7 @@ export default function FinanceIndex({
                             <select
                                 value={category}
                                 onChange={(e) => setCategory(e.target.value)}
-                                className="w-full px-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                className="w-full px-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                             >
                                 <option value="">Semua Kategori</option>
                                 {categories.map((c) => (
@@ -240,14 +240,14 @@ export default function FinanceIndex({
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 placeholder="Gaji / Listrik / Order..."
-                                className="w-full px-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                className="w-full px-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                             />
                         </div>
 
                         <div className="flex items-end">
                             <button
                                 type="submit"
-                                className="w-full py-1.5 bg-[#8CA9FF] hover:bg-[#7292eb] text-white text-xs font-bold rounded-lg transition"
+                                className="w-full py-1.5 bg-[#065f46] hover:bg-[#047857] text-white text-xs font-bold rounded-lg transition"
                             >
                                 Terapkan Filter
                             </button>
@@ -338,7 +338,7 @@ export default function FinanceIndex({
                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                         className={`px-3 py-1.5 rounded-lg font-medium transition ${
                                             link.active
-                                                ? 'bg-[#8CA9FF] text-white font-bold'
+                                                ? 'bg-[#065f46] text-white font-bold'
                                                 : link.url
                                                 ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                                 : 'text-slate-300 pointer-events-none'
@@ -364,7 +364,7 @@ export default function FinanceIndex({
                                     <select
                                         value={expenseForm.data.category}
                                         onChange={(e) => expenseForm.setData('category', e.target.value)}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     >
                                         <option value="operational">Operasional (Listrik, Sewa, Plastik, dll)</option>
@@ -382,7 +382,7 @@ export default function FinanceIndex({
                                         onChange={(e) => expenseForm.setData('amount', e.target.value)}
                                         placeholder="Contoh: 1500000"
                                         min="1000"
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -393,7 +393,7 @@ export default function FinanceIndex({
                                         type="date"
                                         value={expenseForm.data.transaction_date}
                                         onChange={(e) => expenseForm.setData('transaction_date', e.target.value)}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -405,7 +405,7 @@ export default function FinanceIndex({
                                         onChange={(e) => expenseForm.setData('description', e.target.value)}
                                         placeholder="Contoh: Pembayaran tagihan listrik PLN bulan Mei 2026"
                                         rows={3}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>

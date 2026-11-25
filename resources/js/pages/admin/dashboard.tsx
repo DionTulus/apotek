@@ -103,7 +103,7 @@ export default function AdminDashboard({
             case 'awaiting_prescription':
                 return 'bg-purple-100 text-purple-800';
             case 'paid':
-                return 'bg-blue-100 text-blue-800';
+                return 'bg-emerald-100 text-emerald-800';
             case 'processing':
                 return 'bg-cyan-100 text-cyan-800';
             case 'shipped':
@@ -136,11 +136,11 @@ export default function AdminDashboard({
                             href="/admin/laporan/penjualan"
                             className="px-3 py-1.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-lg text-xs font-semibold transition flex items-center gap-1.5"
                         >
-                            <BarChart3 className="w-3.5 h-3.5 text-[#8CA9FF]" /> Laporan Detail
+                            <BarChart3 className="w-3.5 h-3.5 text-[#065f46]" /> Laporan Detail
                         </Link>
                         <Link
                             href="/admin/keuangan"
-                            className="px-3 py-1.5 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-xs"
+                            className="px-3 py-1.5 bg-[#065f46] hover:bg-[#047857] text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-xs"
                         >
                             <DollarSign className="w-3.5 h-3.5" /> Jurnal Keuangan
                         </Link>
@@ -153,7 +153,7 @@ export default function AdminDashboard({
                     <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between">
                         <div className="flex items-center justify-between">
                             <span className="text-xs font-semibold text-slate-500">Omset Bulan Ini</span>
-                            <div className="w-9 h-9 rounded-lg bg-blue-50 text-[#8CA9FF] flex items-center justify-center">
+                            <div className="w-9 h-9 rounded-lg bg-emerald-50 text-[#065f46] flex items-center justify-center">
                                 <DollarSign className="w-5 h-5" />
                             </div>
                         </div>
@@ -208,7 +208,7 @@ export default function AdminDashboard({
                             </p>
                             <Link
                                 href="/admin/pesanan"
-                                className="text-[11px] font-semibold text-[#6587e6] hover:underline mt-1 inline-block"
+                                className="text-[11px] font-semibold text-[#047857] hover:underline mt-1 inline-block"
                             >
                                 Proses pesanan sekarang &rarr;
                             </Link>
@@ -246,7 +246,7 @@ export default function AdminDashboard({
                                 <h2 className="text-sm font-bold text-slate-800">Tren Pendapatan 14 Hari Terakhir</h2>
                                 <p className="text-xs text-slate-400">Total nominal transaksi sukses per hari</p>
                             </div>
-                            <span className="px-2.5 py-1 bg-blue-50 text-[#6587e6] rounded-lg text-xs font-bold">
+                            <span className="px-2.5 py-1 bg-emerald-50 text-[#047857] rounded-lg text-xs font-bold">
                                 14 Hari
                             </span>
                         </div>
@@ -256,8 +256,8 @@ export default function AdminDashboard({
                                 <AreaChart data={salesChart} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                                     <defs>
                                         <linearGradient id="salesGrad" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="5%" stopColor="#8CA9FF" stopOpacity={0.4} />
-                                            <stop offset="95%" stopColor="#8CA9FF" stopOpacity={0} />
+                                            <stop offset="5%" stopColor="#065f46" stopOpacity={0.4} />
+                                            <stop offset="95%" stopColor="#065f46" stopOpacity={0} />
                                         </linearGradient>
                                     </defs>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F1F5F9" />
@@ -286,7 +286,7 @@ export default function AdminDashboard({
                                     <Area
                                         type="monotone"
                                         dataKey="total_amount"
-                                        stroke="#6587e6"
+                                        stroke="#047857"
                                         strokeWidth={2.5}
                                         fillOpacity={1}
                                         fill="url(#salesGrad)"
@@ -303,7 +303,7 @@ export default function AdminDashboard({
                                 <h2 className="text-sm font-bold text-slate-800">5 Obat Terlaris</h2>
                                 <Link
                                     href="/admin/laporan/penjualan"
-                                    className="text-[11px] font-semibold text-[#6587e6] hover:underline"
+                                    className="text-[11px] font-semibold text-[#047857] hover:underline"
                                 >
                                     Selengkapnya
                                 </Link>
@@ -316,7 +316,7 @@ export default function AdminDashboard({
                                         className="flex items-center justify-between p-2.5 rounded-lg bg-slate-50/70 border border-slate-100"
                                     >
                                         <div className="flex items-center gap-2.5">
-                                            <div className="w-6 h-6 rounded-full bg-[#8CA9FF]/20 text-[#6587e6] font-bold text-xs flex items-center justify-center">
+                                            <div className="w-6 h-6 rounded-full bg-[#065f46]/20 text-[#047857] font-bold text-xs flex items-center justify-center">
                                                 {idx + 1}
                                             </div>
                                             <div>
@@ -356,12 +356,12 @@ export default function AdminDashboard({
                     <div className="lg:col-span-2 bg-white rounded-xl border border-slate-200 overflow-hidden shadow-xs">
                         <div className="p-4 border-b border-slate-200 flex items-center justify-between">
                             <h2 className="text-sm font-bold text-slate-800 flex items-center gap-2">
-                                <ShoppingBag className="w-4 h-4 text-[#8CA9FF]" />
+                                <ShoppingBag className="w-4 h-4 text-[#065f46]" />
                                 Pesanan Terbaru
                             </h2>
                             <Link
                                 href="/admin/pesanan"
-                                className="text-xs font-semibold text-[#6587e6] hover:underline"
+                                className="text-xs font-semibold text-[#047857] hover:underline"
                             >
                                 Lihat Semua Pesanan &rarr;
                             </Link>

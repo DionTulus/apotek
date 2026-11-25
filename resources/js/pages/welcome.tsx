@@ -21,17 +21,17 @@ export default function Welcome() {
 
     return (
         <>
-            <Head title="Klinik Premisys Medika" />
+            <Head title="Klinik Premysis Medika" />
             <main className="min-h-screen overflow-hidden bg-[#f7faf7] text-slate-800">
                 <header className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8">
                     <Link href="/" className="flex items-center gap-3">
                         <img
-                            src="/logo_klinik.png"
+                            src="/logo_klinik2.png"
                             alt=""
                             className="h-12 w-10 object-contain"
                         />
                         <span className="text-sm leading-tight font-bold text-emerald-950">
-                            Klinik Premisys
+                            Klinik Premysis
                             <br />
                             Medika
                         </span>
@@ -119,14 +119,14 @@ export default function Welcome() {
                         <div className="relative rounded-[2rem] border border-white bg-white p-8 shadow-2xl shadow-emerald-950/10 sm:p-12">
                             <div className="mx-auto flex aspect-square max-w-xs items-center justify-center rounded-full bg-emerald-50 p-8">
                                 <img
-                                    src="/logo_klinik.png"
-                                    alt="Logo Klinik Premisys Medika"
+                                    src="/logo_klinik2.png"
+                                    alt="Logo Klinik Premysis Medika"
                                     className="w-full object-contain"
                                 />
                             </div>
                             <div className="mt-8 text-center">
                                 <p className="text-xs font-bold tracking-[0.2em] text-emerald-700 uppercase">
-                                    Klinik Premisys Medika
+                                    Klinik Premysis Medika
                                 </p>
                                 <p className="mt-2 text-lg font-semibold text-slate-900">
                                     Peduli kesehatan, setiap hari.

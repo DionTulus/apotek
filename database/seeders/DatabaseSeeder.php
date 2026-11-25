@@ -117,16 +117,16 @@ class DatabaseSeeder extends Seeder
 
         // 2. Settings
         $settingsData = [
-            'site_name' => 'Premysys Medika',
+            'site_name' => 'Premysis Medika',
             'site_tagline' => 'Solusi Obat Lengkap, Cepat & Terpercaya',
             'phone' => '022-7654321',
             'whatsapp' => '081234567890',
-            'email' => 'info@apotekpremysysmedika.test',
+            'email' => 'info@apotekpremysismedika.test',
             'address' => 'Jl. Merdeka No. 45, Bandung, Jawa Barat 40111',
             'maps_embed_url' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.835848243!2d107.60981!3d-6.914744!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNTQnNTMuMSJTIDEwN8KwMzYnMzUuMyJF!5e0!3m2!1sid!2sid!4v1600000000000',
             'vision' => 'Menjadi jaringan apotek e-commerce terdepan di Indonesia yang memberikan pelayanan kefarmasian profesional dan produk berkualitas.',
             'mission' => "1. Menyediakan obat-obatan legal dan terdaftar BPOM.\n2. Memberikan layanan konsultasi obat yang ramah & terpercaya.\n3. Mengirimkan produk dengan cepat dan aman sampai ke tangan pelanggan.",
-            'about' => 'Premysys Medika berdiri sejak tahun 2020. Kami berdedikasi melayani kebutuhan kesehatan masyarakat dengan menyediakan obat-obatan asli, vitamin, suplemen, dan alat kesehatan berkualitas tinggi.',
+            'about' => 'Premysis Medika berdiri sejak tahun 2020. Kami berdedikasi melayani kebutuhan kesehatan masyarakat dengan menyediakan obat-obatan asli, vitamin, suplemen, dan alat kesehatan berkualitas tinggi.',
             'terms' => 'Pembelian obat keras memerlukan resep dokter sah. Apotek berhak menolak transaksi yang tidak memenuhi ketentuan medis.',
             'privacy' => 'Kami menjaga kerahasiaan data pribadi dan resep medis Anda sesuai dengan hukum perlindungan data yang berlaku di Indonesia.',
             'free_shipping_min' => '150000',
@@ -425,7 +425,7 @@ class DatabaseSeeder extends Seeder
         $testimonials = [
             ['name' => 'Budi Santoso', 'rating' => 5, 'content' => 'Pengiriman obat cepat sekali! Pagi pesan lewat Kurir Instant, siang sudah sampai. Obatnya asli dan terawat.'],
             ['name' => 'Siti Aminah', 'rating' => 5, 'content' => 'Sangat membantu untuk pesan obat resep. Tinggal foto resepnya, ditinjau apoteker ramah, langsung dikirim. Terima kasih!'],
-            ['name' => 'Dr. Hendra', 'rating' => 5, 'content' => 'Sebagai dokter, saya rekomendasikan Apotek Premysys Medika karena penyimpanan obatnya terstandar dan masa simpan selalu terpantau.'],
+            ['name' => 'Dr. Hendra', 'rating' => 5, 'content' => 'Sebagai dokter, saya rekomendasikan Apotek Premysis Medika karena penyimpanan obatnya terstandar dan masa simpan selalu terpantau.'],
             ['name' => 'Rina Wijaya', 'rating' => 4, 'content' => 'Harga suplemen dan vitaminnya bersaing, sering ada voucher promo diskon juga.'],
             ['name' => 'Agus Pratama', 'rating' => 5, 'content' => 'Pelayanan ramah, obat diare dan maag langsung sampai pas emergency.'],
         ];
@@ -482,7 +482,7 @@ class DatabaseSeeder extends Seeder
             ['question' => 'Bagaimana cara memesan obat yang memerlukan resep dokter?', 'answer' => 'Saat proses Checkout, Anda akan diminta mengunggah foto/file resep dokter yang jelas. Tim apoteker kami akan melakukan verifikasi sebelum pesanan diproses.', 'sort' => 1],
             ['question' => 'Berapa lama proses pengiriman obat?', 'answer' => 'Untuk area Bandung dan sekitarnya menggunakan Kurir Instant Apotek, pesanan dikirim dalam 1-3 jam setelah pembayaran terkonfirmasi. Untuk luar kota menggunakan JNE (1-3 hari kerja).', 'sort' => 2],
             ['question' => 'Apakah pembayaran COD (Bayar di Tempat) tersedia?', 'answer' => 'Ya, metode COD tersedia untuk pilihan Kurir Instant Apotek dan metode Ambil di Toko.', 'sort' => 3],
-            ['question' => 'Apakah obat-obatan di Apotek Premysys Medika terjamin keasliannya?', 'answer' => '100% Terjamin Asli. Seluruh obat dan alat kesehatan dibeli langsung dari Distributor Resmi (PBF) terdaftar BPOM dan Kementerian Kesehatan RI.', 'sort' => 4],
+            ['question' => 'Apakah obat-obatan di Apotek Premysis Medika terjamin keasliannya?', 'answer' => '100% Terjamin Asli. Seluruh obat dan alat kesehatan dibeli langsung dari Distributor Resmi (PBF) terdaftar BPOM dan Kementerian Kesehatan RI.', 'sort' => 4],
             ['question' => 'Bagaimana jika pesanan obat saya kedaluwarsa atau rusak saat diterima?', 'answer' => 'Kami menggaransi penggantian 100% atau refund jika obat yang diterima dalam keadaan rusak/mendekati expiry date. Anda dapat mengajukan retur melalui menu Riwayat Pesanan di Akun Anda.', 'sort' => 5],
         ];
 

@@ -116,14 +116,14 @@ export default function ProductDetail({
                                 {product.image ? (
                                     <img src={`/storage/${product.image}`} className="max-h-full max-w-full object-contain" alt={product.name} />
                                 ) : (
-                                    <Pill className="w-32 h-32 text-[#8CA9FF]/40" />
+                                    <Pill className="w-32 h-32 text-[#065f46]/40" />
                                 )}
                             </div>
 
                             {/* Trust badges */}
                             <div className="grid grid-cols-2 gap-3 pt-2 text-xs">
-                                <div className="p-3 rounded-xl bg-blue-50/50 border border-blue-100 flex items-center gap-2 text-blue-900">
-                                    <ShieldCheck className="w-5 h-5 text-[#8CA9FF] shrink-0" />
+                                <div className="p-3 rounded-xl bg-emerald-50/50 border border-emerald-100 flex items-center gap-2 text-emerald-900">
+                                    <ShieldCheck className="w-5 h-5 text-[#065f46] shrink-0" />
                                     <span>100% Original BPOM</span>
                                 </div>
                                 <div className="p-3 rounded-xl bg-emerald-50/50 border border-emerald-100 flex items-center gap-2 text-emerald-900">
@@ -211,7 +211,7 @@ export default function ProductDetail({
                                         disabled={product.stock <= 0}
                                         className={`flex-1 py-3.5 px-6 rounded-2xl font-extrabold text-sm text-white shadow-lg transition flex items-center justify-center gap-2 ${
                                             product.stock > 0
-                                                ? 'bg-[#8CA9FF] hover:bg-blue-500 shadow-[#8CA9FF]/30'
+                                                ? 'bg-[#065f46] hover:bg-emerald-700 shadow-[#065f46]/30'
                                                 : 'bg-slate-300 cursor-not-allowed shadow-none'
                                         }`}
                                     >
@@ -276,10 +276,10 @@ export default function ProductDetail({
                                             {p.image ? (
                                                 <img src={`/storage/${p.image}`} className="h-full w-full object-contain p-2" alt={p.name} />
                                             ) : (
-                                                <Pill className="w-10 h-10 text-[#8CA9FF]/40" />
+                                                <Pill className="w-10 h-10 text-[#065f46]/40" />
                                             )}
                                         </div>
-                                        <h4 className="font-bold text-slate-900 text-xs line-clamp-2 hover:text-blue-600">
+                                        <h4 className="font-bold text-slate-900 text-xs line-clamp-2 hover:text-emerald-600">
                                             {p.name}
                                         </h4>
                                         <p className="text-[11px] text-slate-500 mt-1">Per {p.unit}</p>

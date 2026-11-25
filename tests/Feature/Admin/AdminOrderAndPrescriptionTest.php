@@ -102,7 +102,7 @@ class AdminOrderAndPrescriptionTest extends TestCase
         $this->assertEquals(OrderStatus::PROCESSING, $order->status);
     }
 
-    public function test_admin_can_approve_prescription_and_move_order_to_paid(): void
+    public function test_admin_can_approve_prescription_and_enable_payment(): void
     {
         $prescription = Prescription::create([
             'user_id' => $this->customer->id,
@@ -136,7 +136,78 @@ class AdminOrderAndPrescriptionTest extends TestCase
         $prescription->refresh();
         $order->refresh();
         $this->assertEquals(PrescriptionStatus::APPROVED, $prescription->status);
-        $this->assertEquals(OrderStatus::PAID, $order->status);
+        $this->assertEquals(OrderStatus::PENDING_PAYMENT, $order->status);
+        $this->assertEquals(PaymentStatus::UNPAID, $order->payment_status);
+        $this->assertNull($order->paid_at);
+    }
+
+    public function test_pharmacist_can_approve_prescription_and_enable_payment(): void
+    {
+        /** @var User $pharmacist */
+        $pharmacist = User::factory()->create(['role' => Role::PHARMACIST]);
+        $prescription = Prescription::create([
+            'user_id' => $this->customer->id,
+            'file_path' => 'prescriptions/rx-pharmacist.jpg',
+            'status' => PrescriptionStatus::PENDING,
+        ]);
+        $order = Order::create([
+            'order_number' => 'ORD-RX-PHARM-001',
+            'user_id' => $this->customer->id,
+            'prescription_id' => $prescription->id,
+            'status' => OrderStatus::AWAITING_PRESCRIPTION,
+            'payment_method' => PaymentMethod::MIDTRANS,
+            'payment_status' => PaymentStatus::UNPAID,
+            'subtotal' => 35000,
+            'discount_total' => 0,
+            'shipping_cost' => 15000,
+            'grand_total' => 50000,
+            'shipping_method_id' => $this->shippingMethod->id,
+            'recipient_name' => 'Andi',
+            'recipient_phone' => '0812345678',
+            'shipping_address' => 'Jl Sukajadi No 1',
+        ]);
+
+        $this->actingAs($pharmacist)
+            ->post(route('admin.prescriptions.approve', $prescription->id))
+            ->assertRedirect();
+
+        $this->assertEquals(OrderStatus::PENDING_PAYMENT, $order->refresh()->status);
+        $this->assertEquals(PrescriptionStatus::APPROVED, $prescription->refresh()->status);
+    }
+
+    public function test_approved_prescription_allows_cod_order_to_continue_without_marking_it_paid(): void
+    {
+        $prescription = Prescription::create([
+            'user_id' => $this->customer->id,
+            'file_path' => 'prescriptions/rx-cod.jpg',
+            'status' => PrescriptionStatus::PENDING,
+        ]);
+
+        $order = Order::create([
+            'order_number' => 'ORD-RX-COD-001',
+            'user_id' => $this->customer->id,
+            'prescription_id' => $prescription->id,
+            'status' => OrderStatus::AWAITING_PRESCRIPTION,
+            'payment_method' => PaymentMethod::COD,
+            'payment_status' => PaymentStatus::UNPAID,
+            'subtotal' => 35000,
+            'discount_total' => 0,
+            'shipping_cost' => 15000,
+            'grand_total' => 50000,
+            'shipping_method_id' => $this->shippingMethod->id,
+            'recipient_name' => 'Andi',
+            'recipient_phone' => '0812345678',
+            'shipping_address' => 'Jl Sukajadi No 1',
+        ]);
+
+        $this->actingAs($this->admin)
+            ->post(route('admin.prescriptions.approve', $prescription->id))
+            ->assertRedirect();
+
+        $order->refresh();
+        $this->assertEquals(OrderStatus::PROCESSING, $order->status);
+        $this->assertEquals(PaymentStatus::UNPAID, $order->payment_status);
+        $this->assertNull($order->paid_at);
     }
 
     public function test_prescription_queue_includes_its_order_and_image_url(): void
@@ -353,6 +424,7 @@ class AdminOrderAndPrescriptionTest extends TestCase
 
     public function test_pharmacist_can_manage_sales_operations_but_not_admin_pages(): void
     {
+        /** @var User $pharmacist */
         $pharmacist = User::factory()->create(['role' => Role::PHARMACIST]);
 
         foreach ([

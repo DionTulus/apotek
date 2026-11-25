@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
+use App\Enums\PrescriptionStatus;
 use App\Enums\StockMovementType;
 use App\Models\Order;
 use App\Models\Payment;
@@ -26,8 +27,21 @@ class PaymentService
         \Midtrans\Config::$is3ds = config('midtrans.is_3ds', true);
     }
 
+    public function canInitiatePayment(Order $order): bool
+    {
+        $order->loadMissing('prescription');
+
+        return $order->status === OrderStatus::PENDING_PAYMENT
+            && $order->payment_status === PaymentStatus::UNPAID
+            && $this->prescriptionIsApproved($order);
+    }
+
     public function createSnapToken(Order $order): string
     {
+        if (! $this->canInitiatePayment($order)) {
+            throw new Exception('Pembayaran tersedia setelah resep disetujui dan pesanan menunggu pembayaran.');
+        }
+
         $payment = $order->payment;
         if (! $payment) {
             throw new Exception('Data pembayaran tidak ditemukan.');
@@ -153,8 +167,15 @@ class PaymentService
                 }
             }
 
-            $order = $payment->order;
+            $order = $payment->order()
+                ->with('prescription')
+                ->lockForUpdate()
+                ->first();
             if (! $order) {
+                return false;
+            }
+
+            if ($order->status === OrderStatus::AWAITING_PRESCRIPTION || ! $this->prescriptionIsApproved($order)) {
                 return false;
             }
 
@@ -202,6 +223,10 @@ class PaymentService
 
     public function checkStatus(Order $order): bool
     {
+        if (! $this->canInitiatePayment($order)) {
+            return false;
+        }
+
         $payment = $order->payment;
         if (! $payment || ! $payment->midtrans_order_id) {
             return false;
@@ -246,5 +271,13 @@ class PaymentService
                 ]);
             }
         }
+    }
+
+    private function prescriptionIsApproved(Order $order): bool
+    {
+        $order->loadMissing('prescription');
+
+        return $order->prescription_id === null
+            || $order->prescription?->status === PrescriptionStatus::APPROVED;
     }
 }

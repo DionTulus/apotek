@@ -155,7 +155,7 @@ export default function OrderShow({ order, statusList }: Props) {
             case 'awaiting_prescription':
                 return 'bg-purple-100 text-purple-800 border-purple-200';
             case 'paid':
-                return 'bg-blue-100 text-blue-800 border-blue-200';
+                return 'bg-emerald-100 text-emerald-800 border-emerald-200';
             case 'processing':
                 return 'bg-cyan-100 text-cyan-800 border-cyan-200';
             case 'shipped':
@@ -251,7 +251,7 @@ export default function OrderShow({ order, statusList }: Props) {
                         {nextAction && (
                             <button
                                 onClick={() => handleQuickAdvance(nextAction.value)}
-                                className="px-4 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white text-xs font-bold rounded-lg transition shadow-xs flex items-center gap-2"
+                                className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white text-xs font-bold rounded-lg transition shadow-xs flex items-center gap-2"
                             >
                                 <CheckCircle2 className="w-4 h-4" /> {nextAction.label}
                             </button>
@@ -285,7 +285,7 @@ export default function OrderShow({ order, statusList }: Props) {
                         {/* Order Items */}
                         <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
                             <h2 className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
-                                <Package className="w-4 h-4 text-[#8CA9FF]" />
+                                <Package className="w-4 h-4 text-[#065f46]" />
                                 Produk yang Dipesan ({order.items?.length || 0})
                             </h2>
                             <div className="divide-y divide-slate-100">
@@ -329,7 +329,7 @@ export default function OrderShow({ order, statusList }: Props) {
                                 </div>
                                 <div className="flex justify-between text-sm font-bold text-slate-800 pt-2 border-t border-slate-200">
                                     <span>Total Pembayaran</span>
-                                    <span className="text-[#6587e6]">Rp {Number(order.grand_total).toLocaleString('id-ID')}</span>
+                                    <span className="text-[#047857]">Rp {Number(order.grand_total).toLocaleString('id-ID')}</span>
                                 </div>
                             </div>
                         </div>
@@ -348,7 +348,7 @@ export default function OrderShow({ order, statusList }: Props) {
                                                 href={order.prescription.image_url}
                                                 target="_blank"
                                                 rel="noreferrer"
-                                                className="flex h-full flex-col items-center justify-center gap-2 text-xs font-bold text-slate-600 hover:text-blue-600"
+                                                className="flex h-full flex-col items-center justify-center gap-2 text-xs font-bold text-slate-600 hover:text-emerald-600"
                                             >
                                                 <FileText className="h-8 w-8" />
                                                 Buka PDF
@@ -386,7 +386,7 @@ export default function OrderShow({ order, statusList }: Props) {
                                 <div className="relative border-l-2 border-slate-200 ml-3 space-y-4 py-2">
                                     {order.status_histories.map((hist) => (
                                         <div key={hist.id} className="relative pl-6">
-                                            <div className="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-white border-2 border-[#8CA9FF]" />
+                                            <div className="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-white border-2 border-[#065f46]" />
                                             <div className="flex items-center gap-2">
                                                 <span className="text-xs font-bold text-slate-800 uppercase">
                                                     {hist.status.replace('_', ' ')}
@@ -440,7 +440,7 @@ export default function OrderShow({ order, statusList }: Props) {
                         {/* Customer Info Card */}
                         <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
                             <h2 className="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
-                                <User className="w-4 h-4 text-[#8CA9FF]" />
+                                <User className="w-4 h-4 text-[#065f46]" />
                                 Informasi Pelanggan
                             </h2>
                             {order.user ? (
@@ -452,7 +452,7 @@ export default function OrderShow({ order, statusList }: Props) {
                                     </div>
                                     <Link
                                         href={`/admin/pelanggan/${order.user.id}`}
-                                        className="inline-block text-xs font-semibold text-[#6587e6] hover:underline pt-1"
+                                        className="inline-block text-xs font-semibold text-[#047857] hover:underline pt-1"
                                     >
                                         Lihat Profil Pelanggan &rarr;
                                     </Link>
@@ -465,7 +465,7 @@ export default function OrderShow({ order, statusList }: Props) {
                         {/* Shipping Address & Courier Card */}
                         <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
                             <h2 className="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
-                                <Truck className="w-4 h-4 text-[#8CA9FF]" />
+                                <Truck className="w-4 h-4 text-[#065f46]" />
                                 Pengiriman & Alamat
                             </h2>
                             <div className="space-y-3 text-xs">
@@ -490,7 +490,7 @@ export default function OrderShow({ order, statusList }: Props) {
                                     <div className="pt-3 border-t border-slate-100 space-y-1">
                                         <p className="font-bold text-slate-800 flex items-center justify-between">
                                             <span>Kurir: {order.shipment.courier} ({order.shipment.service})</span>
-                                            <span className="capitalize px-2 py-0.5 rounded text-[10px] bg-indigo-50 text-indigo-700">
+                                            <span className="capitalize px-2 py-0.5 rounded text-[10px] bg-emerald-50 text-emerald-700">
                                                 {order.shipment.status}
                                             </span>
                                         </p>
@@ -509,7 +509,7 @@ export default function OrderShow({ order, statusList }: Props) {
                         {/* Payment Details Card */}
                         <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
                             <h2 className="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
-                                <CreditCard className="w-4 h-4 text-[#8CA9FF]" />
+                                <CreditCard className="w-4 h-4 text-[#065f46]" />
                                 Status Pembayaran
                             </h2>
                             <div className="space-y-2 text-xs">
@@ -564,7 +564,7 @@ export default function OrderShow({ order, statusList }: Props) {
                                     <select
                                         value={statusForm.data.status}
                                         onChange={(e) => statusForm.setData('status', e.target.value)}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     >
                                         <option value="">-- Pilih Status --</option>
@@ -582,7 +582,7 @@ export default function OrderShow({ order, statusList }: Props) {
                                         onChange={(e) => statusForm.setData('note', e.target.value)}
                                         placeholder="Contoh: Paket telah diambil kurir SiCepat..."
                                         rows={3}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                     />
                                 </div>
                                 <div className="flex justify-end gap-2 pt-2">
@@ -596,7 +596,7 @@ export default function OrderShow({ order, statusList }: Props) {
                                     <button
                                         type="submit"
                                         disabled={statusForm.processing}
-                                        className="px-4 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded-lg transition font-bold"
+                                        className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white rounded-lg transition font-bold"
                                     >
                                         {statusForm.processing ? 'Menyimpan...' : 'Simpan Status'}
                                     </button>

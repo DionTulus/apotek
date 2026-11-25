@@ -140,7 +140,7 @@ export default function PromosIndex({ promos, filters }: Props) {
 
                     <button
                         onClick={() => setIsAddModalOpen(true)}
-                        className="px-3.5 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-xs"
+                        className="px-3.5 py-2 bg-[#065f46] hover:bg-[#047857] text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-xs"
                     >
                         <Plus className="w-4 h-4" /> Buat Kupon Baru
                     </button>
@@ -156,12 +156,12 @@ export default function PromosIndex({ promos, filters }: Props) {
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 placeholder="Cari kode kupon / nama promo..."
-                                className="w-full pl-9 pr-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                className="w-full pl-9 pr-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                             />
                         </div>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white text-xs font-bold rounded-lg transition"
+                            className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white text-xs font-bold rounded-lg transition"
                         >
                             Cari
                         </button>
@@ -188,7 +188,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                     promos.data.map((p) => (
                                         <tr key={p.id} className="hover:bg-slate-50 transition">
                                             <td className="px-4 py-3.5">
-                                                <span className="font-mono font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded border border-indigo-100 text-xs tracking-wider">
+                                                <span className="font-mono font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded border border-emerald-100 text-xs tracking-wider">
                                                     {p.code}
                                                 </span>
                                             </td>
@@ -259,7 +259,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                         className={`px-3 py-1.5 rounded-lg font-medium transition ${
                                             link.active
-                                                ? 'bg-[#8CA9FF] text-white font-bold'
+                                                ? 'bg-[#065f46] text-white font-bold'
                                                 : link.url
                                                 ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                                 : 'text-slate-300 pointer-events-none'
@@ -275,7 +275,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                 {isAddModalOpen && (
                     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
                         <div className="bg-white rounded-xl max-w-lg w-full p-6 shadow-xl space-y-4 max-h-[90vh] overflow-y-auto">
-                            <div className="flex items-center gap-2 text-indigo-600">
+                            <div className="flex items-center gap-2 text-emerald-600">
                                 <Tag className="w-5 h-5" />
                                 <h3 className="text-base font-bold text-slate-800">Buat Kupon Promo Baru</h3>
                             </div>
@@ -288,7 +288,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                             value={addForm.data.code}
                                             onChange={(e) => addForm.setData('code', e.target.value.toUpperCase())}
                                             placeholder="Contoh: SEHATHEMAT"
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF] font-mono font-bold"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46] font-mono font-bold"
                                             required
                                         />
                                     </div>
@@ -299,7 +299,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                             value={addForm.data.name}
                                             onChange={(e) => addForm.setData('name', e.target.value)}
                                             placeholder="Promo Gajian Sehat"
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                             required
                                         />
                                     </div>
@@ -311,7 +311,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                         <select
                                             value={addForm.data.type}
                                             onChange={(e) => addForm.setData('type', e.target.value as any)}
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         >
                                             <option value="percentage">Persentase (%)</option>
                                             <option value="fixed">Potongan Nominal (Rp)</option>
@@ -326,7 +326,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                             value={addForm.data.value}
                                             onChange={(e) => addForm.setData('value', e.target.value)}
                                             placeholder={addForm.data.type === 'percentage' ? '15' : '20000'}
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                             required
                                         />
                                     </div>
@@ -340,7 +340,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                             value={addForm.data.min_purchase}
                                             onChange={(e) => addForm.setData('min_purchase', parseInt(e.target.value) || 0)}
                                             placeholder="0"
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         />
                                     </div>
                                     <div>
@@ -350,7 +350,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                             value={addForm.data.max_discount}
                                             onChange={(e) => addForm.setData('max_discount', e.target.value)}
                                             placeholder="50000"
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         />
                                     </div>
                                     <div>
@@ -360,7 +360,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                             value={addForm.data.quota}
                                             onChange={(e) => addForm.setData('quota', e.target.value)}
                                             placeholder="100"
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         />
                                     </div>
                                 </div>
@@ -372,7 +372,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                             type="date"
                                             value={addForm.data.starts_at}
                                             onChange={(e) => addForm.setData('starts_at', e.target.value)}
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         />
                                     </div>
                                     <div>
@@ -381,7 +381,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                             type="date"
                                             value={addForm.data.ends_at}
                                             onChange={(e) => addForm.setData('ends_at', e.target.value)}
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         />
                                     </div>
                                 </div>
@@ -393,7 +393,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                         onChange={(e) => addForm.setData('description', e.target.value)}
                                         placeholder="Syarat & ketentuan pemakaian kupon..."
                                         rows={2}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                     />
                                 </div>
 
@@ -408,7 +408,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                     <button
                                         type="submit"
                                         disabled={addForm.processing}
-                                        className="px-4 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded-lg transition font-bold"
+                                        className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white rounded-lg transition font-bold"
                                     >
                                         {addForm.processing ? 'Menyimpan...' : 'Simpan Voucher'}
                                     </button>
@@ -422,7 +422,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                 {editingPromo && (
                     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
                         <div className="bg-white rounded-xl max-w-lg w-full p-6 shadow-xl space-y-4 max-h-[90vh] overflow-y-auto">
-                            <div className="flex items-center gap-2 text-indigo-600">
+                            <div className="flex items-center gap-2 text-emerald-600">
                                 <Edit3 className="w-5 h-5" />
                                 <h3 className="text-base font-bold text-slate-800">Edit Voucher: {editingPromo.code}</h3>
                             </div>
@@ -434,7 +434,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                             type="text"
                                             value={editForm.data.code}
                                             onChange={(e) => editForm.setData('code', e.target.value.toUpperCase())}
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF] font-mono font-bold"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46] font-mono font-bold"
                                             required
                                         />
                                     </div>
@@ -444,7 +444,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                             type="text"
                                             value={editForm.data.name}
                                             onChange={(e) => editForm.setData('name', e.target.value)}
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                             required
                                         />
                                     </div>
@@ -456,7 +456,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                         <select
                                             value={editForm.data.type}
                                             onChange={(e) => editForm.setData('type', e.target.value as any)}
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         >
                                             <option value="percentage">Persentase (%)</option>
                                             <option value="fixed">Potongan Nominal (Rp)</option>
@@ -470,7 +470,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                             type="number"
                                             value={editForm.data.value}
                                             onChange={(e) => editForm.setData('value', e.target.value)}
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                             required
                                         />
                                     </div>
@@ -483,7 +483,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                             type="number"
                                             value={editForm.data.min_purchase}
                                             onChange={(e) => editForm.setData('min_purchase', parseInt(e.target.value) || 0)}
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         />
                                     </div>
                                     <div>
@@ -492,7 +492,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                             type="number"
                                             value={editForm.data.max_discount}
                                             onChange={(e) => editForm.setData('max_discount', e.target.value)}
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         />
                                     </div>
                                     <div>
@@ -501,7 +501,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                             type="number"
                                             value={editForm.data.quota}
                                             onChange={(e) => editForm.setData('quota', e.target.value)}
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         />
                                     </div>
                                 </div>
@@ -513,7 +513,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                             type="date"
                                             value={editForm.data.starts_at}
                                             onChange={(e) => editForm.setData('starts_at', e.target.value)}
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         />
                                     </div>
                                     <div>
@@ -522,7 +522,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                             type="date"
                                             value={editForm.data.ends_at}
                                             onChange={(e) => editForm.setData('ends_at', e.target.value)}
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         />
                                     </div>
                                 </div>
@@ -538,7 +538,7 @@ export default function PromosIndex({ promos, filters }: Props) {
                                     <button
                                         type="submit"
                                         disabled={editForm.processing}
-                                        className="px-4 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded-lg transition font-bold"
+                                        className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white rounded-lg transition font-bold"
                                     >
                                         {editForm.processing ? 'Menyimpan...' : 'Simpan Perubahan'}
                                     </button>

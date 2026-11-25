@@ -15,7 +15,6 @@ import {
     Menu,
     PackageCheck,
     Phone,
-    Pill,
     Search,
     ShieldCheck,
     ShoppingCart,
@@ -83,20 +82,20 @@ export default function StoreLayout({
             <Toaster position="top-right" richColors />
 
             {/* Topbar Info */}
-            <div className="border-b border-slate-800 bg-slate-900 px-4 py-2 text-xs text-slate-300">
+            <div className="border-b border-emerald-950 bg-emerald-950 px-4 py-2 text-xs text-slate-200">
                 <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2">
                     <div className="flex items-center gap-4">
                         <span className="flex items-center gap-1">
-                            <Phone className="h-3.5 w-3.5 text-[#8CA9FF]" />
+                            <Phone className="h-3.5 w-3.5 text-emerald-300" />
                             {settings.phone || '022-7654321'}
                         </span>
                         <span className="flex hidden items-center gap-1 sm:inline-flex">
-                            <Mail className="h-3.5 w-3.5 text-[#8CA9FF]" />
-                            {settings.email || 'info@klinikpremisysmedika.test'}
+                            <Mail className="h-3.5 w-3.5 text-emerald-300" />
+                            {settings.email || 'info@klinikpremysismedika.test'}
                         </span>
                     </div>
                     <div className="flex items-center gap-4">
-                        <span className="flex items-center gap-1 font-medium text-[#8CA9FF]">
+                        <span className="flex items-center gap-1 font-medium text-emerald-300">
                             <ShieldCheck className="h-3.5 w-3.5" /> 100% Obat
                             Asli & Terdaftar BPOM
                         </span>
@@ -116,12 +115,14 @@ export default function StoreLayout({
                 <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3.5 sm:px-6 lg:px-8">
                     {/* Brand Logo */}
                     <Link href="/" className="group flex items-center gap-2.5">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#8CA9FF] to-blue-600 text-white shadow-md transition-transform group-hover:scale-105">
-                            <Pill className="h-6 w-6" />
-                        </div>
+                        <img
+                            src="/logo_klinik2.png"
+                            alt="Logo Klinik Premysis Medika"
+                            className="h-10 w-10 object-contain transition-transform group-hover:scale-105"
+                        />
                         <div>
-                            <span className="bg-gradient-to-r from-slate-900 via-blue-900 to-[#8CA9FF] bg-clip-text text-xl font-extrabold tracking-tight text-transparent">
-                                {settings.site_name || 'Klinik Premisys Medika'}
+                            <span className="bg-gradient-to-r from-emerald-950 via-emerald-800 to-emerald-600 bg-clip-text text-xl font-extrabold tracking-tight text-transparent">
+                                {settings.site_name || 'Klinik Premysis Medika'}
                             </span>
                             <span className="-mt-1 block text-[10px] font-medium text-slate-500">
                                 Solusi Kesehatan Terpercaya
@@ -139,11 +140,11 @@ export default function StoreLayout({
                             placeholder="Cari nama obat, vitamin, merk..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full rounded-full border border-slate-200 bg-slate-100 py-2 pr-10 pl-4 text-sm transition focus:bg-white focus:ring-2 focus:ring-[#8CA9FF] focus:outline-none"
+                            className="w-full rounded-full border border-slate-200 bg-slate-100 py-2 pr-10 pl-4 text-sm transition focus:bg-white focus:ring-2 focus:ring-[#065f46] focus:outline-none"
                         />
                         <button
                             type="submit"
-                            className="absolute top-1/2 right-1 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-[#8CA9FF] text-white transition hover:bg-blue-500"
+                            className="absolute top-1/2 right-1 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-[#065f46] text-white transition hover:bg-emerald-700"
                         >
                             <Search className="h-4 w-4" />
                         </button>
@@ -171,7 +172,7 @@ export default function StoreLayout({
                         >
                             <ShoppingCart className="h-6 w-6" />
                             {cartCount > 0 && (
-                                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#8CA9FF] text-[11px] font-bold text-white shadow">
+                                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#065f46] text-[11px] font-bold text-white shadow">
                                     {cartCount}
                                 </span>
                             )}
@@ -181,8 +182,8 @@ export default function StoreLayout({
                         {user ? (
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                    <button className="flex items-center gap-2 rounded-full border border-slate-200 p-1.5 transition hover:bg-slate-100 focus-visible:ring-2 focus-visible:ring-[#8CA9FF] focus-visible:outline-none">
-                                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#8CA9FF] text-xs font-bold text-white">
+                                    <button className="flex items-center gap-2 rounded-full border border-slate-200 p-1.5 transition hover:bg-slate-100 focus-visible:ring-2 focus-visible:ring-[#065f46] focus-visible:outline-none">
+                                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#065f46] text-xs font-bold text-white">
                                             {user.name.charAt(0).toUpperCase()}
                                         </span>
                                         <span className="hidden max-w-[100px] truncate text-xs font-semibold text-slate-700 sm:inline">
@@ -209,7 +210,7 @@ export default function StoreLayout({
                                         user.role === 'pharmacist') && (
                                         <DropdownMenuItem
                                             asChild
-                                            className="cursor-pointer rounded-lg px-3 py-2 text-xs text-blue-600 focus:bg-slate-50 focus:text-blue-700"
+                                            className="cursor-pointer rounded-lg px-3 py-2 text-xs text-emerald-600 focus:bg-slate-50 focus:text-emerald-700"
                                         >
                                             <Link
                                                 href={
@@ -260,13 +261,13 @@ export default function StoreLayout({
                             <div className="flex items-center gap-2">
                                 <Link
                                     href="/login"
-                                    className="px-3.5 py-1.5 text-xs font-semibold text-slate-700 transition hover:text-[#8CA9FF]"
+                                    className="px-3.5 py-1.5 text-xs font-semibold text-slate-700 transition hover:text-[#065f46]"
                                 >
                                     Masuk
                                 </Link>
                                 <Link
                                     href="/register"
-                                    className="rounded-full bg-[#8CA9FF] px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-500"
+                                    className="rounded-full bg-[#065f46] px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-emerald-700"
                                 >
                                     Daftar
                                 </Link>
@@ -291,43 +292,43 @@ export default function StoreLayout({
                     <div className="mx-auto flex max-w-7xl items-center gap-6 overflow-x-auto px-4 py-2.5 text-xs font-semibold text-slate-700 sm:px-6 lg:px-8">
                         <Link
                             href="/produk"
-                            className="py-1 transition hover:text-[#8CA9FF]"
+                            className="py-1 transition hover:text-[#065f46]"
                         >
                             Katalog Obat
                         </Link>
                         <Link
                             href="/promo"
-                            className="flex items-center gap-1 py-1 font-bold text-rose-600 transition hover:text-[#8CA9FF]"
+                            className="flex items-center gap-1 py-1 font-bold text-rose-600 transition hover:text-[#065f46]"
                         >
                             🔥 Promo & Diskon
                         </Link>
                         <Link
                             href="/tentang-kami"
-                            className="py-1 transition hover:text-[#8CA9FF]"
+                            className="py-1 transition hover:text-[#065f46]"
                         >
                             Tentang Kami
                         </Link>
                         <Link
                             href="/blog"
-                            className="py-1 transition hover:text-[#8CA9FF]"
+                            className="py-1 transition hover:text-[#065f46]"
                         >
                             Artikel Kesehatan
                         </Link>
                         <Link
                             href="/faq"
-                            className="py-1 transition hover:text-[#8CA9FF]"
+                            className="py-1 transition hover:text-[#065f46]"
                         >
                             FAQ
                         </Link>
                         <Link
                             href="/testimoni"
-                            className="py-1 transition hover:text-[#8CA9FF]"
+                            className="py-1 transition hover:text-[#065f46]"
                         >
                             Testimoni
                         </Link>
                         <Link
                             href="/kontak"
-                            className="py-1 transition hover:text-[#8CA9FF]"
+                            className="py-1 transition hover:text-[#065f46]"
                         >
                             Kontak Kami
                         </Link>
@@ -409,11 +410,13 @@ export default function StoreLayout({
                 <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 py-12 sm:px-6 md:grid-cols-4 lg:px-8">
                     <div>
                         <div className="mb-4 flex items-center gap-2">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#8CA9FF] text-white">
-                                <Pill className="h-5 w-5" />
-                            </div>
+                            <img
+                                src="/logo_klinik2.png"
+                                alt="Logo Klinik Premysis Medika"
+                                className="h-9 w-9 rounded-lg bg-white p-1 object-contain"
+                            />
                             <span className="text-lg font-bold text-white">
-                                {settings.site_name || 'Klinik Premisys Medika'}
+                                {settings.site_name || 'Klinik Premysis Medika'}
                             </span>
                         </div>
                         <p className="mb-4 text-xs leading-relaxed text-slate-400">
@@ -434,7 +437,7 @@ export default function StoreLayout({
                             <li>
                                 <Link
                                     href="/produk"
-                                    className="transition hover:text-[#8CA9FF]"
+                                    className="transition hover:text-[#065f46]"
                                 >
                                     Katalog Obat
                                 </Link>
@@ -442,7 +445,7 @@ export default function StoreLayout({
                             <li>
                                 <Link
                                     href="/promo"
-                                    className="transition hover:text-[#8CA9FF]"
+                                    className="transition hover:text-[#065f46]"
                                 >
                                     Promo Diskon
                                 </Link>
@@ -450,7 +453,7 @@ export default function StoreLayout({
                             <li>
                                 <Link
                                     href="/blog"
-                                    className="transition hover:text-[#8CA9FF]"
+                                    className="transition hover:text-[#065f46]"
                                 >
                                     Blog Kesehatan
                                 </Link>
@@ -458,7 +461,7 @@ export default function StoreLayout({
                             <li>
                                 <Link
                                     href="/lacak-pesanan"
-                                    className="transition hover:text-[#8CA9FF]"
+                                    className="transition hover:text-[#065f46]"
                                 >
                                     Lacak Pesanan
                                 </Link>
@@ -474,7 +477,7 @@ export default function StoreLayout({
                             <li>
                                 <Link
                                     href="/tentang-kami"
-                                    className="transition hover:text-[#8CA9FF]"
+                                    className="transition hover:text-[#065f46]"
                                 >
                                     Tentang Kami
                                 </Link>
@@ -482,7 +485,7 @@ export default function StoreLayout({
                             <li>
                                 <Link
                                     href="/kontak"
-                                    className="transition hover:text-[#8CA9FF]"
+                                    className="transition hover:text-[#065f46]"
                                 >
                                     Kontak Kami
                                 </Link>
@@ -490,7 +493,7 @@ export default function StoreLayout({
                             <li>
                                 <Link
                                     href="/faq"
-                                    className="transition hover:text-[#8CA9FF]"
+                                    className="transition hover:text-[#065f46]"
                                 >
                                     FAQ
                                 </Link>
@@ -498,7 +501,7 @@ export default function StoreLayout({
                             <li>
                                 <Link
                                     href="/syarat-ketentuan"
-                                    className="transition hover:text-[#8CA9FF]"
+                                    className="transition hover:text-[#065f46]"
                                 >
                                     Syarat & Ketentuan
                                 </Link>
@@ -506,7 +509,7 @@ export default function StoreLayout({
                             <li>
                                 <Link
                                     href="/kebijakan-privasi"
-                                    className="transition hover:text-[#8CA9FF]"
+                                    className="transition hover:text-[#065f46]"
                                 >
                                     Kebijakan Privasi
                                 </Link>
@@ -539,8 +542,8 @@ export default function StoreLayout({
 
                 <div className="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
                     © {new Date().getFullYear()}{' '}
-                    {settings.site_name || 'Klinik Premisys Medika'}. All rights
-                    reserved. Klinik Premisys Medika.
+                    {settings.site_name || 'Klinik Premysis Medika'}. All rights
+                    reserved. Klinik Premysis Medika.
                 </div>
             </footer>
         </div>

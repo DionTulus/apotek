@@ -158,7 +158,7 @@ export default function SalesReport({
                                 onClick={() => handleRangeChange(btn.id)}
                                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
                                     range === btn.id
-                                        ? 'bg-[#8CA9FF] text-white shadow-xs'
+                                        ? 'bg-[#065f46] text-white shadow-xs'
                                         : 'bg-slate-50 hover:bg-slate-100 text-slate-600'
                                 }`}
                             >
@@ -173,7 +173,7 @@ export default function SalesReport({
                                 type="date"
                                 value={startDate}
                                 onChange={(e) => setStartDate(e.target.value)}
-                                className="px-3 py-1.5 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                className="px-3 py-1.5 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                 required
                             />
                             <span className="text-slate-400">s/d</span>
@@ -181,12 +181,12 @@ export default function SalesReport({
                                 type="date"
                                 value={endDate}
                                 onChange={(e) => setEndDate(e.target.value)}
-                                className="px-3 py-1.5 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                className="px-3 py-1.5 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                 required
                             />
                             <button
                                 type="submit"
-                                className="px-3 py-1.5 bg-[#8CA9FF] hover:bg-[#7292eb] text-white font-bold rounded-lg transition"
+                                className="px-3 py-1.5 bg-[#065f46] hover:bg-[#047857] text-white font-bold rounded-lg transition"
                             >
                                 Terapkan
                             </button>
@@ -223,7 +223,7 @@ export default function SalesReport({
                     {/* AOV */}
                     <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
                         <span className="text-[11px] font-semibold text-slate-500">Rata-rata Keranjang (AOV)</span>
-                        <p className="text-lg font-extrabold text-[#6587e6] mt-1">
+                        <p className="text-lg font-extrabold text-[#047857] mt-1">
                             {formatRp(summary.aov)}
                         </p>
                     </div>
@@ -271,7 +271,7 @@ export default function SalesReport({
                                         fontSize: 12,
                                     }}
                                 />
-                                <Bar dataKey="total_sales" fill="#8CA9FF" radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="total_sales" fill="#065f46" radius={[4, 4, 0, 0]} />
                             </BarChart>
                         </ResponsiveContainer>
                     </div>
@@ -282,7 +282,7 @@ export default function SalesReport({
                     {/* Left 1 Col: Top Products in Period */}
                     <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
                         <h2 className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
-                            <Package className="w-4 h-4 text-[#8CA9FF]" />
+                            <Package className="w-4 h-4 text-[#065f46]" />
                             Penjualan per Produk (Top 10)
                         </h2>
                         <div className="space-y-3">
@@ -318,7 +318,7 @@ export default function SalesReport({
                     <div className="lg:col-span-2 bg-white rounded-xl border border-slate-200 overflow-hidden shadow-xs">
                         <div className="p-4 border-b border-slate-200 flex items-center justify-between">
                             <h2 className="text-sm font-bold text-slate-800 flex items-center gap-2">
-                                <ShoppingBag className="w-4 h-4 text-[#8CA9FF]" />
+                                <ShoppingBag className="w-4 h-4 text-[#065f46]" />
                                 Transaksi Pesanan dalam Periode
                             </h2>
                         </div>
@@ -386,7 +386,7 @@ export default function SalesReport({
                                             dangerouslySetInnerHTML={{ __html: link.label }}
                                             className={`px-3 py-1.5 rounded-lg font-medium transition ${
                                                 link.active
-                                                    ? 'bg-[#8CA9FF] text-white font-bold'
+                                                    ? 'bg-[#065f46] text-white font-bold'
                                                     : link.url
                                                     ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                                     : 'text-slate-300 pointer-events-none'

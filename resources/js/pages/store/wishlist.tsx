@@ -44,7 +44,7 @@ export default function Wishlist({ wishlistItems }: WishlistProps) {
 
     return (
         <StoreLayout>
-            <Head title="Wishlist Saya - Klinik Premisys Medika" />
+            <Head title="Wishlist Saya - Klinik Premysis Medika" />
 
             <div className="bg-slate-900 text-white py-10 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
                 <div className="max-w-7xl mx-auto flex items-center gap-3">
@@ -72,7 +72,7 @@ export default function Wishlist({ wishlistItems }: WishlistProps) {
                         </p>
                         <Link
                             href="/produk"
-                            className="inline-block px-6 py-3 rounded-full bg-[#8CA9FF] text-white text-xs font-bold hover:bg-blue-500 transition shadow"
+                            className="inline-block px-6 py-3 rounded-full bg-[#065f46] text-white text-xs font-bold hover:bg-emerald-700 transition shadow"
                         >
                             Jelajahi Katalog Obat
                         </Link>
@@ -91,14 +91,14 @@ export default function Wishlist({ wishlistItems }: WishlistProps) {
                                     >
                                         <div className="flex gap-4">
                                             <div className="w-24 h-24 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-center shrink-0">
-                                                <Pill className="w-10 h-10 text-[#8CA9FF]/40" />
+                                                <Pill className="w-10 h-10 text-[#065f46]/40" />
                                             </div>
                                             <div className="flex-1 space-y-1">
                                                 <span className="text-[10px] font-bold text-slate-400 uppercase">
                                                     {p.category?.name || 'Obat'}
                                                 </span>
                                                 <Link href={`/produk/${p.slug}`}>
-                                                    <h3 className="font-bold text-slate-900 text-sm line-clamp-2 hover:text-blue-600">
+                                                    <h3 className="font-bold text-slate-900 text-sm line-clamp-2 hover:text-emerald-600">
                                                         {p.name}
                                                     </h3>
                                                 </Link>
@@ -123,7 +123,7 @@ export default function Wishlist({ wishlistItems }: WishlistProps) {
                                                 disabled={p.stock <= 0}
                                                 className={`px-4 py-2 rounded-xl text-xs font-extrabold text-white flex items-center gap-1.5 transition ${
                                                     p.stock > 0
-                                                        ? 'bg-[#8CA9FF] hover:bg-blue-500'
+                                                        ? 'bg-[#065f46] hover:bg-emerald-700'
                                                         : 'bg-slate-300 cursor-not-allowed'
                                                 }`}
                                             >
@@ -146,7 +146,7 @@ export default function Wishlist({ wishlistItems }: WishlistProps) {
                                         preserveScroll
                                         className={`px-3 py-2 rounded-xl text-xs font-bold transition border ${
                                             link.active
-                                                ? 'bg-[#8CA9FF] text-white border-[#8CA9FF]'
+                                                ? 'bg-[#065f46] text-white border-[#065f46]'
                                                 : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
                                         }`}
                                         dangerouslySetInnerHTML={{ __html: link.label }}

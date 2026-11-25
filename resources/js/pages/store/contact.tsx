@@ -28,10 +28,10 @@ export default function Contact({ phone, whatsapp, email, address, mapsEmbedUrl 
 
     return (
         <StoreLayout>
-            <Head title="Kontak Kami - Klinik Premisys Medika" />
+            <Head title="Kontak Kami - Klinik Premysis Medika" />
 
-            <div className="bg-gradient-to-r from-slate-900 to-blue-950 text-white py-12 px-4 text-center">
-                <h1 className="text-3xl font-black">Hubungi Klinik Premisys Medika</h1>
+            <div className="bg-gradient-to-r from-slate-900 to-emerald-950 text-white py-12 px-4 text-center">
+                <h1 className="text-3xl font-black">Hubungi Klinik Premysis Medika</h1>
                 <p className="text-xs sm:text-sm text-slate-300 mt-2">
                     Punya pertanyaan seputar stok obat, resep, atau pengiriman? Tim kami siap membantu.
                 </p>
@@ -44,7 +44,7 @@ export default function Contact({ phone, whatsapp, email, address, mapsEmbedUrl 
                         <h2 className="text-lg font-bold text-slate-900">Informasi Kontak</h2>
 
                         <div className="flex items-start gap-4">
-                            <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#8CA9FF] flex items-center justify-center shrink-0">
+                            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-[#065f46] flex items-center justify-center shrink-0">
                                 <MapPin className="w-5 h-5" />
                             </div>
                             <div>
@@ -56,7 +56,7 @@ export default function Contact({ phone, whatsapp, email, address, mapsEmbedUrl 
                         </div>
 
                         <div className="flex items-start gap-4">
-                            <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#8CA9FF] flex items-center justify-center shrink-0">
+                            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-[#065f46] flex items-center justify-center shrink-0">
                                 <Phone className="w-5 h-5" />
                             </div>
                             <div>
@@ -68,19 +68,19 @@ export default function Contact({ phone, whatsapp, email, address, mapsEmbedUrl 
                         </div>
 
                         <div className="flex items-start gap-4">
-                            <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#8CA9FF] flex items-center justify-center shrink-0">
+                            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-[#065f46] flex items-center justify-center shrink-0">
                                 <Mail className="w-5 h-5" />
                             </div>
                             <div>
                                 <h3 className="text-xs font-bold text-slate-400 uppercase">Email Layanan</h3>
                                 <p className="text-xs font-bold text-slate-800 mt-0.5">
-                                    {email || 'info@klinikpremisysmedika.test'}
+                                    {email || 'info@klinikpremysismedika.test'}
                                 </p>
                             </div>
                         </div>
 
                         <div className="flex items-start gap-4">
-                            <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#8CA9FF] flex items-center justify-center shrink-0">
+                            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-[#065f46] flex items-center justify-center shrink-0">
                                 <Clock className="w-5 h-5" />
                             </div>
                             <div>
@@ -94,10 +94,10 @@ export default function Contact({ phone, whatsapp, email, address, mapsEmbedUrl 
 
                     {/* Google Maps Embed */}
                     <div className="bg-white rounded-3xl p-4 border border-slate-200 overflow-hidden shadow-sm">
-                        <h3 className="text-xs font-bold text-slate-700 mb-3 px-2">Peta Lokasi Klinik Premisys Medika</h3>
+                        <h3 className="text-xs font-bold text-slate-700 mb-3 px-2">Peta Lokasi Klinik Premysis Medika</h3>
                         <div className="w-full h-64 rounded-2xl overflow-hidden bg-slate-100">
                             <iframe
-                                title="Peta Lokasi Klinik Premisys Medika"
+                                title="Peta Lokasi Klinik Premysis Medika"
                                 src={
                                     mapsEmbedUrl ||
                                     'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.835848243!2d107.60981!3d-6.914744!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNTQnNTMuMSJTIDEwN8KwMzYnMzUuMyJF!5e0!3m2!1sid!2sid!4v1600000000000'
@@ -130,7 +130,7 @@ export default function Contact({ phone, whatsapp, email, address, mapsEmbedUrl 
                                         value={data.name}
                                         onChange={(e) => setData('name', e.target.value)}
                                         placeholder="cth. Budi Santoso"
-                                        className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#8CA9FF] focus:outline-none"
+                                        className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#065f46] focus:outline-none"
                                     />
                                     {errors.name && <p className="text-[11px] text-rose-500 mt-1">{errors.name}</p>}
                                 </div>
@@ -143,7 +143,7 @@ export default function Contact({ phone, whatsapp, email, address, mapsEmbedUrl 
                                         value={data.email}
                                         onChange={(e) => setData('email', e.target.value)}
                                         placeholder="cth. budi@example.com"
-                                        className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#8CA9FF] focus:outline-none"
+                                        className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#065f46] focus:outline-none"
                                     />
                                     {errors.email && <p className="text-[11px] text-rose-500 mt-1">{errors.email}</p>}
                                 </div>
@@ -157,7 +157,7 @@ export default function Contact({ phone, whatsapp, email, address, mapsEmbedUrl 
                                         value={data.phone}
                                         onChange={(e) => setData('phone', e.target.value)}
                                         placeholder="cth. 081234567890"
-                                        className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#8CA9FF] focus:outline-none"
+                                        className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#065f46] focus:outline-none"
                                     />
                                 </div>
 
@@ -168,7 +168,7 @@ export default function Contact({ phone, whatsapp, email, address, mapsEmbedUrl 
                                         value={data.subject}
                                         onChange={(e) => setData('subject', e.target.value)}
                                         placeholder="cth. Tanya Stok Obat"
-                                        className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#8CA9FF] focus:outline-none"
+                                        className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#065f46] focus:outline-none"
                                     />
                                 </div>
                             </div>
@@ -181,7 +181,7 @@ export default function Contact({ phone, whatsapp, email, address, mapsEmbedUrl 
                                     value={data.message}
                                     onChange={(e) => setData('message', e.target.value)}
                                     placeholder="Tuliskan pesan atau pertanyaan Anda di sini..."
-                                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#8CA9FF] focus:outline-none"
+                                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#065f46] focus:outline-none"
                                 />
                                 {errors.message && <p className="text-[11px] text-rose-500 mt-1">{errors.message}</p>}
                             </div>
@@ -189,7 +189,7 @@ export default function Contact({ phone, whatsapp, email, address, mapsEmbedUrl 
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="w-full py-3.5 rounded-xl bg-[#8CA9FF] hover:bg-blue-500 text-white text-xs font-extrabold shadow-md transition flex items-center justify-center gap-2"
+                                className="w-full py-3.5 rounded-xl bg-[#065f46] hover:bg-emerald-700 text-white text-xs font-extrabold shadow-md transition flex items-center justify-center gap-2"
                             >
                                 <Send className="w-4 h-4" /> {processing ? 'Mengirim...' : 'Kirim Pesan'}
                             </button>

@@ -63,12 +63,12 @@ export default function CustomersIndex({ customers, filters }: Props) {
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 placeholder="Cari berdasarkan nama, email, atau nomor telepon..."
-                                className="w-full pl-9 pr-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                className="w-full pl-9 pr-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                             />
                         </div>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white text-xs font-bold rounded-lg transition"
+                            className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white text-xs font-bold rounded-lg transition"
                         >
                             Cari
                         </button>
@@ -95,13 +95,13 @@ export default function CustomersIndex({ customers, filters }: Props) {
                                         <tr key={customer.id} className="hover:bg-slate-50/80 transition">
                                             <td className="px-4 py-3.5">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-8 h-8 rounded-full bg-[#8CA9FF]/20 text-[#6587e6] font-bold flex items-center justify-center text-xs">
+                                                    <div className="w-8 h-8 rounded-full bg-[#065f46]/20 text-[#047857] font-bold flex items-center justify-center text-xs">
                                                         {customer.name.slice(0, 2).toUpperCase()}
                                                     </div>
                                                     <div>
                                                         <Link
                                                             href={`/admin/pelanggan/${customer.id}`}
-                                                            className="font-bold text-slate-800 hover:text-[#6587e6] transition"
+                                                            className="font-bold text-slate-800 hover:text-[#047857] transition"
                                                         >
                                                             {customer.name}
                                                         </Link>
@@ -172,7 +172,7 @@ export default function CustomersIndex({ customers, filters }: Props) {
                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                         className={`px-3 py-1.5 rounded-lg font-medium transition ${
                                             link.active
-                                                ? 'bg-[#8CA9FF] text-white font-bold'
+                                                ? 'bg-[#065f46] text-white font-bold'
                                                 : link.url
                                                 ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                                 : 'text-slate-300 pointer-events-none'

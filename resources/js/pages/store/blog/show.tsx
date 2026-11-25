@@ -19,17 +19,17 @@ interface BlogShowProps {
 export default function BlogShow({ post, relatedPosts = [] }: BlogShowProps) {
     return (
         <StoreLayout>
-            <Head title={`${post.title} - Klinik Premisys Medika`} />
+            <Head title={`${post.title} - Klinik Premysis Medika`} />
 
             <div className="bg-slate-900 text-white py-12 px-4">
                 <div className="max-w-4xl mx-auto space-y-4">
-                    <Link href="/blog" className="inline-flex items-center gap-1 text-xs text-[#8CA9FF] hover:underline font-bold">
+                    <Link href="/blog" className="inline-flex items-center gap-1 text-xs text-[#065f46] hover:underline font-bold">
                         <ArrowLeft className="w-4 h-4" /> Kembali ke Daftar Artikel
                     </Link>
                     <h1 className="text-2xl sm:text-4xl font-black leading-tight">{post.title}</h1>
                     <div className="flex items-center gap-6 text-xs text-slate-400 border-t border-slate-800 pt-4">
                         <span className="flex items-center gap-1">
-                            <Calendar className="w-4 h-4 text-[#8CA9FF]" />
+                            <Calendar className="w-4 h-4 text-[#065f46]" />
                             {new Date(post.published_at).toLocaleDateString('id-ID', {
                                 day: 'numeric',
                                 month: 'long',
@@ -37,7 +37,7 @@ export default function BlogShow({ post, relatedPosts = [] }: BlogShowProps) {
                             })}
                         </span>
                         <span className="flex items-center gap-1">
-                            <User className="w-4 h-4 text-[#8CA9FF]" />
+                            <User className="w-4 h-4 text-[#065f46]" />
                             {post.author?.name || 'Apoteker Penanggung Jawab'}
                         </span>
                     </div>
@@ -58,9 +58,9 @@ export default function BlogShow({ post, relatedPosts = [] }: BlogShowProps) {
                                 <Link
                                     key={r.id}
                                     href={`/blog/${r.slug}`}
-                                    className="p-4 bg-white rounded-2xl border border-slate-200 hover:border-[#8CA9FF] shadow-xs transition space-y-2"
+                                    className="p-4 bg-white rounded-2xl border border-slate-200 hover:border-[#065f46] shadow-xs transition space-y-2"
                                 >
-                                    <h4 className="font-bold text-xs text-slate-900 line-clamp-2 hover:text-blue-600">{r.title}</h4>
+                                    <h4 className="font-bold text-xs text-slate-900 line-clamp-2 hover:text-emerald-600">{r.title}</h4>
                                 </Link>
                             ))}
                         </div>

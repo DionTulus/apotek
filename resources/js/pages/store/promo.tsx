@@ -35,14 +35,14 @@ export default function PromoPage({ promos = [] }: PromoProps) {
 
     return (
         <StoreLayout>
-            <Head title="Promo & Voucher Diskon - Klinik Premisys Medika" />
+            <Head title="Promo & Voucher Diskon - Klinik Premysis Medika" />
 
-            <div className="bg-gradient-to-r from-blue-700 via-indigo-700 to-slate-900 text-white py-12 px-4 text-center">
+            <div className="bg-gradient-to-r from-emerald-700 via-emerald-700 to-slate-900 text-white py-12 px-4 text-center">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-xs font-bold mb-3">
                     <Tag className="w-3.5 h-3.5" /> PENAWARAN TERBATAS
                 </div>
-                <h1 className="text-3xl font-black">Voucher & Promo Hemat Klinik Premisys Medika</h1>
-                <p className="text-xs sm:text-sm text-blue-100 mt-2">
+                <h1 className="text-3xl font-black">Voucher & Promo Hemat Klinik Premysis Medika</h1>
+                <p className="text-xs sm:text-sm text-emerald-100 mt-2">
                     Gunakan kode kupon diskon saat Checkout untuk potongan harga pembelian obat Anda
                 </p>
             </div>
@@ -56,7 +56,7 @@ export default function PromoPage({ promos = [] }: PromoProps) {
                         >
                             <div className="p-6 space-y-4">
                                 <div className="flex items-center justify-between">
-                                    <span className="px-3 py-1 rounded-full bg-blue-50 text-[#8CA9FF] text-xs font-extrabold border border-blue-100 flex items-center gap-1">
+                                    <span className="px-3 py-1 rounded-full bg-emerald-50 text-[#065f46] text-xs font-extrabold border border-emerald-100 flex items-center gap-1">
                                         <Percent className="w-3.5 h-3.5" />
                                         {promo.type === 'percent' ? `Diskon ${promo.value}%` : `Potongan ${formatRp(promo.value)}`}
                                     </span>
@@ -77,13 +77,13 @@ export default function PromoPage({ promos = [] }: PromoProps) {
                             </div>
 
                             <div className="p-6 pt-0">
-                                <div className="p-2 rounded-2xl bg-blue-50/70 border border-dashed border-[#8CA9FF] flex items-center justify-between">
-                                    <span className="font-mono font-black text-sm text-blue-900 tracking-wider pl-2">
+                                <div className="p-2 rounded-2xl bg-emerald-50/70 border border-dashed border-[#065f46] flex items-center justify-between">
+                                    <span className="font-mono font-black text-sm text-emerald-900 tracking-wider pl-2">
                                         {promo.code}
                                     </span>
                                     <button
                                         onClick={() => handleCopyCode(promo.code)}
-                                        className="px-4 py-2 rounded-xl bg-[#8CA9FF] hover:bg-blue-500 text-white text-xs font-bold shadow-xs transition flex items-center gap-1.5"
+                                        className="px-4 py-2 rounded-xl bg-[#065f46] hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition flex items-center gap-1.5"
                                     >
                                         {copiedCode === promo.code ? (
                                             <>

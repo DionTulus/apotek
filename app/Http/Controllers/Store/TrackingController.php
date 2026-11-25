@@ -10,6 +10,11 @@ use Inertia\Response;
 
 class TrackingController extends Controller
 {
+    public function search(Request $request): Response
+    {
+        return $this->index($request);
+    }
+
     public function index(Request $request): Response
     {
         $orderNumber = $request->input('order_number');

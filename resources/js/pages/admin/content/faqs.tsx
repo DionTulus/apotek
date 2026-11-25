@@ -107,7 +107,7 @@ export default function FaqsIndex({ faqs, filters }: Props) {
 
                     <button
                         onClick={() => setIsAddModalOpen(true)}
-                        className="px-3.5 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-xs"
+                        className="px-3.5 py-2 bg-[#065f46] hover:bg-[#047857] text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-xs"
                     >
                         <Plus className="w-4 h-4" /> Tambah FAQ Baru
                     </button>
@@ -123,12 +123,12 @@ export default function FaqsIndex({ faqs, filters }: Props) {
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 placeholder="Cari pertanyaan FAQ..."
-                                className="w-full pl-9 pr-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                className="w-full pl-9 pr-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                             />
                         </div>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white text-xs font-bold rounded-lg transition"
+                            className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white text-xs font-bold rounded-lg transition"
                         >
                             Cari
                         </button>
@@ -213,7 +213,7 @@ export default function FaqsIndex({ faqs, filters }: Props) {
                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                         className={`px-3 py-1.5 rounded-lg font-medium transition ${
                                             link.active
-                                                ? 'bg-[#8CA9FF] text-white font-bold'
+                                                ? 'bg-[#065f46] text-white font-bold'
                                                 : link.url
                                                 ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                                 : 'text-slate-300 pointer-events-none'
@@ -229,7 +229,7 @@ export default function FaqsIndex({ faqs, filters }: Props) {
                 {isAddModalOpen && (
                     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
                         <div className="bg-white rounded-xl max-w-lg w-full p-6 shadow-xl space-y-4">
-                            <div className="flex items-center gap-2 text-[#6587e6]">
+                            <div className="flex items-center gap-2 text-[#047857]">
                                 <HelpCircle className="w-5 h-5" />
                                 <h3 className="text-base font-bold text-slate-800">Tambah FAQ Baru</h3>
                             </div>
@@ -241,7 +241,7 @@ export default function FaqsIndex({ faqs, filters }: Props) {
                                         value={addForm.data.question}
                                         onChange={(e) => addForm.setData('question', e.target.value)}
                                         placeholder="Contoh: Bagaimana cara memesan obat resep?"
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -253,7 +253,7 @@ export default function FaqsIndex({ faqs, filters }: Props) {
                                         onChange={(e) => addForm.setData('answer', e.target.value)}
                                         placeholder="Tuliskan jawaban yang jelas dan ramah..."
                                         rows={4}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -265,7 +265,7 @@ export default function FaqsIndex({ faqs, filters }: Props) {
                                             type="number"
                                             value={addForm.data.sort_order}
                                             onChange={(e) => addForm.setData('sort_order', parseInt(e.target.value) || 0)}
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         />
                                     </div>
                                     <div className="flex items-center pt-5">
@@ -274,7 +274,7 @@ export default function FaqsIndex({ faqs, filters }: Props) {
                                                 type="checkbox"
                                                 checked={addForm.data.is_active}
                                                 onChange={(e) => addForm.setData('is_active', e.target.checked)}
-                                                className="rounded border-slate-300 text-[#8CA9FF] focus:ring-[#8CA9FF]"
+                                                className="rounded border-slate-300 text-[#065f46] focus:ring-[#065f46]"
                                             />
                                             Status Aktif (Tampil)
                                         </label>
@@ -292,7 +292,7 @@ export default function FaqsIndex({ faqs, filters }: Props) {
                                     <button
                                         type="submit"
                                         disabled={addForm.processing}
-                                        className="px-4 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded-lg transition font-bold"
+                                        className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white rounded-lg transition font-bold"
                                     >
                                         {addForm.processing ? 'Menyimpan...' : 'Simpan FAQ'}
                                     </button>
@@ -306,7 +306,7 @@ export default function FaqsIndex({ faqs, filters }: Props) {
                 {editingFaq && (
                     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
                         <div className="bg-white rounded-xl max-w-lg w-full p-6 shadow-xl space-y-4">
-                            <div className="flex items-center gap-2 text-[#6587e6]">
+                            <div className="flex items-center gap-2 text-[#047857]">
                                 <Edit3 className="w-5 h-5" />
                                 <h3 className="text-base font-bold text-slate-800">Edit FAQ</h3>
                             </div>
@@ -317,7 +317,7 @@ export default function FaqsIndex({ faqs, filters }: Props) {
                                         type="text"
                                         value={editForm.data.question}
                                         onChange={(e) => editForm.setData('question', e.target.value)}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -328,7 +328,7 @@ export default function FaqsIndex({ faqs, filters }: Props) {
                                         value={editForm.data.answer}
                                         onChange={(e) => editForm.setData('answer', e.target.value)}
                                         rows={4}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -340,7 +340,7 @@ export default function FaqsIndex({ faqs, filters }: Props) {
                                             type="number"
                                             value={editForm.data.sort_order}
                                             onChange={(e) => editForm.setData('sort_order', parseInt(e.target.value) || 0)}
-                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         />
                                     </div>
                                     <div className="flex items-center pt-5">
@@ -349,7 +349,7 @@ export default function FaqsIndex({ faqs, filters }: Props) {
                                                 type="checkbox"
                                                 checked={editForm.data.is_active}
                                                 onChange={(e) => editForm.setData('is_active', e.target.checked)}
-                                                className="rounded border-slate-300 text-[#8CA9FF] focus:ring-[#8CA9FF]"
+                                                className="rounded border-slate-300 text-[#065f46] focus:ring-[#065f46]"
                                             />
                                             Status Aktif (Tampil)
                                         </label>
@@ -367,7 +367,7 @@ export default function FaqsIndex({ faqs, filters }: Props) {
                                     <button
                                         type="submit"
                                         disabled={editForm.processing}
-                                        className="px-4 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded-lg transition font-bold"
+                                        className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white rounded-lg transition font-bold"
                                     >
                                         {editForm.processing ? 'Menyimpan...' : 'Simpan Perubahan'}
                                     </button>

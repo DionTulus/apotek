@@ -129,7 +129,7 @@ export default function ShipmentsIndex({ orders, filters }: Props) {
                             onClick={() => handleFilterStatus('')}
                             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
                                 !filters.status
-                                    ? 'bg-[#8CA9FF] text-white shadow-xs'
+                                    ? 'bg-[#065f46] text-white shadow-xs'
                                     : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
                             }`}
                         >
@@ -139,7 +139,7 @@ export default function ShipmentsIndex({ orders, filters }: Props) {
                             onClick={() => handleFilterStatus('processing')}
                             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
                                 filters.status === 'processing'
-                                    ? 'bg-[#8CA9FF] text-white shadow-xs'
+                                    ? 'bg-[#065f46] text-white shadow-xs'
                                     : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
                             }`}
                         >
@@ -149,7 +149,7 @@ export default function ShipmentsIndex({ orders, filters }: Props) {
                             onClick={() => handleFilterStatus('shipped')}
                             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
                                 filters.status === 'shipped'
-                                    ? 'bg-[#8CA9FF] text-white shadow-xs'
+                                    ? 'bg-[#065f46] text-white shadow-xs'
                                     : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
                             }`}
                         >
@@ -168,12 +168,12 @@ export default function ShipmentsIndex({ orders, filters }: Props) {
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 placeholder="Cari No. Order / Nama Penerima..."
-                                className="w-full pl-9 pr-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                className="w-full pl-9 pr-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                             />
                         </div>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white text-xs font-bold rounded-lg transition"
+                            className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white text-xs font-bold rounded-lg transition"
                         >
                             Cari
                         </button>
@@ -202,7 +202,7 @@ export default function ShipmentsIndex({ orders, filters }: Props) {
                                                 <td className="px-4 py-3.5 font-mono font-bold text-slate-800">
                                                     <Link
                                                         href={`/admin/pesanan/${order.id}`}
-                                                        className="text-[#6587e6] hover:underline"
+                                                        className="text-[#047857] hover:underline"
                                                     >
                                                         #{order.order_number}
                                                     </Link>
@@ -230,7 +230,7 @@ export default function ShipmentsIndex({ orders, filters }: Props) {
                                                 </td>
                                                 <td className="px-4 py-3.5">
                                                     {order.shipment?.tracking_number ? (
-                                                        <span className="font-mono font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100">
+                                                        <span className="font-mono font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">
                                                             {order.shipment.tracking_number}
                                                         </span>
                                                     ) : (
@@ -252,7 +252,7 @@ export default function ShipmentsIndex({ orders, filters }: Props) {
                                                     {order.status === 'processing' && (
                                                         <button
                                                             onClick={() => handleOpenShipModal(order)}
-                                                            className="px-3 py-1 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded text-[11px] font-bold transition inline-flex items-center gap-1 shadow-xs"
+                                                            className="px-3 py-1 bg-[#065f46] hover:bg-[#047857] text-white rounded text-[11px] font-bold transition inline-flex items-center gap-1 shadow-xs"
                                                         >
                                                             <Send className="w-3 h-3" /> Input Resi & Kirim
                                                         </button>
@@ -300,7 +300,7 @@ export default function ShipmentsIndex({ orders, filters }: Props) {
                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                         className={`px-3 py-1.5 rounded-lg font-medium transition ${
                                             link.active
-                                                ? 'bg-[#8CA9FF] text-white font-bold'
+                                                ? 'bg-[#065f46] text-white font-bold'
                                                 : link.url
                                                 ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                                 : 'text-slate-300 pointer-events-none'
@@ -316,7 +316,7 @@ export default function ShipmentsIndex({ orders, filters }: Props) {
                 {shippingOrder && (
                     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
                         <div className="bg-white rounded-xl max-w-md w-full p-6 shadow-xl space-y-4">
-                            <div className="flex items-center gap-2 text-indigo-600">
+                            <div className="flex items-center gap-2 text-emerald-600">
                                 <Truck className="w-5 h-5" />
                                 <h3 className="text-base font-bold text-slate-800">
                                     Input Resi Pengiriman #{shippingOrder.order_number}
@@ -333,7 +333,7 @@ export default function ShipmentsIndex({ orders, filters }: Props) {
                                         value={shipForm.data.courier}
                                         onChange={(e) => shipForm.setData('courier', e.target.value)}
                                         placeholder="Contoh: JNE / J&T / SiCepat / Kurir Apotek"
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -344,7 +344,7 @@ export default function ShipmentsIndex({ orders, filters }: Props) {
                                         value={shipForm.data.service}
                                         onChange={(e) => shipForm.setData('service', e.target.value)}
                                         placeholder="Contoh: REG / YES / BEST / Instant"
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                         required
                                     />
                                 </div>
@@ -355,7 +355,7 @@ export default function ShipmentsIndex({ orders, filters }: Props) {
                                         value={shipForm.data.tracking_number}
                                         onChange={(e) => shipForm.setData('tracking_number', e.target.value)}
                                         placeholder="Contoh: JNE01928374619"
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF] font-mono"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46] font-mono"
                                         required
                                     />
                                 </div>
@@ -366,7 +366,7 @@ export default function ShipmentsIndex({ orders, filters }: Props) {
                                         onChange={(e) => shipForm.setData('note', e.target.value)}
                                         placeholder="Contoh: Paket diserahkan ke drop point..."
                                         rows={2}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#8CA9FF]"
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
                                     />
                                 </div>
                                 <div className="flex justify-end gap-2 pt-2">
@@ -380,7 +380,7 @@ export default function ShipmentsIndex({ orders, filters }: Props) {
                                     <button
                                         type="submit"
                                         disabled={shipForm.processing}
-                                        className="px-4 py-2 bg-[#8CA9FF] hover:bg-[#7292eb] text-white rounded-lg transition font-bold"
+                                        className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white rounded-lg transition font-bold"
                                     >
                                         {shipForm.processing ? 'Menyimpan...' : 'Kirim Paket'}
                                     </button>

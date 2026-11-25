@@ -12,10 +12,12 @@ use App\Models\Category;
 use App\Models\FinancialTransaction;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Prescription;
 use App\Models\ShippingMethod;
 use App\Models\StockMovement;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 
 class CheckoutAndPaymentTest extends TestCase
@@ -187,6 +189,67 @@ class CheckoutAndPaymentTest extends TestCase
             'amount' => 47000,
             'reference_id' => $order->id,
         ]);
+    }
+
+    public function test_prescription_order_cannot_be_paid_before_approval()
+    {
+        $prescription = Prescription::create([
+            'user_id' => $this->user->id,
+            'file_path' => 'prescriptions/rx-pending.jpg',
+            'status' => 'pending',
+        ]);
+
+        $order = Order::create([
+            'order_number' => 'ORD-RX-PENDING-001',
+            'user_id' => $this->user->id,
+            'status' => OrderStatus::AWAITING_PRESCRIPTION,
+            'payment_method' => 'midtrans',
+            'payment_status' => PaymentStatus::UNPAID,
+            'subtotal' => 35000,
+            'discount_total' => 0,
+            'shipping_cost' => 15000,
+            'grand_total' => 50000,
+            'shipping_method_id' => $this->shippingMethod->id,
+            'prescription_id' => $prescription->id,
+            'recipient_name' => 'Budi',
+            'recipient_phone' => '0812345',
+            'shipping_address' => 'Jl Dago',
+        ]);
+
+        $midtransOrderId = $order->order_number.'-123456';
+        $order->payment()->create([
+            'provider' => 'midtrans',
+            'midtrans_order_id' => $midtransOrderId,
+            'gross_amount' => 50000,
+            'status' => PaymentStatus::UNPAID,
+        ]);
+
+        $this->actingAs($this->user)
+            ->get(route('payment.show', $order->order_number))
+            ->assertOk()
+            ->assertInertia(fn (AssertableInertia $page) => $page
+                ->where('snapToken', null)
+                ->where('order.status', OrderStatus::AWAITING_PRESCRIPTION->value)
+                ->where('order.prescription.status', 'pending'));
+
+        $statusCode = '200';
+        $grossAmount = '50000.00';
+        $payload = [
+            'order_id' => $midtransOrderId,
+            'status_code' => $statusCode,
+            'gross_amount' => $grossAmount,
+            'signature_key' => hash(
+                'sha512',
+                $midtransOrderId.$statusCode.$grossAmount.config('midtrans.server_key')
+            ),
+            'transaction_status' => 'settlement',
+        ];
+
+        $this->postJson('/midtrans/notification', $payload)->assertNotFound();
+
+        $this->assertEquals(OrderStatus::AWAITING_PRESCRIPTION, $order->refresh()->status);
+        $this->assertEquals(PaymentStatus::UNPAID, $order->payment->refresh()->status);
+        $this->assertDatabaseCount('financial_transactions', 0);
     }
 
     public function test_expire_orders_command_restores_stock()

@@ -40,11 +40,11 @@ export default function MyPrescriptions({ prescriptions }: PrescriptionsProps) {
 
     return (
         <StoreLayout>
-            <Head title="Resep Saya - Klinik Premisys Medika" />
+            <Head title="Resep Saya - Klinik Premysis Medika" />
 
             <div className="bg-slate-900 text-white py-10 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
                 <div className="max-w-7xl mx-auto flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-2xl bg-[#8CA9FF]/20 border border-[#8CA9FF]/30 text-[#8CA9FF] flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-2xl bg-[#065f46]/20 border border-[#065f46]/30 text-[#065f46] flex items-center justify-center">
                         <FileText className="w-5 h-5" />
                     </div>
                     <div>
@@ -59,7 +59,7 @@ export default function MyPrescriptions({ prescriptions }: PrescriptionsProps) {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
                 {prescriptions.data.length === 0 ? (
                     <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center space-y-4 max-w-md mx-auto">
-                        <div className="w-16 h-16 rounded-full bg-blue-50 text-[#8CA9FF] flex items-center justify-center mx-auto">
+                        <div className="w-16 h-16 rounded-full bg-emerald-50 text-[#065f46] flex items-center justify-center mx-auto">
                             <FileText className="w-8 h-8" />
                         </div>
                         <h3 className="text-lg font-bold text-slate-900">Belum Ada Resep Dokter</h3>
@@ -68,7 +68,7 @@ export default function MyPrescriptions({ prescriptions }: PrescriptionsProps) {
                         </p>
                         <Link
                             href="/produk"
-                            className="inline-block px-6 py-3 rounded-full bg-[#8CA9FF] text-white text-xs font-bold hover:bg-blue-500 transition shadow"
+                            className="inline-block px-6 py-3 rounded-full bg-[#065f46] text-white text-xs font-bold hover:bg-emerald-700 transition shadow"
                         >
                             Jelajahi Katalog Obat
                         </Link>
@@ -105,7 +105,7 @@ export default function MyPrescriptions({ prescriptions }: PrescriptionsProps) {
                                             href={`/resep/${p.id}/file`}
                                             target="_blank"
                                             rel="noreferrer"
-                                            className="w-20 h-20 bg-slate-100 rounded-xl border border-slate-200 flex items-center justify-center text-slate-400 hover:text-[#8CA9FF] shrink-0 overflow-hidden"
+                                            className="w-20 h-20 bg-slate-100 rounded-xl border border-slate-200 flex items-center justify-center text-slate-400 hover:text-[#065f46] shrink-0 overflow-hidden"
                                         >
                                             <FileText className="w-8 h-8" />
                                         </a>
@@ -140,7 +140,7 @@ export default function MyPrescriptions({ prescriptions }: PrescriptionsProps) {
                                         preserveScroll
                                         className={`px-3 py-2 rounded-xl text-xs font-bold transition border ${
                                             link.active
-                                                ? 'bg-[#8CA9FF] text-white border-[#8CA9FF]'
+                                                ? 'bg-[#065f46] text-white border-[#065f46]'
                                                 : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
                                         }`}
                                         dangerouslySetInnerHTML={{ __html: link.label }}

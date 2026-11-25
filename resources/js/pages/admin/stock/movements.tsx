@@ -25,8 +25,8 @@ interface Props {
 }
 
 const typeLabel: Record<string, { label: string; color: string }> = {
-    purchase:       { label: 'Pembelian', color: 'bg-blue-50 text-blue-700' },
-    sale:           { label: 'Penjualan', color: 'bg-indigo-50 text-indigo-700' },
+    purchase:       { label: 'Pembelian', color: 'bg-emerald-50 text-emerald-700' },
+    sale:           { label: 'Penjualan', color: 'bg-emerald-50 text-emerald-700' },
     return:         { label: 'Retur', color: 'bg-yellow-50 text-yellow-700' },
     adjustment:     { label: 'Penyesuaian', color: 'bg-purple-50 text-purple-700' },
     cancel_restore: { label: 'Batal Order', color: 'bg-orange-50 text-orange-700' },
@@ -99,7 +99,7 @@ export default function StockMovements({ product, movements }: Props) {
                                 key={i}
                                 href={link.url ?? '#'}
                                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${
-                                    link.active ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                                    link.active ? 'bg-emerald-700 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                                 } ${!link.url ? 'opacity-40 pointer-events-none' : ''}`}
                                 dangerouslySetInnerHTML={{ __html: link.label }}
                             />
