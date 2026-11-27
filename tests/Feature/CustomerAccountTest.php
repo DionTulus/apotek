@@ -10,6 +10,7 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Category;
 use App\Models\Order;
+use App\Models\OrderReturn;
 use App\Models\Product;
 use App\Models\Prescription;
 use App\Models\Shipment;
@@ -18,6 +19,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 
@@ -149,6 +151,50 @@ class CustomerAccountTest extends TestCase
         // Stock restored (30 + 2 = 32)
         $this->product->refresh();
         $this->assertEquals(32, $this->product->stock);
+    }
+
+    public function test_customer_can_submit_return_request_with_evidence_image(): void
+    {
+        $order = Order::create([
+            'order_number' => 'ORD-RETURN-01',
+            'user_id' => $this->user->id,
+            'status' => OrderStatus::SHIPPED,
+            'payment_method' => 'midtrans',
+            'payment_status' => PaymentStatus::PAID,
+            'subtotal' => 15000,
+            'discount_total' => 0,
+            'shipping_cost' => 10000,
+            'grand_total' => 25000,
+            'shipping_method_id' => $this->shippingMethod->id,
+            'recipient_name' => 'Budi',
+            'recipient_phone' => '0812345',
+            'shipping_address' => 'Jl Dago',
+        ]);
+        $item = $order->items()->create([
+            'product_id' => $this->product->id,
+            'product_name' => $this->product->name,
+            'sku' => $this->product->sku,
+            'price' => $this->product->price,
+            'cost_price' => $this->product->cost_price,
+            'qty' => 1,
+            'subtotal' => $this->product->price,
+        ]);
+        Storage::fake('public');
+
+        $this->actingAs($this->user)
+            ->post(route('account.orders.return', $order->order_number), [
+                'order_item_id' => $item->id,
+                'type' => 'refund',
+                'qty' => 1,
+                'reason' => 'Produk rusak.',
+                'evidence_image' => UploadedFile::fake()->image('return-proof.jpg'),
+            ])
+            ->assertRedirect()
+            ->assertSessionHas('success', 'Pengajuan retur produk berhasil dikirim. Tim kami akan segera memproses.');
+
+        $return = OrderReturn::where('order_id', $order->id)->firstOrFail();
+        $this->assertSame('requested', $return->status->value);
+        Storage::disk('public')->assertExists($return->evidence_image);
     }
 
     public function test_public_track_order_with_valid_credentials()

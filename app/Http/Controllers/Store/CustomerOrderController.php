@@ -141,7 +141,7 @@ class CustomerOrderController extends Controller
             'qty' => $request->integer('qty'),
             'reason' => $request->input('reason'),
             'evidence_image' => $filePath,
-            'status' => ReturnStatus::PENDING,
+            'status' => ReturnStatus::REQUESTED,
         ]);
 
         return back()->with('success', 'Pengajuan retur produk berhasil dikirim. Tim kami akan segera memproses.');
