@@ -25,6 +25,7 @@ class AdminSettingController extends Controller
             'address'               => 'Jl. Kesehatan Raya No. 45, Jakarta Selatan 12340',
             'operating_hours'       => 'Senin - Minggu: 08:00 - 22:00 WIB',
             'maps_embed'            => '',
+            'about'                 => 'Premysis Medika berdiri sejak tahun 2020. Kami berdedikasi melayani kebutuhan kesehatan masyarakat dengan menyediakan obat-obatan asli, vitamin, suplemen, dan alat kesehatan berkualitas tinggi.',
             'vision'                => 'Menjadi jaringan apotek modern terpercaya yang memberikan akses obat asli, terjangkau, dan layanan kefarmasian profesional.',
             'mission'               => "1. Menyediakan obat dan alat kesehatan 100% original dan teregistrasi BPOM.\n2. Memberikan konsultasi apoteker yang ramah dan solutif.\n3. Menjangkau masyarakat luas melalui layanan antar cepat.",
             'terms_content'         => 'Syarat dan ketentuan pembelian obat di Apotek ERP...',
@@ -44,7 +45,7 @@ class AdminSettingController extends Controller
 
         foreach ($fields as $key => $value) {
             $group = 'general';
-            if (in_array($key, ['vision', 'mission', 'terms_content', 'privacy_content'])) {
+            if (in_array($key, ['about', 'vision', 'mission', 'terms_content', 'privacy_content'])) {
                 $group = 'legal_about';
             } elseif (str_starts_with($key, 'bank_')) {
                 $group = 'payment';

@@ -49,6 +49,9 @@ interface OrderDetailProps {
             midtrans_order_id?: string;
         };
         shippingMethod?: { name: string; est_days: string };
+        biteship_courier_name?: string;
+        biteship_service_name?: string;
+        biteship_delivery_duration?: string;
         prescription?: { status: string };
     };
     snapToken: string | null;
@@ -296,9 +299,13 @@ export default function Payment({ order, snapToken, midtransClientKey }: OrderDe
                                 <p className="font-bold text-slate-900">{order.recipient_name}</p>
                                 <p className="font-semibold">{order.recipient_phone}</p>
                                 <p className="leading-relaxed text-slate-500">{order.shipping_address}</p>
-                                {order.shippingMethod && (
+                                {(order.shippingMethod || order.biteship_courier_name) && (
                                     <p className="pt-2 text-[11px] text-[#065f46] font-bold">
-                                        Kurir: {order.shippingMethod.name} ({order.shippingMethod.est_days})
+                                        Kurir: {order.biteship_courier_name || order.shippingMethod?.name}
+                                        {order.biteship_service_name ? ` - ${order.biteship_service_name}` : ''}
+                                        {order.biteship_delivery_duration || order.shippingMethod?.est_days
+                                            ? ` (${order.biteship_delivery_duration || order.shippingMethod?.est_days})`
+                                            : ''}
                                     </p>
                                 )}
                             </div>

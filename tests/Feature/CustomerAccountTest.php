@@ -16,6 +16,7 @@ use App\Models\Shipment;
 use App\Models\ShippingMethod;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
@@ -195,6 +196,46 @@ class CustomerAccountTest extends TestCase
             ->has('orderResult.statusHistories', 1));
     }
 
+    public function test_customer_can_optionally_confirm_received_delivery_without_changing_payment_status(): void
+    {
+        $order = Order::create([
+            'order_number' => 'ORD-RECEIVED-01',
+            'user_id' => $this->user->id,
+            'status' => OrderStatus::DELIVERED,
+            'payment_method' => 'midtrans',
+            'payment_status' => PaymentStatus::PAID,
+            'subtotal' => 15000,
+            'discount_total' => 0,
+            'shipping_cost' => 10000,
+            'grand_total' => 25000,
+            'shipping_method_id' => $this->shippingMethod->id,
+            'recipient_name' => 'Budi',
+            'recipient_phone' => '08123456789',
+            'shipping_address' => 'Jl Dago',
+        ]);
+        $shipment = Shipment::create([
+            'order_id' => $order->id,
+            'courier' => 'JNE',
+            'service' => 'REG',
+            'tracking_number' => 'RESI-RECEIVED-01',
+            'cost' => 10000,
+            'status' => ShipmentStatus::DELIVERED,
+            'delivered_at' => now(),
+        ]);
+
+        $this->actingAs($this->user)
+            ->post(route('account.orders.confirm-received', $order->order_number))
+            ->assertRedirect();
+
+        $this->assertNotNull($shipment->refresh()->customer_received_at);
+        $this->assertEquals(OrderStatus::DELIVERED, $order->refresh()->status);
+        $this->assertEquals(PaymentStatus::PAID, $order->payment_status);
+
+        $this->actingAs($this->otherUser)
+            ->post(route('account.orders.confirm-received', $order->order_number))
+            ->assertNotFound();
+    }
+
     public function test_prescription_file_is_only_available_to_owner_or_staff(): void
     {
         Storage::fake('local');
@@ -223,6 +264,25 @@ class CustomerAccountTest extends TestCase
     public function test_checkout_requires_prescription_file_for_prescription_product(): void
     {
         $this->product->update(['requires_prescription' => true]);
+        config([
+            'services.biteship.api_key' => 'biteship_test_key',
+            'services.biteship.origin.postal_code' => '40111',
+        ]);
+        Http::fake([
+            'api.biteship.com/v1/rates/couriers' => Http::response([
+                'success' => true,
+                'pricing' => [[
+                    'company' => 'jne',
+                    'courier_name' => 'JNE',
+                    'courier_service_name' => 'Reguler',
+                    'courier_service_code' => 'reg',
+                    'type' => 'reg',
+                    'duration' => '2 - 3 days',
+                    'price' => 10000,
+                    'available_for_cash_on_delivery' => true,
+                ]],
+            ]),
+        ]);
 
         $cart = Cart::create(['user_id' => $this->user->id]);
         CartItem::create([
@@ -235,8 +295,11 @@ class CustomerAccountTest extends TestCase
             ->post(route('checkout.store'), [
                 'recipient_name' => 'Budi',
                 'recipient_phone' => '08123456789',
+                'recipient_postal_code' => '40132',
                 'full_address' => 'Jl Dago',
-                'shipping_method_id' => $this->shippingMethod->id,
+                'courier_company' => 'jne',
+                'courier_type' => 'reg',
+                'shipping_cost' => 10000,
                 'payment_method' => 'midtrans',
             ])
             ->assertRedirect()

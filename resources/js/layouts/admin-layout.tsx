@@ -131,7 +131,7 @@ export default function AdminLayout({ children, title }: { children: React.React
                     <Link href={isPharmacist ? '/admin/pesanan' : '/admin'} className="flex items-center gap-2">
                         <img
                             src="/logo_klinik2.png"
-                            alt="Logo Klinik Premysis Medika"
+                            alt="Logo Apotek Premysis Medika"
                             className="h-9 w-9 rounded-lg bg-white p-1 object-contain"
                         />
                         <span className="font-extrabold text-white text-base tracking-tight">

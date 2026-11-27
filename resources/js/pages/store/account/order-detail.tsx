@@ -64,7 +64,17 @@ interface OrderDetailProps {
         created_at: string;
         items: OrderItem[];
         shippingMethod?: { name: string; est_days: string };
-        shipment?: { tracking_number?: string; status?: string };
+        shipment?: {
+            tracking_number?: string;
+            status?: string;
+            biteship_status?: string;
+            tracking_url?: string;
+            biteship_tracking_id?: string;
+            customer_received_at?: string | null;
+        };
+        biteship_courier_name?: string;
+        biteship_service_name?: string;
+        biteship_delivery_duration?: string;
         prescription?: { id: number; file_path: string; status: string };
         statusHistories: StatusHistory[];
         returns: OrderReturn[];
@@ -113,6 +123,9 @@ export default function OrderDetail({ order }: OrderDetailProps) {
 
     const canCancel = safeOrder.status === 'pending_payment';
     const canReturn = ['shipped', 'delivered', 'completed'].includes(safeOrder.status);
+    const canConfirmReceived = ['delivered', 'completed'].includes(safeOrder.status)
+        && safeOrder.shipment
+        && !safeOrder.shipment.customer_received_at;
     const trackingUrl = `/lacak-pesanan?order_number=${encodeURIComponent(safeOrder.order_number)}&contact=${encodeURIComponent(safeOrder.recipient_phone)}`;
 
     return (
@@ -135,7 +148,7 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                     </div>
 
                     <div className="flex items-center gap-3">
-                        {safeOrder.shipment?.tracking_number && (
+                        {(safeOrder.shipment?.tracking_number || safeOrder.shipment?.biteship_tracking_id) && (
                             <Link
                                 href={trackingUrl}
                                 className="px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-700/30 text-emerald-200 border border-emerald-500/40 text-xs font-bold transition flex items-center gap-1.5"
@@ -165,6 +178,14 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                                 className="px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold transition flex items-center gap-1.5"
                             >
                                 <RotateCcw className="w-4 h-4" /> Ajukan Retur Produk
+                            </button>
+                        )}
+                        {canConfirmReceived && (
+                            <button
+                                onClick={() => router.post(`/akun/pesanan/${safeOrder.order_number}/konfirmasi-diterima`)}
+                                className="px-4 py-2 rounded-xl bg-[#065f46] hover:bg-emerald-700 text-white text-xs font-bold transition flex items-center gap-1.5"
+                            >
+                                <CheckCircle2 className="w-4 h-4" /> Konfirmasi Sudah Sampai
                             </button>
                         )}
                     </div>
@@ -268,9 +289,13 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                                 <p className="font-bold text-slate-900">{safeOrder.recipient_name}</p>
                                 <p className="font-semibold">{safeOrder.recipient_phone}</p>
                                 <p className="leading-relaxed text-slate-500">{safeOrder.shipping_address}</p>
-                                {safeOrder.shippingMethod && (
+                                {(safeOrder.shippingMethod || safeOrder.biteship_courier_name) && (
                                     <p className="pt-2 text-[11px] text-[#065f46] font-bold">
-                                        Kurir: {safeOrder.shippingMethod.name} ({safeOrder.shippingMethod.est_days})
+                                        Kurir: {safeOrder.biteship_courier_name || safeOrder.shippingMethod?.name}
+                                        {safeOrder.biteship_service_name ? ` - ${safeOrder.biteship_service_name}` : ''}
+                                        {safeOrder.biteship_delivery_duration || safeOrder.shippingMethod?.est_days
+                                            ? ` (${safeOrder.biteship_delivery_duration || safeOrder.shippingMethod?.est_days})`
+                                            : ''}
                                     </p>
                                 )}
                                 {safeOrder.shipment?.tracking_number && (
@@ -278,6 +303,26 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                                         <span className="text-[10px] text-slate-400 block">No. Resi Pengiriman</span>
                                         <span className="font-mono font-bold text-sm">{safeOrder.shipment.tracking_number}</span>
                                     </div>
+                                )}
+                                {safeOrder.shipment?.biteship_status && (
+                                    <p className="text-[11px] text-slate-600 mt-2">
+                                        Status kurir: <span className="font-bold">{safeOrder.shipment.biteship_status}</span>
+                                    </p>
+                                )}
+                                {safeOrder.shipment?.tracking_url && (
+                                    <a
+                                        href={safeOrder.shipment.tracking_url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="text-[11px] text-emerald-700 font-bold underline"
+                                    >
+                                        Lihat pelacakan di kurir
+                                    </a>
+                                )}
+                                {safeOrder.shipment?.customer_received_at && (
+                                    <p className="text-[11px] text-emerald-700 font-semibold mt-2">
+                                        Penerimaan dikonfirmasi oleh pelanggan.
+                                    </p>
                                 )}
                             </div>
 

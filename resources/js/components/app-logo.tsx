@@ -7,7 +7,7 @@ export default function AppLogo() {
         <>
             <img
                 src="/logo_klinik2.png"
-                alt="Logo Klinik Premysis Medika"
+                alt="Logo Apotek Premysis Medika"
                 className="size-8 shrink-0 object-contain"
             />
             <div className="ml-1 grid flex-1 text-left text-sm">

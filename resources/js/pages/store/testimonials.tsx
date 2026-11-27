@@ -36,12 +36,12 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
 
     return (
         <StoreLayout>
-            <Head title="Testimoni Pelanggan - Klinik Premysis Medika" />
+            <Head title="Testimoni Pelanggan - Apotek Premysis Medika" />
 
             <div className="bg-gradient-to-r from-slate-900 to-emerald-950 text-white py-12 px-4 sm:px-6 lg:px-8 text-center">
                 <h1 className="text-3xl font-black">Testimoni Pelanggan</h1>
                 <p className="text-xs sm:text-sm text-slate-300 mt-2">
-                    Pengalaman nyata pelanggan dalam berbelanja obat & suplemen di Klinik Premysis Medika
+                    Pengalaman nyata pelanggan dalam berbelanja obat & suplemen di Apotek Premysis Medika
                 </p>
             </div>
 

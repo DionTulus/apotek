@@ -9,7 +9,7 @@ interface PrivacyProps {
 export default function Privacy({ privacy }: PrivacyProps) {
     return (
         <StoreLayout>
-            <Head title="Kebijakan Privasi - Klinik Premysis Medika" />
+            <Head title="Kebijakan Privasi - Apotek Premysis Medika" />
 
             <div className="bg-gradient-to-r from-slate-900 to-emerald-950 text-white py-12 px-4 text-center">
                 <h1 className="text-3xl font-black">Kebijakan Privasi</h1>

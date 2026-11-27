@@ -104,6 +104,24 @@ MIDTRANS_CLIENT_KEY=SB-Mid-client-xxxxxxxxxxxx
 MIDTRANS_IS_PRODUCTION=false
 ```
 
+### Konfigurasi Biteship Sandbox
+
+Aktifkan **Testing Mode** di dashboard Biteship, buat API key test, lalu isi konfigurasi berikut di `.env` lokal (jangan kirim atau commit API key):
+
+```env
+BITESHIP_API_KEY=biteship_test_your_key
+BITESHIP_ORIGIN_CONTACT_NAME=Nama_Penanggung_Jawab
+BITESHIP_ORIGIN_CONTACT_PHONE=08xxxxxxxxxx
+BITESHIP_ORIGIN_CONTACT_EMAIL=alamat@example.com
+BITESHIP_ORIGIN_ORGANIZATION="Premysis Medika"
+BITESHIP_ORIGIN_ADDRESS="Alamat lengkap apotek"
+BITESHIP_ORIGIN_POSTAL_CODE=40111
+BITESHIP_WEBHOOK_HEADER=X-Biteship-Secret
+BITESHIP_WEBHOOK_SECRET=buat_secret_webhook_acak
+```
+
+Tarif kurir sandbox dihitung saat checkout memakai kode pos asal/tujuan dan layanan kurir aktif. Isi data asal dengan lokasi apotek yang benar. Setelah migrasi, daftarkan URL HTTPS publik `https://domain-anda/biteship/webhook` pada dashboard Biteship, gunakan nama header dan secret yang sama, lalu aktifkan event `order.status`, `order.waybill_id`, dan `order.price`. Endpoint lokal perlu diekspos melalui tunnel HTTPS agar dapat menerima webhook. Status pengiriman otomatis mengikuti webhook; pelanggan juga dapat mengonfirmasi penerimaan secara opsional dari detail pesanannya.
+
 ### 4. Migrasi & Seeding Data Awal
 Jalankan migrasi database dan pengisian data uji realistis (40+ produk obat, batch stok, 110 order historis, laporan keuangan, artikel blog, dan testimoni):
 ```bash

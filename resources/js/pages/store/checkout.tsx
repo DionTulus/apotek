@@ -13,7 +13,7 @@ import {
     Truck,
     Upload,
 } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface CartItem {
     id: number;
@@ -41,14 +41,14 @@ interface AddressItem {
     is_default: boolean;
 }
 
-interface ShippingMethodItem {
-    id: number;
-    name: string;
-    code: string;
-    base_cost: number;
-    cost_per_kg: number;
-    est_days: string;
-    is_cod_available: boolean;
+interface BiteshipRate {
+    company: string;
+    courier_name: string;
+    courier_type: string;
+    service_name: string;
+    duration: string;
+    price: number;
+    available_for_cash_on_delivery: boolean;
 }
 
 interface PromoItem {
@@ -63,9 +63,7 @@ interface PromoItem {
 interface CheckoutProps {
     cartItems: CartItem[];
     addresses: AddressItem[];
-    shippingMethods: ShippingMethodItem[];
     subtotal: number;
-    totalWeightGram: number;
     hasPrescriptionProducts: boolean;
     activePromos: PromoItem[];
 }
@@ -73,9 +71,7 @@ interface CheckoutProps {
 export default function Checkout({
     cartItems = [],
     addresses = [],
-    shippingMethods = [],
     subtotal = 0,
-    totalWeightGram = 0,
     hasPrescriptionProducts = false,
     activePromos = [],
 }: CheckoutProps) {
@@ -85,10 +81,13 @@ export default function Checkout({
         address_id: defaultAddress ? String(defaultAddress.id) : '',
         recipient_name: defaultAddress ? defaultAddress.recipient_name : '',
         recipient_phone: defaultAddress ? defaultAddress.phone : '',
+        recipient_postal_code: defaultAddress ? defaultAddress.postal_code : '',
         full_address: defaultAddress
             ? `${defaultAddress.address_line}, ${defaultAddress.district}, ${defaultAddress.city}, ${defaultAddress.province} ${defaultAddress.postal_code}`
             : '',
-        shipping_method_id: shippingMethods[0] ? String(shippingMethods[0].id) : '',
+        courier_company: '',
+        courier_type: '',
+        shipping_cost: 0,
         payment_method: 'midtrans',
         promo_code: '',
         prescription_file: null as File | null,
@@ -99,18 +98,21 @@ export default function Checkout({
         defaultAddress ? String(defaultAddress.id) : ''
     );
     const [useManualAddress, setUseManualAddress] = useState(!defaultAddress);
+    const [shippingRates, setShippingRates] = useState<BiteshipRate[]>([]);
+    const [ratesLoading, setRatesLoading] = useState(false);
+    const [ratesError, setRatesError] = useState('');
+    const [ratesPaymentMethod, setRatesPaymentMethod] = useState('');
 
     const formatRp = (num: number) => `Rp ${num.toLocaleString('id-ID')}`;
 
-    // Calculate shipping cost
-    const selectedShipping = shippingMethods.find(
-        (sm) => String(sm.id) === data.shipping_method_id
+    const availableRates = data.payment_method === 'cod'
+        ? shippingRates.filter((rate) => rate.available_for_cash_on_delivery)
+        : shippingRates;
+    const selectedShipping = availableRates.find(
+        (rate) => rate.company === data.courier_company && rate.courier_type === data.courier_type
     );
-
-    const weightKg = Math.max(1, Math.ceil(totalWeightGram / 1000));
-    const shippingCost = selectedShipping
-        ? selectedShipping.base_cost + weightKg * selectedShipping.cost_per_kg
-        : 0;
+    const shippingCost = selectedShipping?.price ?? 0;
+    const codAvailable = shippingRates.some((rate) => rate.available_for_cash_on_delivery);
 
     // Calculate promo discount
     const activePromo = activePromos.find(
@@ -129,6 +131,72 @@ export default function Checkout({
 
     const grandTotal = Math.max(0, subtotal + shippingCost - discountTotal);
 
+    useEffect(() => {
+        const postalCode = data.recipient_postal_code.trim();
+        if (!data.address_id && !/^\d{5,10}$/.test(postalCode)) {
+            setShippingRates([]);
+            setRatesError('');
+            setRatesPaymentMethod('');
+            return;
+        }
+
+        const controller = new AbortController();
+        const timer = window.setTimeout(async () => {
+            setRatesLoading(true);
+            setRatesError('');
+
+            const params = new URLSearchParams({
+                payment_method: data.payment_method,
+                promo_code: data.promo_code,
+            });
+            if (data.address_id) {
+                params.set('address_id', data.address_id);
+            } else {
+                params.set('recipient_postal_code', postalCode);
+            }
+
+            try {
+                const response = await fetch(`/checkout/shipping-rates?${params.toString()}`, {
+                    headers: { Accept: 'application/json' },
+                    signal: controller.signal,
+                });
+                const result = await response.json();
+                if (!response.ok) {
+                    throw new Error(result.message || 'Tarif Biteship tidak dapat dimuat.');
+                }
+
+                const nextRates = Array.isArray(result.rates) ? result.rates as BiteshipRate[] : [];
+                const eligibleRates = data.payment_method === 'cod'
+                    ? nextRates.filter((rate) => rate.available_for_cash_on_delivery)
+                    : nextRates;
+                const selected = eligibleRates.find(
+                    (rate) => rate.company === data.courier_company && rate.courier_type === data.courier_type
+                ) ?? eligibleRates[0];
+
+                setShippingRates(nextRates);
+                setRatesPaymentMethod(data.payment_method);
+                setData((current) => ({
+                    ...current,
+                    courier_company: selected?.company ?? '',
+                    courier_type: selected?.courier_type ?? '',
+                    shipping_cost: selected?.price ?? 0,
+                }));
+            } catch (error) {
+                if (error instanceof DOMException && error.name === 'AbortError') return;
+                setShippingRates([]);
+                setRatesError(error instanceof Error ? error.message : 'Tarif Biteship tidak dapat dimuat.');
+                setData((current) => ({ ...current, courier_company: '', courier_type: '', shipping_cost: 0 }));
+            } finally {
+                if (!controller.signal.aborted) setRatesLoading(false);
+            }
+        }, 400);
+
+        return () => {
+            window.clearTimeout(timer);
+            controller.abort();
+        };
+    }, [data.address_id, data.recipient_postal_code, data.payment_method, data.promo_code]);
+
     const handleSelectAddress = (addr: AddressItem) => {
         setSelectedAddressId(String(addr.id));
         setUseManualAddress(false);
@@ -137,18 +205,23 @@ export default function Checkout({
             address_id: String(addr.id),
             recipient_name: addr.recipient_name,
             recipient_phone: addr.phone,
+            recipient_postal_code: addr.postal_code,
             full_address: `${addr.address_line}, ${addr.district}, ${addr.city}, ${addr.province} ${addr.postal_code}`,
         }));
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        if (!selectedShipping) {
+            setRatesError('Pilih layanan kurir yang tersedia sebelum melanjutkan.');
+            return;
+        }
         post('/checkout');
     };
 
     return (
         <StoreLayout>
-            <Head title="Checkout Pesanan - Klinik Premysis Medika" />
+            <Head title="Checkout Pesanan - Apotek Premysis Medika" />
 
             {/* Header */}
             <div className="bg-slate-900 text-white py-10 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
@@ -252,7 +325,15 @@ export default function Checkout({
                                         type="button"
                                         onClick={() => {
                                             setUseManualAddress(true);
-                                            setData('address_id', '');
+                                            setSelectedAddressId('');
+                                            setData((current) => ({
+                                                ...current,
+                                                address_id: '',
+                                                recipient_postal_code: '',
+                                                courier_company: '',
+                                                courier_type: '',
+                                                shipping_cost: 0,
+                                            }));
                                         }}
                                         className="text-xs font-semibold text-slate-500 hover:text-slate-800 underline"
                                     >
@@ -308,6 +389,20 @@ export default function Checkout({
                                     </div>
 
                                     <div>
+                                        <label className="block font-bold text-slate-700 mb-1">Kode Pos</label>
+                                        <input
+                                            type="text"
+                                            inputMode="numeric"
+                                            maxLength={10}
+                                            placeholder="Contoh: 40132"
+                                            value={data.recipient_postal_code}
+                                            onChange={(e) => setData('recipient_postal_code', e.target.value.replace(/\D/g, ''))}
+                                            className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50"
+                                            required
+                                        />
+                                    </div>
+
+                                    <div>
                                         <label className="block font-bold text-slate-700 mb-1">Alamat Lengkap</label>
                                         <textarea
                                             rows={3}
@@ -324,21 +419,32 @@ export default function Checkout({
                             )}
                         </div>
 
-                        {/* Shipping Method */}
+                        {/* Biteship courier rates */}
                         <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
                             <h3 className="font-extrabold text-sm text-slate-900 pb-3 border-b border-slate-100 flex items-center gap-2">
-                                <Truck className="w-4 h-4 text-[#065f46]" /> Pilih Kurir Pengiriman
+                                <Truck className="w-4 h-4 text-[#065f46]" /> Pilih Tarif Kurir Biteship
                             </h3>
-
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                {shippingMethods.map((sm) => {
-                                    const cost = sm.base_cost + weightKg * sm.cost_per_kg;
-                                    const isSelected = data.shipping_method_id === String(sm.id);
+                            <p className="text-[11px] text-slate-500">
+                                Tarif dan estimasi dihitung dari layanan yang tersedia untuk kode pos tujuan.
+                            </p>
+                            {ratesLoading && <p className="text-xs text-slate-500">Memuat tarif kurir...</p>}
+                            {ratesError && <p className="text-xs text-rose-600">{ratesError}</p>}
+                            {!ratesLoading && !ratesError && availableRates.length === 0 && (
+                                <p className="text-xs text-slate-500">
+                                    {ratesPaymentMethod === 'cod'
+                                        ? 'Tidak ada layanan kurir yang mendukung COD untuk tujuan ini.'
+                                        : 'Masukkan atau pilih alamat dengan kode pos yang valid untuk melihat tarif kurir.'}
+                                </p>
+                            )}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                {availableRates.map((rate) => {
+                                    const isSelected = selectedShipping?.company === rate.company
+                                        && selectedShipping?.courier_type === rate.courier_type;
 
                                     return (
                                         <label
-                                            key={sm.id}
-                                            className={`p-4 rounded-2xl border cursor-pointer transition flex flex-col justify-between ${
+                                            key={`${rate.company}:${rate.courier_type}`}
+                                            className={`p-4 rounded-2xl border cursor-pointer transition ${
                                                 isSelected
                                                     ? 'border-[#065f46] bg-emerald-50/40 ring-2 ring-[#065f46]/30'
                                                     : 'border-slate-200 hover:border-slate-300'
@@ -346,24 +452,30 @@ export default function Checkout({
                                         >
                                             <input
                                                 type="radio"
-                                                name="shipping_method_id"
-                                                value={sm.id}
+                                                name="biteship_rate"
                                                 checked={isSelected}
-                                                onChange={(e) => setData('shipping_method_id', e.target.value)}
+                                                onChange={() => setData((current) => ({
+                                                    ...current,
+                                                    courier_company: rate.company,
+                                                    courier_type: rate.courier_type,
+                                                    shipping_cost: rate.price,
+                                                }))}
                                                 className="sr-only"
                                             />
-                                            <div>
-                                                <div className="flex items-center justify-between mb-1">
+                                            <div className="flex items-start justify-between gap-2">
+                                                <div>
                                                     <span className="font-extrabold text-slate-900 text-xs">
-                                                        {sm.name}
+                                                        {rate.courier_name} - {rate.service_name}
                                                     </span>
-                                                    {isSelected && <CheckCircle2 className="w-4 h-4 text-[#065f46]" />}
+                                                    <p className="text-[11px] text-slate-500 mt-1">
+                                                        Estimasi: {rate.duration || 'Tidak tersedia'}
+                                                    </p>
                                                 </div>
-                                                <p className="text-[11px] text-slate-500">Estimasi: {sm.est_days}</p>
+                                                {isSelected && <CheckCircle2 className="w-4 h-4 text-[#065f46] shrink-0" />}
                                             </div>
                                             <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
                                                 <span className="text-slate-400 text-[10px]">Ongkir</span>
-                                                <span className="font-bold text-slate-900">{formatRp(cost)}</span>
+                                                <span className="font-bold text-slate-900">{formatRp(rate.price)}</span>
                                             </div>
                                         </label>
                                     );
@@ -413,13 +525,14 @@ export default function Checkout({
                                         name="payment_method"
                                         value="cod"
                                         checked={data.payment_method === 'cod'}
+                                        disabled={ratesPaymentMethod === 'cod' && !codAvailable && !ratesLoading}
                                         onChange={(e) => setData('payment_method', e.target.value)}
                                         className="mt-1 text-[#065f46]"
                                     />
                                     <div>
                                         <h4 className="font-extrabold text-xs text-slate-900">Cash on Delivery (COD)</h4>
                                         <p className="text-[11px] text-slate-500 leading-relaxed mt-0.5">
-                                            Bayar tunai di tempat saat kurir menyerahkan pesanan obat Anda.
+                                            Bayar ke kurir jika layanan terpilih mendukung COD.
                                         </p>
                                     </div>
                                 </label>
@@ -487,7 +600,7 @@ export default function Checkout({
                                     <span className="font-bold text-slate-900">{formatRp(subtotal)}</span>
                                 </div>
                                 <div className="flex justify-between text-slate-600">
-                                    <span>Ongkos Kirim ({weightKg} kg):</span>
+                                    <span>Ongkos Kirim:</span>
                                     <span className="font-bold text-slate-900">{formatRp(shippingCost)}</span>
                                 </div>
                                 {discountTotal > 0 && (
@@ -504,7 +617,7 @@ export default function Checkout({
 
                             <button
                                 type="submit"
-                                disabled={processing}
+                                disabled={processing || !selectedShipping || ratesLoading}
                                 className="w-full py-4 rounded-2xl bg-[#065f46] hover:bg-emerald-700 text-white font-extrabold text-sm shadow-lg shadow-[#065f46]/30 transition flex items-center justify-center gap-2 group"
                             >
                                 {processing ? 'Memproses Pesanan...' : 'Buat Pesanan & Bayar'}

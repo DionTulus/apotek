@@ -41,4 +41,21 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URI'),
     ],
 
+    'biteship' => [
+        'api_key' => env('BITESHIP_API_KEY'),
+        'base_url' => env('BITESHIP_BASE_URL', 'https://api.biteship.com/v1'),
+        'couriers' => env('BITESHIP_COURIERS', 'jne,jnt,sicepat,anteraja,tiki,ninja'),
+        'origin' => [
+            'contact_name' => env('BITESHIP_ORIGIN_CONTACT_NAME'),
+            'contact_phone' => env('BITESHIP_ORIGIN_CONTACT_PHONE'),
+            'contact_email' => env('BITESHIP_ORIGIN_CONTACT_EMAIL'),
+            'organization' => env('BITESHIP_ORIGIN_ORGANIZATION'),
+            'address' => env('BITESHIP_ORIGIN_ADDRESS'),
+            'postal_code' => env('BITESHIP_ORIGIN_POSTAL_CODE'),
+        ],
+        'cod_disbursement_type' => env('BITESHIP_COD_DISBURSEMENT_TYPE', '7_days'),
+        'webhook_header' => env('BITESHIP_WEBHOOK_HEADER', 'X-Biteship-Secret'),
+        'webhook_secret' => env('BITESHIP_WEBHOOK_SECRET'),
+    ],
+
 ];

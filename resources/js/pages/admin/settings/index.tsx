@@ -31,6 +31,7 @@ export default function SettingsIndex({ settings }: Props) {
         address: settings.address || '',
         operating_hours: settings.operating_hours || '',
         maps_embed: settings.maps_embed || '',
+        about: settings.about || '',
         vision: settings.vision || '',
         mission: settings.mission || '',
         terms_content: settings.terms_content || '',
@@ -186,6 +187,15 @@ export default function SettingsIndex({ settings }: Props) {
                     {activeTab === 'legal' && (
                         <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-xs space-y-4 text-xs">
                             <div>
+                                <label className="block font-semibold text-slate-700 mb-1">Profil Apotek</label>
+                                <textarea
+                                    value={form.data.about}
+                                    onChange={(e) => form.setData('about', e.target.value)}
+                                    rows={3}
+                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
+                                />
+                            </div>
+                            <div>
                                 <label className="block font-semibold text-slate-700 mb-1">Visi Apotek</label>
                                 <textarea
                                     value={form.data.vision}
@@ -244,7 +254,7 @@ export default function SettingsIndex({ settings }: Props) {
                                     type="text"
                                     value={form.data.bank_bca}
                                     onChange={(e) => form.setData('bank_bca', e.target.value)}
-                                    placeholder="Contoh: 123-456-7890 a/n PT Klinik Premysis Medika"
+                                    placeholder="Contoh: 123-456-7890 a/n PT Apotek Premysis Medika"
                                     className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46] font-mono"
                                 />
                             </div>
@@ -255,7 +265,7 @@ export default function SettingsIndex({ settings }: Props) {
                                     type="text"
                                     value={form.data.bank_mandiri}
                                     onChange={(e) => form.setData('bank_mandiri', e.target.value)}
-                                    placeholder="Contoh: 987-654-3210 a/n PT Klinik Premysis Medika"
+                                    placeholder="Contoh: 987-654-3210 a/n PT Apotek Premysis Medika"
                                     className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46] font-mono"
                                 />
                             </div>

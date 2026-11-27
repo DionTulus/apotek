@@ -32,9 +32,9 @@ class AdminOrderController extends Controller
         $statusList = array_map(fn ($s) => ['value' => $s->value, 'label' => $s->label()], OrderStatus::cases());
 
         return Inertia::render('admin/orders/index', [
-            'orders'     => $orders,
+            'orders' => $orders,
             'statusList' => $statusList,
-            'filters'    => $request->only('search', 'status', 'method'),
+            'filters' => $request->only('search', 'status', 'method'),
         ]);
     }
 
@@ -55,7 +55,7 @@ class AdminOrderController extends Controller
         $statusList = array_map(fn ($s) => ['value' => $s->value, 'label' => $s->label()], OrderStatus::cases());
 
         return Inertia::render('admin/orders/show', [
-            'order'      => $order,
+            'order' => $order,
             'statusList' => $statusList,
         ]);
     }
@@ -63,21 +63,20 @@ class AdminOrderController extends Controller
     public function updateStatus(Request $request, Order $order): RedirectResponse
     {
         $request->validate([
-            'status' => 'required|in:' . implode(',', array_column(OrderStatus::cases(), 'value')),
-            'note'   => 'nullable|string|max:500',
+            'status' => 'required|in:'.implode(',', array_column(OrderStatus::cases(), 'value')),
+            'note' => 'nullable|string|max:500',
         ]);
 
         $newStatus = OrderStatus::from($request->input('status'));
 
         $allowedTransitions = [
-            OrderStatus::PAID->value        => [OrderStatus::PROCESSING],
-            OrderStatus::PROCESSING->value  => [OrderStatus::SHIPPED],
-            OrderStatus::SHIPPED->value     => [OrderStatus::DELIVERED],
-            OrderStatus::DELIVERED->value   => [OrderStatus::COMPLETED],
+            OrderStatus::PAID->value => [OrderStatus::PROCESSING],
+            OrderStatus::SHIPPED->value => [OrderStatus::DELIVERED],
+            OrderStatus::DELIVERED->value => [OrderStatus::COMPLETED],
         ];
 
         $allowed = $allowedTransitions[$order->status->value] ?? [];
-        if (!in_array($newStatus, $allowed)) {
+        if (! in_array($newStatus, $allowed)) {
             return back()->with('error', "Transisi status dari {$order->status->label()} ke {$newStatus->label()} tidak diizinkan.");
         }
 
@@ -97,8 +96,8 @@ class AdminOrderController extends Controller
             $order->update($updates);
 
             $order->statusHistories()->create([
-                'status'     => $newStatus,
-                'note'       => $request->input('note') ?? "Status diubah ke {$newStatus->label()} oleh admin.",
+                'status' => $newStatus,
+                'note' => $request->input('note') ?? "Status diubah ke {$newStatus->label()} oleh admin.",
                 'created_by' => $request->user()->id,
             ]);
         });
@@ -109,21 +108,21 @@ class AdminOrderController extends Controller
     public function cancel(Request $request, Order $order, PaymentService $paymentService): RedirectResponse
     {
         $cancellable = [OrderStatus::PENDING_PAYMENT, OrderStatus::PAID, OrderStatus::PROCESSING];
-        if (!in_array($order->status, $cancellable)) {
+        if (! in_array($order->status, $cancellable)) {
             return back()->with('error', 'Pesanan ini tidak dapat dibatalkan pada status saat ini.');
         }
 
         DB::transaction(function () use ($order, $request, $paymentService) {
             $order->update([
-                'status'       => OrderStatus::CANCELLED,
+                'status' => OrderStatus::CANCELLED,
                 'cancelled_at' => now(),
             ]);
 
             $paymentService->restoreOrderStock($order, 'Dibatalkan oleh Admin');
 
             $order->statusHistories()->create([
-                'status'     => OrderStatus::CANCELLED,
-                'note'       => $request->input('note', 'Dibatalkan oleh Administrator.'),
+                'status' => OrderStatus::CANCELLED,
+                'note' => $request->input('note', 'Dibatalkan oleh Administrator.'),
                 'created_by' => $request->user()->id,
             ]);
         });

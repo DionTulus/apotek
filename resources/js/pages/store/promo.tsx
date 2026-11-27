@@ -35,13 +35,13 @@ export default function PromoPage({ promos = [] }: PromoProps) {
 
     return (
         <StoreLayout>
-            <Head title="Promo & Voucher Diskon - Klinik Premysis Medika" />
+            <Head title="Promo & Voucher Diskon - Apotek Premysis Medika" />
 
             <div className="bg-gradient-to-r from-emerald-700 via-emerald-700 to-slate-900 text-white py-12 px-4 text-center">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-xs font-bold mb-3">
                     <Tag className="w-3.5 h-3.5" /> PENAWARAN TERBATAS
                 </div>
-                <h1 className="text-3xl font-black">Voucher & Promo Hemat Klinik Premysis Medika</h1>
+                <h1 className="text-3xl font-black">Voucher & Promo Hemat Apotek Premysis Medika</h1>
                 <p className="text-xs sm:text-sm text-emerald-100 mt-2">
                     Gunakan kode kupon diskon saat Checkout untuk potongan harga pembelian obat Anda
                 </p>

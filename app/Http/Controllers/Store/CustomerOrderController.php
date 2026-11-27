@@ -49,7 +49,7 @@ class CustomerOrderController extends Controller
             'items.product',
             'payment',
             'shippingMethod',
-            'shipment',
+            'shipment.trackingEvents',
             'prescription',
             'statusHistories',
             'returns',
@@ -89,6 +89,24 @@ class CustomerOrderController extends Controller
         ]);
 
         return back()->with('success', 'Pesanan berhasil dibatalkan.');
+    }
+
+    public function confirmReceived(Request $request, string $orderNumber): RedirectResponse
+    {
+        $order = Order::with('shipment')
+            ->where('order_number', $orderNumber)
+            ->where('user_id', $request->user()->id)
+            ->firstOrFail();
+
+        if (! in_array($order->status, [OrderStatus::DELIVERED, OrderStatus::COMPLETED], true) || ! $order->shipment) {
+            return back()->with('error', 'Konfirmasi penerimaan hanya tersedia setelah kurir memperbarui status menjadi terkirim.');
+        }
+
+        if (! $order->shipment->customer_received_at) {
+            $order->shipment->update(['customer_received_at' => now()]);
+        }
+
+        return back()->with('success', 'Terima kasih, penerimaan paket telah dikonfirmasi. Konfirmasi ini bersifat opsional.');
     }
 
     public function storeReturn(Request $request, string $orderNumber): RedirectResponse

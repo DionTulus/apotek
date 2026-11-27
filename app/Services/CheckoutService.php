@@ -15,7 +15,6 @@ use App\Models\Payment;
 use App\Models\Prescription;
 use App\Models\Product;
 use App\Models\Promo;
-use App\Models\ShippingMethod;
 use App\Models\StockMovement;
 use App\Models\User;
 use Exception;
@@ -25,14 +24,15 @@ use Illuminate\Support\Str;
 
 class CheckoutService
 {
-    public function __construct(
-        protected ShippingService $shippingService
-    ) {}
-
+    /**
+     * @param  array<string, mixed>  $addressData
+     * @param  array{company: string, courier_name: string, courier_type: string, service_name: string, duration: string, price: int, available_for_cash_on_delivery: bool}  $shippingOption
+     */
     public function placeOrder(
         User $user,
         array $addressData,
-        int $shippingMethodId,
+        int $shippingCost,
+        array $shippingOption,
         string $paymentMethodStr,
         ?string $promoCode = null,
         ?UploadedFile $prescriptionFile = null,
@@ -41,7 +41,8 @@ class CheckoutService
         return DB::transaction(function () use (
             $user,
             $addressData,
-            $shippingMethodId,
+            $shippingCost,
+            $shippingOption,
             $paymentMethodStr,
             $promoCode,
             $prescriptionFile,
@@ -53,20 +54,16 @@ class CheckoutService
                 throw new Exception('Keranjang belanja Anda kosong.');
             }
 
-            $shippingMethod = ShippingMethod::active()->findOrFail($shippingMethodId);
-
             $paymentMethod = PaymentMethod::from($paymentMethodStr);
-            if ($paymentMethod === PaymentMethod::COD && ! $shippingMethod->is_cod_available) {
+            if ($paymentMethod === PaymentMethod::COD && ! $shippingOption['available_for_cash_on_delivery']) {
                 throw new Exception('Metode pengiriman yang dipilih tidak mendukung COD.');
             }
 
             $subtotal = 0;
-            $totalWeightGram = 0;
             $hasPrescriptionProducts = false;
 
             // Validate stock and compute totals
             foreach ($cart->items as $item) {
-                /** @var Product $product */
                 $product = Product::where('id', $item->product_id)->lockForUpdate()->first();
 
                 if (! $product || ! $product->is_active) {
@@ -82,15 +79,11 @@ class CheckoutService
                 }
 
                 $subtotal += $product->price * $item->qty;
-                $totalWeightGram += $product->weight_gram * $item->qty;
             }
 
             if ($hasPrescriptionProducts && ! $prescriptionFile) {
                 throw new Exception('Unggah resep dokter untuk melanjutkan pesanan obat keras.');
             }
-
-            // Calculate shipping cost
-            $shippingCost = $this->shippingService->calculateCost($shippingMethod, $totalWeightGram);
 
             // Promo discount
             $discountTotal = 0;
@@ -151,7 +144,13 @@ class CheckoutService
                 'shipping_cost' => $shippingCost,
                 'grand_total' => $grandTotal,
                 'promo_id' => $promoId,
-                'shipping_method_id' => $shippingMethod->id,
+                'shipping_method_id' => null,
+                'recipient_postal_code' => $addressData['recipient_postal_code'],
+                'biteship_courier_company' => $shippingOption['company'],
+                'biteship_courier_type' => $shippingOption['courier_type'],
+                'biteship_courier_name' => $shippingOption['courier_name'],
+                'biteship_service_name' => $shippingOption['service_name'],
+                'biteship_delivery_duration' => $shippingOption['duration'],
                 'prescription_id' => $prescriptionId,
                 'recipient_name' => $addressData['recipient_name'],
                 'recipient_phone' => $addressData['recipient_phone'],

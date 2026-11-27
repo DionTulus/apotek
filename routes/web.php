@@ -35,6 +35,7 @@ use App\Http\Controllers\Store\PromoController;
 use App\Http\Controllers\Store\TestimonialController;
 use App\Http\Controllers\Store\TrackingController;
 use App\Http\Controllers\Store\WishlistController;
+use App\Http\Controllers\Webhook\BiteshipWebhookController;
 use App\Http\Controllers\Webhook\MidtransWebhookController;
 use Illuminate\Support\Facades\Route;
 
@@ -63,6 +64,7 @@ Route::get('/resep/{prescription}/file', [PrescriptionFileController::class, 'sh
 
 // --- Webhook Routes ---
 Route::post('/midtrans/notification', [MidtransWebhookController::class, 'handleNotification'])->name('webhook.midtrans');
+Route::post('/biteship/webhook', [BiteshipWebhookController::class, 'handle'])->name('webhook.biteship');
 
 // --- Google Socialite Login Routes ---
 Route::get('/auth/google/redirect', [SocialiteController::class, 'redirectToGoogle'])->name('auth.google.redirect');
@@ -102,6 +104,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Checkout Routes
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::get('/checkout/shipping-rates', [CheckoutController::class, 'rates'])->name('checkout.shipping-rates');
 
     // Payment Routes
     Route::get('/pembayaran/{orderNumber}', [PaymentController::class, 'show'])->name('payment.show');
@@ -112,6 +115,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/akun/pesanan/{orderNumber}', [CustomerOrderController::class, 'show'])->name('account.orders.show');
     Route::post('/akun/pesanan/{orderNumber}/batal', [CustomerOrderController::class, 'cancel'])->name('account.orders.cancel');
     Route::post('/akun/pesanan/{orderNumber}/retur', [CustomerOrderController::class, 'storeReturn'])->name('account.orders.return');
+    Route::post('/akun/pesanan/{orderNumber}/konfirmasi-diterima', [CustomerOrderController::class, 'confirmReceived'])->name('account.orders.confirm-received');
     Route::get('/akun/resep', [MyPrescriptionController::class, 'index'])->name('account.prescriptions');
 });
 
@@ -132,6 +136,7 @@ Route::middleware(['auth', 'role:admin,pharmacist'])->prefix('admin')->name('adm
 
     Route::get('/pengiriman', [AdminShipmentController::class, 'index'])->name('shipments.index');
     Route::post('/pengiriman/{order}/kirim', [AdminShipmentController::class, 'ship'])->name('shipments.ship');
+    Route::put('/pengiriman/{order}/resi', [AdminShipmentController::class, 'updateTrackingNumber'])->name('shipments.tracking-number');
     Route::post('/pengiriman/{order}/terima', [AdminShipmentController::class, 'deliver'])->name('shipments.deliver');
 
     Route::get('/retur', [AdminReturnController::class, 'index'])->name('returns.index');

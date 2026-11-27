@@ -17,6 +17,8 @@ use App\Models\ShippingMethod;
 use App\Models\StockMovement;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Client\Request as HttpRequest;
+use Illuminate\Support\Facades\Http;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 
@@ -111,9 +113,31 @@ class CheckoutAndPaymentTest extends TestCase
             'is_default' => true,
         ]);
 
+        config([
+            'services.biteship.api_key' => 'biteship_test_key',
+            'services.biteship.origin.postal_code' => '40111',
+        ]);
+        Http::fake([
+            'api.biteship.com/v1/rates/couriers' => Http::response([
+                'success' => true,
+                'pricing' => [[
+                    'company' => 'jne',
+                    'courier_name' => 'JNE',
+                    'courier_service_name' => 'Reguler',
+                    'courier_service_code' => 'reg',
+                    'type' => 'reg',
+                    'duration' => '2 - 3 days',
+                    'price' => 17000,
+                    'available_for_cash_on_delivery' => true,
+                ]],
+            ]),
+        ]);
+
         $response = $this->actingAs($this->user)->post('/checkout', [
             'address_id' => $address->id,
-            'shipping_method_id' => $this->shippingMethod->id,
+            'courier_company' => 'jne',
+            'courier_type' => 'reg',
+            'shipping_cost' => 17000,
             'payment_method' => 'midtrans',
         ]);
 
@@ -127,6 +151,9 @@ class CheckoutAndPaymentTest extends TestCase
         $order = Order::where('user_id', $this->user->id)->first();
         $this->assertNotNull($order);
         $this->assertEquals(OrderStatus::PENDING_PAYMENT, $order->status);
+        $this->assertEquals(17000, $order->shipping_cost);
+        $this->assertEquals('40132', $order->recipient_postal_code);
+        $this->assertEquals('jne', $order->biteship_courier_company);
 
         // Cart items cleared
         $this->assertDatabaseCount('cart_items', 0);
@@ -136,6 +163,12 @@ class CheckoutAndPaymentTest extends TestCase
             'product_id' => $this->product->id,
             'qty' => -3,
         ]);
+
+        Http::assertSent(fn (HttpRequest $request) => $request->url() === 'https://api.biteship.com/v1/rates/couriers'
+            && $request['origin_postal_code'] === 40111
+            && $request['destination_postal_code'] === 40132
+            && $request['items'][0]['weight'] === 100
+            && $request['items'][0]['quantity'] === 3);
     }
 
     public function test_midtrans_webhook_settlement_updates_order_to_paid_and_records_finance()

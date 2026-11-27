@@ -34,7 +34,7 @@ class TrackingController extends Controller
             $order = Order::with([
                 'items.product',
                 'shippingMethod',
-                'shipment',
+                'shipment.trackingEvents',
                 'statusHistories',
             ])
                 ->where('order_number', trim($orderNumber))
@@ -63,10 +63,24 @@ class TrackingController extends Controller
                     'shippingMethod' => $order->shippingMethod ? [
                         'name' => $order->shippingMethod->name,
                         'est_days' => $order->shippingMethod->est_days,
-                    ] : null,
+                    ] : ($order->biteship_courier_name ? [
+                        'name' => $order->biteship_courier_name,
+                        'est_days' => $order->biteship_delivery_duration ?? '',
+                    ] : null),
                     'shipment' => $order->shipment ? [
+                        'courier' => $order->shipment->courier,
+                        'service' => $order->shipment->service,
                         'tracking_number' => $order->shipment->tracking_number,
                         'status' => $order->shipment->status->value,
+                        'biteship_status' => $order->shipment->biteship_status,
+                        'tracking_url' => $order->shipment->tracking_url,
+                        'customer_received_at' => $order->shipment->customer_received_at?->toISOString(),
+                        'tracking_events' => $order->shipment->trackingEvents->map(fn ($event) => [
+                            'id' => $event->id,
+                            'status' => $event->biteship_status,
+                            'note' => $event->note,
+                            'created_at' => $event->occurred_at?->toISOString() ?? $event->created_at->toISOString(),
+                        ])->values(),
                     ] : null,
                     'statusHistories' => $order->statusHistories->map(fn ($history) => [
                         'id' => $history->id,

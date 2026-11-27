@@ -25,11 +25,11 @@ export default function AuthSimpleLayout({
                 >
                     <img
                         src={logoSrc}
-                        alt="Klinik Premysis Medika"
+                        alt="Apotek Premysis Medika"
                         className="h-14 w-12 object-contain"
                     />
                     <span className="text-sm font-bold tracking-wide text-emerald-950">
-                        KLINIK PREMISYS
+                        APOTEK PREMISYS
                         <br />
                         MEDIKA
                     </span>
@@ -50,7 +50,7 @@ export default function AuthSimpleLayout({
                 </div>
 
                 <p className="relative z-10 text-sm text-emerald-100/70">
-                    Klinik Premysis Medika
+                    Apotek Premysis Medika
                 </p>
             </section>
 
@@ -67,12 +67,12 @@ export default function AuthSimpleLayout({
                         ) : (
                             <img
                                 src={logoSrc}
-                                alt="Logo Klinik Premysis Medika"
+                                alt="Logo Apotek Premysis Medika"
                                 className="h-11 w-11 object-contain"
                             />
                         )}
                         <span className="text-sm font-bold text-emerald-900">
-                            Klinik Premysis Medika
+                            Apotek Premysis Medika
                         </span>
                     </Link>
 
@@ -96,7 +96,7 @@ export default function AuthSimpleLayout({
                     </div>
 
                     <p className="mt-6 text-center text-xs text-slate-400">
-                        © {new Date().getFullYear()} Klinik Premysis Medika
+                        © {new Date().getFullYear()} Apotek Premysis Medika
                     </p>
                 </div>
             </section>

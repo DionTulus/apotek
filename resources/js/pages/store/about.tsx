@@ -11,11 +11,11 @@ interface AboutProps {
 export default function About({ vision, mission, about }: AboutProps) {
     return (
         <StoreLayout>
-            <Head title="Tentang Kami - Klinik Premysis Medika" />
+            <Head title="Tentang Kami - Apotek Premysis Medika" />
 
             {/* Header Banner */}
             <div className="bg-gradient-to-r from-slate-900 to-emerald-950 text-white py-12 px-4 sm:px-6 lg:px-8 text-center">
-                <h1 className="text-3xl font-black">Tentang Klinik Premysis Medika</h1>
+                <h1 className="text-3xl font-black">Tentang Apotek Premysis Medika</h1>
                 <p className="text-xs sm:text-sm text-slate-300 mt-2 max-w-xl mx-auto">
                     Melayani kebutuhan kesehatan keluarga Indonesia dengan obat legal, berkualitas, dan profesional sejak 2020.
                 </p>
@@ -25,11 +25,11 @@ export default function About({ vision, mission, about }: AboutProps) {
                 {/* Profile Overview */}
                 <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm space-y-4">
                     <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                        <Award className="w-6 h-6 text-[#065f46]" /> Profil Klinik
+                        <Award className="w-6 h-6 text-[#065f46]" /> Profil Apotek
                     </h2>
                     <p className="text-xs sm:text-sm text-slate-700 leading-relaxed whitespace-pre-line">
                         {about ||
-                            'Klinik Premysis Medika berdiri sejak tahun 2020 di Kota Bandung. Kami berkomitmen menyediakan layanan kesehatan modern terintegrasi yang memudahkan masyarakat mendapatkan obat-obatan legal, suplemen kesehatan, dan alat medis secara online maupun langsung.'}
+                            'Apotek Premysis Medika berdiri sejak tahun 2020 di Kota Bandung. Kami berkomitmen menyediakan layanan kefarmasian yang memudahkan masyarakat mendapatkan obat-obatan legal, suplemen kesehatan, dan alat medis berkualitas.'}
                     </p>
                 </div>
 

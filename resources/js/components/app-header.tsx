@@ -75,7 +75,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                 <SheetHeader className="flex justify-start text-left">
                                     <img
                                         src="/logo_klinik2.png"
-                                        alt="Logo Klinik Premysis Medika"
+                                        alt="Logo Apotek Premysis Medika"
                                         className="h-8 w-8 object-contain"
                                     />
                                 </SheetHeader>

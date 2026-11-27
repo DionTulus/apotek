@@ -21,7 +21,7 @@ interface BlogIndexProps {
 export default function BlogIndex({ posts }: BlogIndexProps) {
     return (
         <StoreLayout>
-            <Head title="Artikel & Berita Kesehatan - Klinik Premysis Medika" />
+            <Head title="Artikel & Berita Kesehatan - Apotek Premysis Medika" />
 
             <div className="bg-gradient-to-r from-slate-900 to-emerald-950 text-white py-12 px-4 text-center">
                 <h1 className="text-3xl font-black">Artikel & Edukasi Kesehatan</h1>

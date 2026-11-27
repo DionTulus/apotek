@@ -29,7 +29,7 @@ export default function Dashboard() {
             <main className="min-h-full bg-slate-50 p-5 sm:p-8">
                 <section className="overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-950 via-emerald-900 to-green-800 p-7 text-white shadow-lg sm:p-10">
                     <p className="text-sm font-semibold tracking-wide text-emerald-200">
-                        KLINIK PREMISYS MEDIKA
+                        APOTEK PREMISYS MEDIKA
                     </p>
                     <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
                         Selamat datang

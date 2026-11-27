@@ -46,7 +46,8 @@ interface Shipment {
     id: number;
     courier: string;
     service: string;
-    tracking_number: string;
+    tracking_number?: string | null;
+    biteship_order_id?: string | null;
     status: string;
     shipped_at?: string;
     delivered_at?: string;
@@ -109,15 +110,9 @@ interface Order {
         email: string;
         phone?: string;
     };
-    shipping_address?: {
-        recipient_name?: string;
-        phone?: string;
-        address_line?: string;
-        district?: string;
-        city?: string;
-        province?: string;
-        postal_code?: string;
-    };
+    recipient_name?: string;
+    recipient_phone?: string;
+    shipping_address?: string | null;
     items?: OrderItem[];
     payment?: Payment;
     shipment?: Shipment;
@@ -148,6 +143,10 @@ export default function OrderShow({ order, statusList }: Props) {
         note: '',
     });
 
+    const trackingForm = useForm({
+        tracking_number: order.shipment?.tracking_number ?? '',
+    });
+
     const getStatusBadge = (status: string) => {
         switch (status) {
             case 'pending_payment':
@@ -175,8 +174,6 @@ export default function OrderShow({ order, statusList }: Props) {
         switch (currentStatus) {
             case 'paid':
                 return { value: 'processing', label: 'Proses Pesanan' };
-            case 'processing':
-                return { value: 'shipped', label: 'Kirim Pesanan' };
             case 'shipped':
                 return { value: 'delivered', label: 'Tandai Sampai' };
             case 'delivered':
@@ -186,7 +183,9 @@ export default function OrderShow({ order, statusList }: Props) {
         }
     };
 
-    const nextAction = getNextAllowedStatus(order.status);
+    const needsBiteshipShipment =
+        order.status === 'processing' || (order.status === 'shipped' && !order.shipment?.biteship_order_id);
+    const nextAction = order.status === 'shipped' && !order.shipment ? null : getNextAllowedStatus(order.status);
     const canCancel = ['pending_payment', 'paid', 'processing'].includes(order.status);
 
     const handleQuickAdvance = (targetStatus: string) => {
@@ -195,6 +194,12 @@ export default function OrderShow({ order, statusList }: Props) {
                 status: targetStatus,
                 note: `Diubah ke ${targetStatus} oleh admin`,
             });
+        }
+    };
+
+    const handleCreateShipment = () => {
+        if (confirm(`Buat pengiriman Biteship untuk pesanan #${order.order_number}?`)) {
+            router.post(`/admin/pengiriman/${order.id}/kirim`);
         }
     };
 
@@ -215,6 +220,13 @@ export default function OrderShow({ order, statusList }: Props) {
                 setIsCancelModalOpen(false);
                 cancelForm.reset();
             },
+        });
+    };
+
+    const submitTrackingNumber = (e: React.FormEvent) => {
+        e.preventDefault();
+        trackingForm.put(`/admin/pengiriman/${order.id}/resi`, {
+            preserveScroll: true,
         });
     };
 
@@ -248,6 +260,14 @@ export default function OrderShow({ order, statusList }: Props) {
                     </div>
 
                     <div className="flex flex-wrap items-center gap-2">
+                        {needsBiteshipShipment && (
+                            <button
+                                onClick={handleCreateShipment}
+                                className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white text-xs font-bold rounded-lg transition shadow-xs flex items-center gap-2"
+                            >
+                                <Send className="w-4 h-4" /> Buat Pengiriman Biteship
+                            </button>
+                        )}
                         {nextAction && (
                             <button
                                 onClick={() => handleQuickAdvance(nextAction.value)}
@@ -472,15 +492,10 @@ export default function OrderShow({ order, statusList }: Props) {
                                 {order.shipping_address ? (
                                     <div className="space-y-1 text-slate-600">
                                         <p className="font-semibold text-slate-800">
-                                            {order.shipping_address.recipient_name} ({order.shipping_address.phone})
+                                            {order.recipient_name || order.user?.name}
+                                            {order.recipient_phone ? ` (${order.recipient_phone})` : ''}
                                         </p>
-                                        <p>{order.shipping_address.address_line}</p>
-                                        <p>
-                                            {order.shipping_address.district}, {order.shipping_address.city}
-                                        </p>
-                                        <p>
-                                            {order.shipping_address.province}, {order.shipping_address.postal_code}
-                                        </p>
+                                        <p className="whitespace-pre-line">{order.shipping_address}</p>
                                     </div>
                                 ) : (
                                     <p className="text-slate-500 italic">Alamat belum ditentukan.</p>
@@ -495,8 +510,36 @@ export default function OrderShow({ order, statusList }: Props) {
                                             </span>
                                         </p>
                                         <p className="text-slate-600 font-mono text-xs bg-slate-50 p-2 rounded border">
-                                            Resi: {order.shipment.tracking_number}
+                                            Resi: {order.shipment.tracking_number || 'Belum tersedia'}
                                         </p>
+                                        {order.status === 'shipped' && (
+                                            <form onSubmit={submitTrackingNumber} className="pt-2 space-y-2">
+                                                <label htmlFor="tracking_number" className="block text-xs font-medium text-slate-600">
+                                                    Nomor resi (isi manual jika belum diberikan Biteship)
+                                                </label>
+                                                <div className="flex gap-2">
+                                                    <input
+                                                        id="tracking_number"
+                                                        type="text"
+                                                        value={trackingForm.data.tracking_number}
+                                                        onChange={(event) => trackingForm.setData('tracking_number', event.target.value)}
+                                                        maxLength={255}
+                                                        className="min-w-0 flex-1 rounded border border-slate-200 px-2 py-1.5 text-xs"
+                                                        placeholder="Masukkan nomor resi"
+                                                    />
+                                                    <button
+                                                        type="submit"
+                                                        disabled={trackingForm.processing}
+                                                        className="rounded bg-[#065f46] px-3 py-1.5 text-xs font-semibold text-white disabled:opacity-50"
+                                                    >
+                                                        {trackingForm.processing ? 'Menyimpan...' : 'Simpan'}
+                                                    </button>
+                                                </div>
+                                                {trackingForm.errors.tracking_number && (
+                                                    <p className="text-xs text-rose-600">{trackingForm.errors.tracking_number}</p>
+                                                )}
+                                            </form>
+                                        )}
                                     </div>
                                 ) : (
                                     <div className="pt-3 border-t border-slate-100">
@@ -568,11 +611,13 @@ export default function OrderShow({ order, statusList }: Props) {
                                         required
                                     >
                                         <option value="">-- Pilih Status --</option>
-                                        {statusList.map((st) => (
+                                        {statusList
+                                            .filter((st) => !(order.status === 'processing' && st.value === 'shipped'))
+                                            .map((st) => (
                                             <option key={st.value} value={st.value}>
                                                 {st.label}
                                             </option>
-                                        ))}
+                                            ))}
                                     </select>
                                 </div>
                                 <div>

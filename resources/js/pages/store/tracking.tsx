@@ -26,6 +26,13 @@ interface StatusHistory {
     created_at: string;
 }
 
+interface CourierTrackingEvent {
+    id: number;
+    status: string;
+    note: string | null;
+    created_at: string;
+}
+
 interface OrderResult {
     id: number;
     order_number: string;
@@ -37,7 +44,15 @@ interface OrderResult {
     created_at: string;
     items: OrderItem[];
     shippingMethod?: { name: string; est_days: string };
-    shipment?: { tracking_number?: string; status?: string };
+    shipment?: {
+        courier?: string;
+        service?: string;
+        tracking_number?: string;
+        status?: string;
+        biteship_status?: string;
+        tracking_url?: string;
+        tracking_events: CourierTrackingEvent[];
+    };
     statusHistories: StatusHistory[];
 }
 
@@ -68,7 +83,7 @@ export default function Tracking({
 
     return (
         <StoreLayout>
-            <Head title="Lacak Pesanan Kamu - Klinik Premysis Medika" />
+            <Head title="Lacak Pesanan Kamu - Apotek Premysis Medika" />
 
             {/* Header Banner */}
             <div className="bg-slate-900 text-white py-12 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
@@ -140,12 +155,51 @@ export default function Tracking({
                             </div>
                             <div>
                                 <span className="text-slate-400 text-[10px] block">Kurir & Resi</span>
-                                <p className="font-bold text-slate-900">{orderResult.shippingMethod?.name || 'Kurir Apotek'}</p>
+                                <p className="font-bold text-slate-900">
+                                    {orderResult.shipment?.courier || orderResult.shippingMethod?.name || 'Kurir Biteship'}
+                                </p>
+                                {orderResult.shipment?.service && (
+                                    <p className="text-slate-500">Layanan: {orderResult.shipment.service}</p>
+                                )}
                                 <p className="font-mono text-emerald-600 font-bold">
                                     Resi: {orderResult.shipment?.tracking_number || 'Belum di-generate'}
                                 </p>
+                                {orderResult.shipment?.biteship_status && (
+                                    <p className="mt-1 text-slate-600">
+                                        Status kurir: <strong>{orderResult.shipment.biteship_status}</strong>
+                                    </p>
+                                )}
+                                {orderResult.shipment?.tracking_url && (
+                                    <a
+                                        href={orderResult.shipment.tracking_url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="mt-1 inline-block font-bold text-emerald-700 underline"
+                                    >
+                                        Lihat pelacakan di kurir
+                                    </a>
+                                )}
                             </div>
                         </div>
+
+                        {orderResult.shipment?.tracking_events?.length ? (
+                            <div className="space-y-4">
+                                <h3 className="font-extrabold text-sm text-slate-900 flex items-center gap-2">
+                                    <Truck className="w-4 h-4 text-[#065f46]" /> Pembaruan Kurir Biteship
+                                </h3>
+                                <div className="relative pl-6 border-l-2 border-emerald-200 space-y-5">
+                                    {orderResult.shipment.tracking_events.map((event) => (
+                                        <div key={event.id} className="relative">
+                                            <div className="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-emerald-500 border-2 border-white shadow" />
+                                            <p className="text-xs font-bold text-slate-900">{event.note || event.status}</p>
+                                            <span className="text-[11px] text-slate-400">
+                                                {new Date(event.created_at).toLocaleString('id-ID')}
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ) : null}
 
                         {/* Timeline */}
                         <div className="space-y-4">

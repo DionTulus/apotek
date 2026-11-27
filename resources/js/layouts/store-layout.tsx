@@ -91,7 +91,7 @@ export default function StoreLayout({
                         </span>
                         <span className="flex hidden items-center gap-1 sm:inline-flex">
                             <Mail className="h-3.5 w-3.5 text-emerald-300" />
-                            {settings.email || 'info@klinikpremysismedika.test'}
+                            {settings.email || 'info@apotekpremysismedika.test'}
                         </span>
                     </div>
                     <div className="flex items-center gap-4">
@@ -117,12 +117,12 @@ export default function StoreLayout({
                     <Link href="/" className="group flex items-center gap-2.5">
                         <img
                             src="/logo_klinik2.png"
-                            alt="Logo Klinik Premysis Medika"
+                            alt="Logo Apotek Premysis Medika"
                             className="h-10 w-10 object-contain transition-transform group-hover:scale-105"
                         />
                         <div>
                             <span className="bg-gradient-to-r from-emerald-950 via-emerald-800 to-emerald-600 bg-clip-text text-xl font-extrabold tracking-tight text-transparent">
-                                {settings.site_name || 'Klinik Premysis Medika'}
+                                {settings.site_name || 'Apotek Premysis Medika'}
                             </span>
                             <span className="-mt-1 block text-[10px] font-medium text-slate-500">
                                 Solusi Kesehatan Terpercaya
@@ -412,11 +412,11 @@ export default function StoreLayout({
                         <div className="mb-4 flex items-center gap-2">
                             <img
                                 src="/logo_klinik2.png"
-                                alt="Logo Klinik Premysis Medika"
+                                alt="Logo Apotek Premysis Medika"
                                 className="h-9 w-9 rounded-lg bg-white p-1 object-contain"
                             />
                             <span className="text-lg font-bold text-white">
-                                {settings.site_name || 'Klinik Premysis Medika'}
+                                {settings.site_name || 'Apotek Premysis Medika'}
                             </span>
                         </div>
                         <p className="mb-4 text-xs leading-relaxed text-slate-400">
@@ -542,8 +542,8 @@ export default function StoreLayout({
 
                 <div className="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
                     © {new Date().getFullYear()}{' '}
-                    {settings.site_name || 'Klinik Premysis Medika'}. All rights
-                    reserved. Klinik Premysis Medika.
+                    {settings.site_name || 'Apotek Premysis Medika'}. All rights
+                    reserved. Apotek Premysis Medika.
                 </div>
             </footer>
         </div>

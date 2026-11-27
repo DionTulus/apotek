@@ -1,22 +1,17 @@
 import AdminLayout from '@/layouts/admin-layout';
-import { Link, router, useForm } from '@inertiajs/react';
-import {
-    CheckCircle2,
-    Clock,
-    MapPin,
-    Package,
-    Search,
-    Send,
-    Truck,
-} from 'lucide-react';
+import { Link, router } from '@inertiajs/react';
+import { Search, Send } from 'lucide-react';
 import { useState } from 'react';
 
 interface Shipment {
     id: number;
     courier: string;
-    service: string;
-    tracking_number: string;
+    service?: string;
+    tracking_number?: string;
     status: string;
+    biteship_status?: string;
+    biteship_order_id?: string;
+    tracking_url?: string;
     shipped_at?: string;
     delivered_at?: string;
 }
@@ -32,20 +27,17 @@ interface Order {
         email: string;
         phone?: string;
     };
-    shipping_address?: {
-        recipient_name?: string;
-        phone?: string;
-        address_line?: string;
-        district?: string;
-        city?: string;
-        province?: string;
-        postal_code?: string;
-    };
+    recipient_name?: string;
+    recipient_phone?: string;
+    shipping_address?: string | null;
     shipment?: Shipment;
     shipping_method?: {
         name: string;
         code: string;
     };
+    biteship_courier_name?: string;
+    biteship_service_name?: string;
+    biteship_delivery_duration?: string;
 }
 
 interface Props {
@@ -62,14 +54,6 @@ interface Props {
 
 export default function ShipmentsIndex({ orders, filters }: Props) {
     const [search, setSearch] = useState(filters.search || '');
-    const [shippingOrder, setShippingOrder] = useState<Order | null>(null);
-
-    const shipForm = useForm({
-        courier: 'JNE',
-        service: 'REG',
-        tracking_number: '',
-        note: '',
-    });
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
@@ -80,35 +64,9 @@ export default function ShipmentsIndex({ orders, filters }: Props) {
         router.get('/admin/pengiriman', { search, status }, { preserveState: true });
     };
 
-    const handleOpenShipModal = (order: Order) => {
-        setShippingOrder(order);
-        shipForm.setData({
-            courier: order.shipping_method?.name || 'JNE',
-            service: 'REG',
-            tracking_number: '',
-            note: '',
-        });
-    };
-
-    const submitShip = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!shippingOrder) return;
-
-        shipForm.post(`/admin/pengiriman/${shippingOrder.id}/kirim`, {
-            onSuccess: () => {
-                setShippingOrder(null);
-                shipForm.reset();
-            },
-        });
-    };
-
-    const handleMarkDelivered = (order: Order) => {
-        if (
-            confirm(
-                `Tandai pesanan #${order.order_number} telah sampai dan diterima oleh pelanggan?`
-            )
-        ) {
-            router.post(`/admin/pengiriman/${order.id}/terima`);
+    const handleCreateShipment = (order: Order) => {
+        if (confirm(`Buat pengiriman Biteship untuk pesanan #${order.order_number}?`)) {
+            router.post(`/admin/pengiriman/${order.id}/kirim`);
         }
     };
 
@@ -120,7 +78,7 @@ export default function ShipmentsIndex({ orders, filters }: Props) {
                     <div>
                         <h1 className="text-xl font-bold text-slate-800">Manajemen Pengiriman & Resi</h1>
                         <p className="text-xs text-slate-500">
-                            Kelola pesanan siap kirim, input nomor resi kurir, dan konfirmasi barang telah sampai.
+                            Buat pengiriman melalui Biteship dan pantau pembaruan status dari webhook kurir.
                         </p>
                     </div>
 
@@ -212,19 +170,19 @@ export default function ShipmentsIndex({ orders, filters }: Props) {
                                                 </td>
                                                 <td className="px-4 py-3.5">
                                                     <p className="font-semibold text-slate-800">
-                                                        {order.shipping_address?.recipient_name || order.user?.name}
+                                                        {order.recipient_name || order.user?.name}
                                                     </p>
                                                     <p className="text-[11px] text-slate-500 line-clamp-1">
-                                                        {order.shipping_address?.city}, {order.shipping_address?.province}
+                                                        {order.shipping_address}
                                                     </p>
                                                 </td>
                                                 <td className="px-4 py-3.5">
                                                     <span className="font-semibold text-slate-700">
-                                                        {order.shipment?.courier || order.shipping_method?.name || 'Reguler'}
+                                                        {order.shipment?.courier || order.biteship_courier_name || 'Biteship'}
                                                     </span>
-                                                    {order.shipment?.service && (
+                                                    {(order.shipment?.service || order.biteship_service_name) && (
                                                         <span className="text-[10px] text-slate-400 block">
-                                                            Layanan: {order.shipment.service}
+                                                            Layanan: {order.shipment?.service || order.biteship_service_name}
                                                         </span>
                                                     )}
                                                 </td>
@@ -233,8 +191,10 @@ export default function ShipmentsIndex({ orders, filters }: Props) {
                                                         <span className="font-mono font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">
                                                             {order.shipment.tracking_number}
                                                         </span>
+                                                    ) : order.shipment?.biteship_order_id ? (
+                                                        <span className="text-slate-400 italic">Menunggu nomor resi</span>
                                                     ) : (
-                                                        <span className="text-slate-400 italic">Belum diinput</span>
+                                                        <span className="text-slate-400 italic">Dibuat saat dikirim</span>
                                                     )}
                                                 </td>
                                                 <td className="px-4 py-3.5">
@@ -245,25 +205,20 @@ export default function ShipmentsIndex({ orders, filters }: Props) {
                                                                 : 'bg-indigo-100 text-indigo-800'
                                                         }`}
                                                     >
-                                                        {order.status === 'processing' ? 'SIAP KIRIM' : 'DIKIRIM'}
+                                                        {order.status === 'processing'
+                                                            ? 'SIAP KIRIM'
+                                                            : order.shipment?.biteship_status || 'PENGIRIMAN DIBUAT'}
                                                     </span>
                                                 </td>
                                                 <td className="px-4 py-3.5 text-right space-x-2">
-                                                    {order.status === 'processing' && (
+                                                    {(order.status === 'processing' ||
+                                                        (order.status === 'shipped' && !order.shipment?.biteship_order_id)) && (
                                                         <button
-                                                            onClick={() => handleOpenShipModal(order)}
+                                                            onClick={() => handleCreateShipment(order)}
                                                             className="px-3 py-1 bg-[#065f46] hover:bg-[#047857] text-white rounded text-[11px] font-bold transition inline-flex items-center gap-1 shadow-xs"
                                                         >
-                                                            <Send className="w-3 h-3" /> Input Resi & Kirim
-                                                        </button>
-                                                    )}
-
-                                                    {order.status === 'shipped' && (
-                                                        <button
-                                                            onClick={() => handleMarkDelivered(order)}
-                                                            className="px-3 py-1 bg-teal-600 hover:bg-teal-700 text-white rounded text-[11px] font-bold transition inline-flex items-center gap-1"
-                                                        >
-                                                            <CheckCircle2 className="w-3.5 h-3.5" /> Tandai Sampai
+                                                            <Send className="w-3 h-3" />
+                                                            {order.status === 'processing' ? 'Buat Pengiriman' : 'Kirim ke Biteship'}
                                                         </button>
                                                     )}
 
@@ -312,83 +267,6 @@ export default function ShipmentsIndex({ orders, filters }: Props) {
                     )}
                 </div>
 
-                {/* Modal Input Resi */}
-                {shippingOrder && (
-                    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-                        <div className="bg-white rounded-xl max-w-md w-full p-6 shadow-xl space-y-4">
-                            <div className="flex items-center gap-2 text-emerald-600">
-                                <Truck className="w-5 h-5" />
-                                <h3 className="text-base font-bold text-slate-800">
-                                    Input Resi Pengiriman #{shippingOrder.order_number}
-                                </h3>
-                            </div>
-                            <p className="text-xs text-slate-600">
-                                Masukkan nomor resi ekspedisi untuk menandai pesanan sebagai dikirim ke pelanggan.
-                            </p>
-                            <form onSubmit={submitShip} className="space-y-4 text-xs">
-                                <div>
-                                    <label className="block font-semibold text-slate-700 mb-1">Nama Kurir / Ekspedisi</label>
-                                    <input
-                                        type="text"
-                                        value={shipForm.data.courier}
-                                        onChange={(e) => shipForm.setData('courier', e.target.value)}
-                                        placeholder="Contoh: JNE / J&T / SiCepat / Kurir Apotek"
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block font-semibold text-slate-700 mb-1">Layanan Ekspedisi</label>
-                                    <input
-                                        type="text"
-                                        value={shipForm.data.service}
-                                        onChange={(e) => shipForm.setData('service', e.target.value)}
-                                        placeholder="Contoh: REG / YES / BEST / Instant"
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block font-semibold text-slate-700 mb-1">Nomor Resi / AWB</label>
-                                    <input
-                                        type="text"
-                                        value={shipForm.data.tracking_number}
-                                        onChange={(e) => shipForm.setData('tracking_number', e.target.value)}
-                                        placeholder="Contoh: JNE01928374619"
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46] font-mono"
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block font-semibold text-slate-700 mb-1">Catatan Pengiriman (Opsional)</label>
-                                    <textarea
-                                        value={shipForm.data.note}
-                                        onChange={(e) => shipForm.setData('note', e.target.value)}
-                                        placeholder="Contoh: Paket diserahkan ke drop point..."
-                                        rows={2}
-                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-[#065f46]"
-                                    />
-                                </div>
-                                <div className="flex justify-end gap-2 pt-2">
-                                    <button
-                                        type="button"
-                                        onClick={() => setShippingOrder(null)}
-                                        className="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition font-semibold"
-                                    >
-                                        Batal
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        disabled={shipForm.processing}
-                                        className="px-4 py-2 bg-[#065f46] hover:bg-[#047857] text-white rounded-lg transition font-bold"
-                                    >
-                                        {shipForm.processing ? 'Menyimpan...' : 'Kirim Paket'}
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                )}
             </div>
         </AdminLayout>
     );

@@ -74,11 +74,13 @@ class AdminManagementAndContentTest extends TestCase
             'whatsapp' => '081234567890',
             'email' => 'info@apotekmandiri.id',
             'address' => 'Jl Dago No 120 Bandung',
+            'about' => 'Apotek Mandiri Sehat melayani kebutuhan kesehatan keluarga.',
         ]);
         $updateResponse->assertRedirect(route('admin.settings.index'));
 
         $this->assertEquals('Apotek Mandiri Sehat', Setting::get('site_name'));
         $this->assertEquals('081234567890', Setting::get('whatsapp'));
+        $this->assertEquals('Apotek Mandiri Sehat melayani kebutuhan kesehatan keluarga.', Setting::get('about'));
     }
 
     public function test_admin_can_manage_faqs(): void

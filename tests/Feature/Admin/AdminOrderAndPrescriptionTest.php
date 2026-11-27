@@ -9,16 +9,21 @@ use App\Enums\PaymentStatus;
 use App\Enums\PrescriptionStatus;
 use App\Enums\ReturnStatus;
 use App\Enums\Role;
+use App\Enums\ShipmentStatus;
 use App\Enums\TransactionCategory;
 use App\Enums\TransactionType;
 use App\Models\Category;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\OrderReturn;
 use App\Models\Prescription;
 use App\Models\Product;
+use App\Models\Shipment;
 use App\Models\ShippingMethod;
 use App\Models\User;
+use App\Services\BiteshipService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 
@@ -27,8 +32,11 @@ class AdminOrderAndPrescriptionTest extends TestCase
     use RefreshDatabase;
 
     protected User $admin;
+
     protected User $customer;
+
     protected Product $product;
+
     protected ShippingMethod $shippingMethod;
 
     protected function setUp(): void
@@ -299,8 +307,129 @@ class AdminOrderAndPrescriptionTest extends TestCase
 
     public function test_admin_can_ship_order_with_tracking_number(): void
     {
+        config([
+            'services.biteship.api_key' => 'biteship_test_key',
+            'services.biteship.origin.contact_name' => 'Apotek',
+            'services.biteship.origin.contact_phone' => '08123456789',
+            'services.biteship.origin.address' => 'Jl. Apotek No. 1',
+            'services.biteship.origin.postal_code' => '40111',
+        ]);
+        Http::fake([
+            'api.biteship.com/v1/orders' => Http::response([
+                'success' => true,
+                'id' => 'biteship-order-001',
+                'courier' => [
+                    'tracking_id' => 'biteship-tracking-001',
+                    'waybill_id' => 'RESI-BITESHIP-999',
+                    'company' => 'jne',
+                    'type' => 'reg',
+                    'link' => 'https://tracking.example.test/order-001',
+                ],
+                'price' => 18000,
+                'status' => 'confirmed',
+            ]),
+        ]);
+
         $order = Order::create([
             'order_number' => 'ORD-SHIP-01',
+            'user_id' => $this->customer->id,
+            'status' => OrderStatus::PROCESSING,
+            'payment_method' => PaymentMethod::MIDTRANS,
+            'payment_status' => PaymentStatus::PAID,
+            'subtotal' => 35000,
+            'discount_total' => 0,
+            'shipping_cost' => 15000,
+            'grand_total' => 50000,
+            'recipient_postal_code' => '40132',
+            'biteship_courier_company' => 'jne',
+            'biteship_courier_type' => 'reg',
+            'biteship_courier_name' => 'JNE',
+            'biteship_service_name' => 'Reguler',
+            'biteship_delivery_duration' => '2 - 3 days',
+            'recipient_name' => 'Andi',
+            'recipient_phone' => '0812345678',
+            'shipping_address' => 'Jl Sukajadi No 1',
+        ]);
+
+        $response = $this->actingAs($this->admin)->post(route('admin.shipments.ship', $order->id));
+        $response->assertRedirect();
+
+        $order->refresh();
+        $this->assertEquals(OrderStatus::SHIPPED, $order->status);
+        $this->assertDatabaseHas('shipments', [
+            'order_id' => $order->id,
+            'biteship_order_id' => 'biteship-order-001',
+            'biteship_tracking_id' => 'biteship-tracking-001',
+            'tracking_number' => 'RESI-BITESHIP-999',
+            'courier' => 'jne',
+        ]);
+        Http::assertSent(fn ($request) => str_ends_with($request->url(), '/orders')
+            && ! isset($request['items'][0]['category']));
+    }
+
+    public function test_admin_can_create_biteship_shipment_for_legacy_shipped_order_without_shipment_record(): void
+    {
+        config([
+            'services.biteship.api_key' => 'biteship_test_key',
+            'services.biteship.origin.contact_name' => 'Apotek',
+            'services.biteship.origin.contact_phone' => '08123456789',
+            'services.biteship.origin.address' => 'Jl. Apotek No. 1',
+            'services.biteship.origin.postal_code' => '40111',
+        ]);
+        Http::fake([
+            'api.biteship.com/v1/orders' => Http::response([
+                'success' => true,
+                'id' => 'biteship-recovery-order-001',
+                'courier' => [
+                    'tracking_id' => 'biteship-recovery-tracking-001',
+                    'waybill_id' => 'RESI-RECOVERY-001',
+                    'company' => 'jne',
+                    'type' => 'reg',
+                ],
+                'price' => 18000,
+                'status' => 'confirmed',
+            ]),
+        ]);
+
+        $order = Order::create([
+            'order_number' => 'ORD-RECOVER-SHIP-01',
+            'user_id' => $this->customer->id,
+            'status' => OrderStatus::SHIPPED,
+            'payment_method' => PaymentMethod::MIDTRANS,
+            'payment_status' => PaymentStatus::PAID,
+            'subtotal' => 35000,
+            'discount_total' => 0,
+            'shipping_cost' => 15000,
+            'grand_total' => 50000,
+            'shipping_method_id' => $this->shippingMethod->id,
+            'recipient_postal_code' => '40132',
+            'biteship_courier_company' => 'jne',
+            'biteship_courier_type' => 'reg',
+            'biteship_courier_name' => 'JNE',
+            'biteship_service_name' => 'Reguler',
+            'recipient_name' => 'Andi',
+            'recipient_phone' => '0812345678',
+            'shipping_address' => 'Jl Sukajadi No 1',
+        ]);
+
+        $response = $this->actingAs($this->admin)->post(route('admin.shipments.ship', $order));
+
+        $response->assertRedirect();
+        $this->assertDatabaseHas('shipments', [
+            'order_id' => $order->id,
+            'biteship_order_id' => 'biteship-recovery-order-001',
+            'tracking_number' => 'RESI-RECOVERY-001',
+        ]);
+        $this->assertDatabaseHas('orders', [
+            'id' => $order->id,
+            'status' => OrderStatus::SHIPPED->value,
+        ]);
+    }
+
+    public function test_admin_cannot_mark_processing_order_shipped_without_biteship_booking(): void
+    {
+        $order = Order::create([
+            'order_number' => 'ORD-BLOCK-MANUAL-SHIP-01',
             'user_id' => $this->customer->id,
             'status' => OrderStatus::PROCESSING,
             'payment_method' => PaymentMethod::MIDTRANS,
@@ -315,20 +444,148 @@ class AdminOrderAndPrescriptionTest extends TestCase
             'shipping_address' => 'Jl Sukajadi No 1',
         ]);
 
-        $response = $this->actingAs($this->admin)->post(route('admin.shipments.ship', $order->id), [
-            'courier' => 'JNE',
-            'service' => 'REG',
-            'tracking_number' => 'RESI-APOTEK-999',
-            'note' => 'Paket obat rapi dengan bubble wrap',
+        $response = $this->actingAs($this->admin)->post(route('admin.orders.status', $order), [
+            'status' => OrderStatus::SHIPPED->value,
         ]);
-        $response->assertRedirect();
 
-        $order->refresh();
-        $this->assertEquals(OrderStatus::SHIPPED, $order->status);
+        $response->assertRedirect();
+        $this->assertDatabaseHas('orders', [
+            'id' => $order->id,
+            'status' => OrderStatus::PROCESSING->value,
+        ]);
+        $this->assertDatabaseMissing('shipments', ['order_id' => $order->id]);
+    }
+
+    public function test_biteship_cod_shipment_uses_discounted_item_total_as_cod_amount(): void
+    {
+        config([
+            'services.biteship.api_key' => 'biteship_test_key',
+            'services.biteship.origin.contact_name' => 'Apotek',
+            'services.biteship.origin.contact_phone' => '08123456789',
+            'services.biteship.origin.address' => 'Jl. Apotek No. 1',
+            'services.biteship.origin.postal_code' => '40111',
+        ]);
+        Http::fake([
+            'api.biteship.com/v1/rates/couriers' => Http::response([
+                'success' => true,
+                'pricing' => [],
+            ]),
+            'api.biteship.com/v1/orders' => Http::response([
+                'success' => true,
+                'id' => 'biteship-cod-order-001',
+            ]),
+        ]);
+
+        $order = Order::create([
+            'order_number' => 'ORD-COD-SHIP-01',
+            'user_id' => $this->customer->id,
+            'status' => OrderStatus::PROCESSING,
+            'payment_method' => PaymentMethod::COD,
+            'payment_status' => PaymentStatus::UNPAID,
+            'subtotal' => 35000,
+            'discount_total' => 5000,
+            'shipping_cost' => 15000,
+            'grand_total' => 45000,
+            'recipient_postal_code' => '40132',
+            'biteship_courier_company' => 'jne',
+            'biteship_courier_type' => 'reg',
+            'recipient_name' => 'Andi',
+            'recipient_phone' => '0812345678',
+            'shipping_address' => 'Jl Sukajadi No 1',
+        ]);
+        OrderItem::create([
+            'order_id' => $order->id,
+            'product_id' => $this->product->id,
+            'product_name' => $this->product->name,
+            'sku' => $this->product->sku,
+            'price' => 35000,
+            'cost_price' => 20000,
+            'qty' => 1,
+            'subtotal' => 35000,
+        ]);
+
+        $biteship = app(BiteshipService::class);
+        $biteship->rates(40132, [[
+            'name' => $this->product->name,
+            'value' => 35000,
+            'quantity' => 1,
+            'weight' => 100,
+        ]], 30000);
+        $biteship->createOrder($order);
+
+        Http::assertSent(fn ($request) => str_ends_with($request->url(), '/rates/couriers')
+            && $request['destination_cash_on_delivery'] === 30000);
+        Http::assertSent(fn ($request) => str_ends_with($request->url(), '/orders')
+            && $request['destination_cash_on_delivery'] === 30000);
+    }
+
+    public function test_admin_can_manually_save_tracking_number_for_shipped_order(): void
+    {
+        $order = Order::create([
+            'order_number' => 'ORD-MANUAL-TRACKING-01',
+            'user_id' => $this->customer->id,
+            'status' => OrderStatus::SHIPPED,
+            'payment_method' => PaymentMethod::MIDTRANS,
+            'payment_status' => PaymentStatus::PAID,
+            'subtotal' => 35000,
+            'discount_total' => 0,
+            'shipping_cost' => 15000,
+            'grand_total' => 50000,
+            'shipping_method_id' => $this->shippingMethod->id,
+            'recipient_name' => 'Andi',
+            'recipient_phone' => '0812345678',
+            'shipping_address' => 'Jl Sukajadi No 1',
+        ]);
+        Shipment::create([
+            'order_id' => $order->id,
+            'courier' => 'SiCepat',
+            'service' => 'REG',
+            'status' => ShipmentStatus::SHIPPED,
+        ]);
+
+        $response = $this->actingAs($this->admin)->put(route('admin.shipments.tracking-number', $order), [
+            'tracking_number' => 'SICEPAT-123456',
+        ]);
+
+        $response->assertRedirect();
         $this->assertDatabaseHas('shipments', [
             'order_id' => $order->id,
-            'tracking_number' => 'RESI-APOTEK-999',
-            'courier' => 'JNE',
+            'tracking_number' => 'SICEPAT-123456',
+        ]);
+    }
+
+    public function test_admin_cannot_manually_save_tracking_number_before_order_is_shipped(): void
+    {
+        $order = Order::create([
+            'order_number' => 'ORD-MANUAL-TRACKING-02',
+            'user_id' => $this->customer->id,
+            'status' => OrderStatus::PROCESSING,
+            'payment_method' => PaymentMethod::MIDTRANS,
+            'payment_status' => PaymentStatus::PAID,
+            'subtotal' => 35000,
+            'discount_total' => 0,
+            'shipping_cost' => 15000,
+            'grand_total' => 50000,
+            'shipping_method_id' => $this->shippingMethod->id,
+            'recipient_name' => 'Andi',
+            'recipient_phone' => '0812345678',
+            'shipping_address' => 'Jl Sukajadi No 1',
+        ]);
+        Shipment::create([
+            'order_id' => $order->id,
+            'courier' => 'SiCepat',
+            'service' => 'REG',
+            'status' => ShipmentStatus::PENDING,
+        ]);
+
+        $response = $this->actingAs($this->admin)->put(route('admin.shipments.tracking-number', $order), [
+            'tracking_number' => 'SICEPAT-123456',
+        ]);
+
+        $response->assertRedirect();
+        $this->assertDatabaseMissing('shipments', [
+            'order_id' => $order->id,
+            'tracking_number' => 'SICEPAT-123456',
         ]);
     }
 
